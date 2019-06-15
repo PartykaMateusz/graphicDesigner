@@ -1,6 +1,8 @@
 HELP.md
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+/spring-server/target/
+/spring-server/!.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
@@ -16,6 +18,11 @@ HELP.md
 *.iws
 *.iml
 *.ipr
+
+/spring-server/.idea
+/spring-server/*.iws
+/spring-server/*.iml
+/spring-server/*.ipr
 
 ### NetBeans ###
 /nbproject/private/
