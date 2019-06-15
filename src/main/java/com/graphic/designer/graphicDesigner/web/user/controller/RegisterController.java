@@ -9,18 +9,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class RegisterController {
 
     @Autowired
@@ -30,12 +27,13 @@ public class RegisterController {
     ModelMapper modelMapper;
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@Valid UserDto accountDto){
+    public ResponseEntity<?> register(@RequestBody UserDto accountDto){
+
+        System.out.println(accountDto+" hehe");
 
         try {
             User user = convertToEntity(accountDto);
-            userService.registerNewUserAccount(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(this.convertToDto(userService.registerNewUserAccount(user)), HttpStatus.CREATED);
 
         } catch (EmailIsUsed emailIsUsed) {
             return new ResponseEntity<>("email already exist",HttpStatus.NOT_ACCEPTABLE);
@@ -46,7 +44,7 @@ public class RegisterController {
 
     }
 
-    private User convertToEntity(UserDto accountDto) {
+    protected User convertToEntity(UserDto accountDto) {
         User user = modelMapper.map(accountDto, User.class);
 
         if(accountDto.getId() != null){
@@ -59,7 +57,7 @@ public class RegisterController {
         return user;
     }
 
-    private UserDto convertToDto(User user) {
+    protected UserDto convertToDto(User user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;
     }

@@ -1,7 +1,6 @@
 package com.graphic.designer.graphicDesigner.web.user.dto;
 
 import com.graphic.designer.graphicDesigner.web.user.model.User;
-import org.dom4j.util.UserDataDocumentFactory;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
 
