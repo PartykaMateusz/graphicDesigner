@@ -29,7 +29,13 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "*, POST, PUT, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "access-control-allow-headers, access-control-allow-origin, Access-Control-Allow-Methods, authorization, Access-Control-Allow-credentials");
+        response.setHeader("Access-Control-Allow-Headers"
+                ,"access-control-allow-headers" +
+                        ", access-control-allow-origin" +
+                        ", Access-Control-Allow-Methods" +
+                        ", authorization" +
+                        ", Access-Control-Allow-credentials" +
+                        ", content-type");
         //http://stackoverflow.com/questions/30632200/standalone-spring-oauth2-jwt-authorization-server-cors
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);

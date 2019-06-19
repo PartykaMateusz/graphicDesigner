@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import StartPageNavBar from "../components/StartPage/StartPageNavBar";
 import Banner from "../components/StartPage/Banner";
+import BannerRegistar from "../components/StartPage/BannerRegister";
 
 class StartPage extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class StartPage extends Component {
     return (
       <div id="startPage">
         <StartPageNavBar />
-        <Banner />
+        <BannerRegistar />
       </div>
     );
   }

@@ -8,17 +8,17 @@ class StartPageNavBar extends Component {
   }
   render() {
     return (
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
+      <nav className="navbar navbar-expand-lg navbar-default navbar-default">
+        <a className="navbar-brand" href="#">
           <img
-            class="logo"
+            className="logo"
             src="http://bootstrap-ecommerce.com/main/images/logo-white.png"
             height="40"
           />
           LOGO
         </a>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-toggle="collapse"
           data-target="#navbar1"
@@ -26,47 +26,47 @@ class StartPageNavBar extends Component {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon" />
+          <span className="navbar-toggler-icon" />
         </button>
-        <div class="collapse navbar-collapse" id="navbar1">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="http://bootstrap-ecommerce.com">
-                Home <span class="sr-only">(current)</span>
+        <div className="collapse navbar-collapse" id="navbar1">
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item active">
+              <a className="nav-link" href="http://bootstrap-ecommerce.com">
+                Home <span className="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="html-components.html">
+            <li className="nav-item">
+              <a className="nav-link" href="html-components.html">
                 Documentation
               </a>
             </li>
-            <li class="nav-item dropdown">
+            <li className="nav-item dropdown">
               <a
-                class="nav-link  dropdown-toggle"
+                className="nav-link  dropdown-toggle"
                 href="#"
                 data-toggle="dropdown"
               >
                 {" "}
                 Dropdown{" "}
               </a>
-              <ul class="dropdown-menu">
+              <ul className="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a className="dropdown-item" href="#">
                     {" "}
                     Menu item 1
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a className="dropdown-item" href="#">
                     {" "}
                     Menu item 2{" "}
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <a
-                class="btn ml-2 btn-warning"
+                className="btn ml-2 btn-warning"
                 href="http://bootstrap-ecommerce.com"
               >
                 Zaloguj

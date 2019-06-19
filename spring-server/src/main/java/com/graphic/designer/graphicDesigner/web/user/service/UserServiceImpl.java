@@ -6,6 +6,7 @@ import com.graphic.designer.graphicDesigner.web.user.exception.LoginIsUsed;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public User registerNewUserAccount(User user) throws EmailIsUsed, LoginIsUsed {
         
@@ -31,6 +35,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }

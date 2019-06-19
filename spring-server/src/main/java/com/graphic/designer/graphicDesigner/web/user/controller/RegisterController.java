@@ -26,8 +26,8 @@ public class RegisterController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDto accountDto){
+    @PostMapping("/register/user")
+    public ResponseEntity<?> register(@RequestBody @Valid UserDto accountDto){
 
         System.out.println(accountDto+" hehe");
 
