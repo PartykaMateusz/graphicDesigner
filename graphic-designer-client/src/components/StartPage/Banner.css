@@ -1,8 +1,6 @@
 #banner {
   width: 100%;
-  min-height: 600px;
-  max-height: 700px;
-
+  height: 100vh;
   background:
         /* top, transparent black, faked with gradient */ linear-gradient(
       rgba(0, 0, 0, 0.65),
@@ -22,7 +20,7 @@
       rgba(0, 0, 0, 0.4),
       rgba(0, 0, 0, 0.4)
     ),
-    /* bottom, image */ url("./bannerBackground.jpg");
+    /* bottom, image */ url("./bannerBackground2.jpg");
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */

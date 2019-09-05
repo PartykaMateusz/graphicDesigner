@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
-import com.graphic.designer.graphicDesigner.web.user.exception.EmailIsUsed;
-import com.graphic.designer.graphicDesigner.web.user.exception.LoginIsUsed;
+import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
+import com.graphic.designer.graphicDesigner.exceptions.user.LoginAlreadyExistException;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
 import org.junit.Before;
@@ -18,12 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 
@@ -49,7 +47,7 @@ public class RegisterControllerTest {
     }
 
     @Test
-    public void register() throws Exception, EmailIsUsed, LoginIsUsed {
+    public void register() throws Exception, EmailAlreadyExistException, LoginAlreadyExistException {
 
         UserDto userDto = new UserDto();
         userDto.setLogin("test222");

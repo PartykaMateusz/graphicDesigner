@@ -1,8 +1,8 @@
 package com.graphic.designer.graphicDesigner.web.user.service;
 
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
-import com.graphic.designer.graphicDesigner.web.user.exception.EmailIsUsed;
-import com.graphic.designer.graphicDesigner.web.user.exception.LoginIsUsed;
+import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
+import com.graphic.designer.graphicDesigner.exceptions.user.LoginAlreadyExistException;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void registerNewUserAccountWhereEmailIsAlreadyUsed() throws EmailIsUsed, LoginIsUsed {
+    public void registerNewUserAccountWhereEmailIsAlreadyUsed() throws EmailAlreadyExistException, LoginAlreadyExistException {
         User user = this.generateUser();
         User userWithSameEmail = this.generateUser();
         user.setLogin("testowy");
@@ -58,11 +58,11 @@ public class UserServiceImplTest {
         when(userRepository.findByLogin("testowy")).thenReturn(java.util.Optional.empty());
         when(userRepository.findByEmail("testowy")).thenReturn(java.util.Optional.of(userWithSameEmail));
 
-        assertThrows(EmailIsUsed.class, () -> userService.registerNewUserAccount(userService.convertToDto(user)));
+        assertThrows(EmailAlreadyExistException.class, () -> userService.registerNewUserAccount(userService.convertToDto(user)));
     }
 
     @Test
-    public void registerNewUserAccountWhereLoginIsAlreadyUsed() throws EmailIsUsed, LoginIsUsed {
+    public void registerNewUserAccountWhereLoginIsAlreadyUsed() throws EmailAlreadyExistException, LoginAlreadyExistException {
         User user = this.generateUser();
         User userWithSameLogin = this.generateUser();
         user.setLogin("testowy");
@@ -72,7 +72,7 @@ public class UserServiceImplTest {
         when(userRepository.findByLogin("testowy")).thenReturn(java.util.Optional.of(userWithSameLogin));
         when(userRepository.findByEmail("testowy")).thenReturn(java.util.Optional.empty());
 
-        assertThrows(LoginIsUsed.class, () -> userService.registerNewUserAccount(userService.convertToDto(user)));
+        assertThrows(LoginAlreadyExistException.class, () -> userService.registerNewUserAccount(userService.convertToDto(user)));
     }
 
     @Test

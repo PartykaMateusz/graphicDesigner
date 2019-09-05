@@ -2,8 +2,8 @@ package com.graphic.designer.graphicDesigner.web.user.service;
 
 import com.graphic.designer.graphicDesigner.web.role.repository.RoleRepository;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
-import com.graphic.designer.graphicDesigner.web.user.exception.EmailIsUsed;
-import com.graphic.designer.graphicDesigner.web.user.exception.LoginIsUsed;
+import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
+import com.graphic.designer.graphicDesigner.exceptions.user.LoginAlreadyExistException;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -33,18 +33,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto registerNewUserAccount(UserDto userDto)  {
-        
-        if (isLoginExist(userDto.getEmail())) {
-            throw new LoginIsUsed("login is already used");
+
+        if (isLoginExist(userDto.getLogin())) {
+            throw new LoginAlreadyExistException("login is already used");
+
         }
-        if(isEmailExists(userDto.getLogin())){
-            throw new EmailIsUsed("email is already user");
+        if(isEmailExists(userDto.getEmail())){
+            throw new EmailAlreadyExistException("email is already used");
         }
 
         User user = convertToEntity(userDto);
 
         user.setRoles(Arrays.asList(roleRepository.findByName(USER)));
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        userRepository.save(user);
 
         return userDto;
     }

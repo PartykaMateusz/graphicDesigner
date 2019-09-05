@@ -2,11 +2,7 @@ package com.graphic.designer.graphicDesigner.web.user.controller;
 
 import com.graphic.designer.graphicDesigner.errorValidator.MapValidationErrorService;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
-import com.graphic.designer.graphicDesigner.web.user.exception.EmailIsUsed;
-import com.graphic.designer.graphicDesigner.web.user.exception.LoginIsUsed;
-import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

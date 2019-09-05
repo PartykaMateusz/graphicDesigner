@@ -24,8 +24,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         resources.resourceId(resourceIds).tokenServices(tokenServices);
     }
 
-
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
