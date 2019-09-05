@@ -1,11 +1,13 @@
 package com.graphic.designer.graphicDesigner.web.user.service;
 
+import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.web.user.exception.EmailIsUsed;
 import com.graphic.designer.graphicDesigner.web.user.exception.LoginIsUsed;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,8 +29,11 @@ public class UserServiceImplTest {
     @MockBean
     UserRepository userRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Test
-    public void registerNewUserAccount() throws EmailIsUsed, LoginIsUsed {
+    public void registerNewUserAccount() {
         User user = this.generateUser();
         user.setLogin("testowy");
         user.setEmail("testowy");
@@ -37,7 +42,7 @@ public class UserServiceImplTest {
         when(userRepository.findByLogin("testowy")).thenReturn(java.util.Optional.empty());
         when(userRepository.findByEmail("testowy")).thenReturn(java.util.Optional.empty());
 
-        User returnedUser = userService.registerNewUserAccount(user);
+        UserDto returnedUser = userService.registerNewUserAccount(userService.convertToDto(user));
 
         assertEquals(returnedUser.getLogin(),user.getLogin());
     }
@@ -53,7 +58,7 @@ public class UserServiceImplTest {
         when(userRepository.findByLogin("testowy")).thenReturn(java.util.Optional.empty());
         when(userRepository.findByEmail("testowy")).thenReturn(java.util.Optional.of(userWithSameEmail));
 
-        assertThrows(EmailIsUsed.class, () -> userService.registerNewUserAccount(user));
+        assertThrows(EmailIsUsed.class, () -> userService.registerNewUserAccount(userService.convertToDto(user)));
     }
 
     @Test
@@ -67,7 +72,7 @@ public class UserServiceImplTest {
         when(userRepository.findByLogin("testowy")).thenReturn(java.util.Optional.of(userWithSameLogin));
         when(userRepository.findByEmail("testowy")).thenReturn(java.util.Optional.empty());
 
-        assertThrows(LoginIsUsed.class, () -> userService.registerNewUserAccount(user));
+        assertThrows(LoginIsUsed.class, () -> userService.registerNewUserAccount(userService.convertToDto(user)));
     }
 
     @Test
@@ -78,7 +83,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findByLogin("testowy")).thenReturn(java.util.Optional.of(userWithSameLogin));
 
-        assertTrue(userService.loginExist("testowy"));
+        assertTrue(userService.isLoginExist("testowy"));
     }
 
     @Test
@@ -88,7 +93,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findByLogin("testowy")).thenReturn(java.util.Optional.empty());
 
-        assertFalse(userService.loginExist("testowy"));
+        assertFalse(userService.isEmailExists("testowy"));
     }
 
     @Test
@@ -99,7 +104,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findByEmail("testowy")).thenReturn(java.util.Optional.of(userWithSameEmail));
 
-        assertTrue(userService.emailExists("testowy"));
+        assertTrue(userService.isEmailExists("testowy"));
     }
 
     @Test
@@ -109,7 +114,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findByEmail("testowy")).thenReturn(java.util.Optional.empty());
 
-        assertFalse(userService.emailExists("testowy"));
+        assertFalse(userService.isEmailExists("testowy"));
     }
 
     private User generateUser() {
@@ -120,4 +125,6 @@ public class UserServiceImplTest {
         user.setEmail("test");
         return user;
     }
+
+
 }

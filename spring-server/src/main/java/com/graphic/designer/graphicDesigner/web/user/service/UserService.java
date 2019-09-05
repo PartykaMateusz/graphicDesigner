@@ -1,16 +1,20 @@
 package com.graphic.designer.graphicDesigner.web.user.service;
 
-import com.graphic.designer.graphicDesigner.web.user.exception.EmailIsUsed;
-import com.graphic.designer.graphicDesigner.web.user.exception.LoginIsUsed;
+
+import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
 
-    User registerNewUserAccount(User user) throws EmailIsUsed, LoginIsUsed;
+    UserDto registerNewUserAccount(UserDto userDto);
 
-    boolean loginExist(String login);
+    boolean isEmailExists(String email);
 
-    boolean emailExists(String email);
+    User convertToEntity(UserDto accountDto);
+
+    UserDto convertToDto(User user);
+
+    boolean isLoginExist(String testowy);
 }

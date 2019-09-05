@@ -63,7 +63,7 @@ public class RegisterControllerTest {
 
         User generatedUser = this.convertToEntity(userDto);
 
-        when(userService.registerNewUserAccount(generatedUser)).thenReturn(generatedUser);
+        when(userService.registerNewUserAccount(userService.convertToDto(generatedUser))).thenReturn(userService.convertToDto(generatedUser));
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/register")
