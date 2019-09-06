@@ -3,6 +3,7 @@ import "./RegisterClientForm.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { registerUser } from "../../actions/projectActions";
+import classnames from "classnames";
 
 class RegisterClientForm extends Component {
   constructor(props) {
@@ -10,10 +11,18 @@ class RegisterClientForm extends Component {
     this.state = {
       login: "",
       email: "",
-      password: ""
+      password: "",
+      accountRole: this.props.accountRole,
+      errors: {}
     };
 
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   onChangeLogin(e) {
@@ -39,13 +48,15 @@ class RegisterClientForm extends Component {
     const newUser = {
       login: this.state.login,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      role: this.state.accountRole
     };
 
     this.props.registerUser(newUser, this.props.history);
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <form
         className="form-horizontal"
@@ -53,12 +64,12 @@ class RegisterClientForm extends Component {
         id="registerForm"
         onSubmit={this.onSubmit}
       >
-        <h2>Rejestracja</h2>
+        {this.header()}
         <div className="form-group">
           <label htmlFor="login" className="col-sm-3 control-label">
             Login
           </label>
-          <div className="col-sm-9">
+          <div className="col-sm-11">
             <input
               type="text"
               id="login"
@@ -71,12 +82,11 @@ class RegisterClientForm extends Component {
             />
           </div>
         </div>
-
         <div className="form-group">
           <label htmlFor="email" className="col-sm-3 control-label">
             Email*{" "}
           </label>
-          <div className="col-sm-9">
+          <div className="col-sm-11">
             <input
               type="email"
               id="email"
@@ -93,7 +103,7 @@ class RegisterClientForm extends Component {
           <label htmlFor="password" className="col-sm-3 control-label">
             Hasło*
           </label>
-          <div className="col-sm-9">
+          <div className="col-sm-11  ">
             <input
               type="password"
               id="password"
@@ -113,16 +123,45 @@ class RegisterClientForm extends Component {
         <button type="submit" className="btn btn-primary btn-block">
           Zarejestruj
         </button>
+        {/* //error: */}
+        <div
+          className={classnames("form-control d-none", {
+            "is-invalid": errors.error
+          })}
+        />
+        {errors.error && <div className="invalid-feedback">{errors.error}</div>}
       </form>
     );
+  }
+
+  header() {
+    if (this.state.accountRole === "USER") {
+      return (
+        <h2>
+          REJESTRACJA <span class="badge badge-secondary">KLIENTA</span>
+        </h2>
+      );
+    }
+    if (this.state.accountRole === "DESIGNER") {
+      return (
+        <h2>
+          REJESTRACJA <span class="badge badge-secondary">GRAFIKA</span>
+        </h2>
+      );
+    }
   }
 }
 
 RegisterClientForm.propTypes = {
-  registerUser: PropTypes.func.isRequired
+  registerUser: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { registerUser }
 )(RegisterClientForm);

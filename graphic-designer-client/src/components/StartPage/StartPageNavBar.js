@@ -1,22 +1,21 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./StartPageNavBar.css";
+import Logo from "./logo.png";
 
 class StartPageNavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-default navbar-default">
-        <a className="navbar-brand" href="#">
-          <img
-            className="logo"
-            src="http://bootstrap-ecommerce.com/main/images/logo-white.png"
-            height="40"
-          />
-          LOGO
-        </a>
+      <nav className="navbar navbar-expand-lg navbar-default navbar-default ">
+        <Link className="nav-link text-warning" to="/">
+          <img className="logo" src={Logo} height="40" />
+          GRAPHIC DESIGNER
+        </Link>
         <button
           className="navbar-toggler"
           type="button"

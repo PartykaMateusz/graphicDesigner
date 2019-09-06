@@ -28,7 +28,7 @@ public class RegisterController {
 
     Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping("/register/user")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid UserDto accountDto,
                                       BindingResult result){
 
@@ -38,6 +38,4 @@ public class RegisterController {
 
         return new ResponseEntity<>(this.userService.registerNewUserAccount(accountDto), HttpStatus.CREATED);
     }
-
-
 }

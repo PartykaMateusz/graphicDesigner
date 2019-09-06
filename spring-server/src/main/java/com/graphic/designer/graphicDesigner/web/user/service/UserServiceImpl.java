@@ -1,5 +1,6 @@
 package com.graphic.designer.graphicDesigner.web.user.service;
 
+import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
 import com.graphic.designer.graphicDesigner.web.role.repository.RoleRepository;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static com.graphic.designer.graphicDesigner.constants.ErrorConstants.*;
+import static com.graphic.designer.graphicDesigner.constants.RoleConstants.DESIGNER;
 import static com.graphic.designer.graphicDesigner.constants.RoleConstants.USER;
 
 @Service
@@ -35,16 +38,25 @@ public class UserServiceImpl implements UserService {
     public UserDto registerNewUserAccount(UserDto userDto)  {
 
         if (isLoginExist(userDto.getLogin())) {
-            throw new LoginAlreadyExistException("login is already used");
+            throw new LoginAlreadyExistException(LOGIN_IS_ALREADY_USED);
 
         }
         if(isEmailExists(userDto.getEmail())){
-            throw new EmailAlreadyExistException("email is already used");
+            throw new EmailAlreadyExistException(EMAIL_IS_ALREADY_USED);
         }
 
         User user = convertToEntity(userDto);
 
-        user.setRoles(Arrays.asList(roleRepository.findByName(USER)));
+        if(userDto.getRole().equals(USER)) {
+            user.setRoles(Arrays.asList(roleRepository.findByName(USER)));
+        }
+        else if(userDto.getRole().equals(DESIGNER)) {
+            user.setRoles(Arrays.asList(roleRepository.findByName(DESIGNER)));
+        }
+        else{
+            throw new RoleException(ROLE_NOT_EXIST);
+        }
+
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);

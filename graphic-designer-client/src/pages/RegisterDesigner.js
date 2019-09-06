@@ -6,7 +6,7 @@ import BannerRegister from "../components/StartPage/BannerRegister";
 class StartPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { AccountRole: "USER" };
+    this.state = { AccountRole: "DESIGNER" };
   }
   render() {
     return (
