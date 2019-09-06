@@ -21,7 +21,7 @@ public class User {
     private Long id;
 
     @Column
-    private String login;
+    private String username;
 
     @Column
     private String password;
@@ -38,6 +38,6 @@ public class User {
     @Column
     private String telNumber;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Role> roles;
 }

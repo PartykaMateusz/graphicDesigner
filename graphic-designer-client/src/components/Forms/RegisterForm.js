@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import "./RegisterClientForm.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { registerUser } from "../../actions/projectActions";
+import { registerUser } from "../../actions/securityActions";
 import classnames from "classnames";
 
 class RegisterClientForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      login: "",
+      username: "",
       email: "",
       password: "",
       accountRole: this.props.accountRole,
@@ -25,9 +25,9 @@ class RegisterClientForm extends Component {
     }
   }
 
-  onChangeLogin(e) {
+  onChangeUsername(e) {
     this.setState({
-      login: e.target.value
+      username: e.target.value
     });
   }
 
@@ -46,7 +46,7 @@ class RegisterClientForm extends Component {
   onSubmit(e) {
     e.preventDefault();
     const newUser = {
-      login: this.state.login,
+      username: this.state.username,
       email: this.state.email,
       password: this.state.password,
       role: this.state.accountRole
@@ -72,12 +72,12 @@ class RegisterClientForm extends Component {
           <div className="col-sm-11">
             <input
               type="text"
-              id="login"
-              name="login"
+              id="username"
+              name="username"
               placeholder="Login"
               className="form-control"
-              value={this.state.login}
-              onChange={this.onChangeLogin.bind(this)}
+              value={this.state.username}
+              onChange={this.onChangeUsername.bind(this)}
               autoFocus
             />
           </div>

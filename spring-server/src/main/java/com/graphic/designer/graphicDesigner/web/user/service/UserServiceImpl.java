@@ -4,7 +4,7 @@ import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
 import com.graphic.designer.graphicDesigner.web.role.repository.RoleRepository;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
-import com.graphic.designer.graphicDesigner.exceptions.user.LoginAlreadyExistException;
+import com.graphic.designer.graphicDesigner.exceptions.user.UsernameAlreadyExistException;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto registerNewUserAccount(UserDto userDto)  {
 
-        if (isLoginExist(userDto.getLogin())) {
-            throw new LoginAlreadyExistException(LOGIN_IS_ALREADY_USED);
+        if (isUsernameExist(userDto.getUsername())) {
+            throw new UsernameAlreadyExistException(LOGIN_IS_ALREADY_USED);
 
         }
         if(isEmailExists(userDto.getEmail())){
@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserService {
         User user = convertToEntity(userDto);
 
         if(userDto.getRole().equals(USER)) {
-            user.setRoles(Arrays.asList(roleRepository.findByName(USER)));
+            user.setRoles(Arrays.asList(roleRepository.findByName(USER).orElseThrow(()->new RoleException(ROLE_NOT_EXIST))));
         }
         else if(userDto.getRole().equals(DESIGNER)) {
-            user.setRoles(Arrays.asList(roleRepository.findByName(DESIGNER)));
+            user.setRoles(Arrays.asList(roleRepository.findByName(DESIGNER).orElseThrow(()->new RoleException(ROLE_NOT_EXIST))));
         }
         else{
             throw new RoleException(ROLE_NOT_EXIST);
@@ -60,13 +60,13 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);
-
+        //TODO return dto with ID
         return userDto;
     }
 
     @Override
-    public boolean isLoginExist(String login) {
-        Optional<User> optionalUser = userRepository.findByLogin(login);
+    public boolean isUsernameExist(String login) {
+        Optional<User> optionalUser = userRepository.findByUsername(login);
         if (optionalUser.isPresent()) {
             return true;
         }
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
         if(accountDto.getId() != null){
             user.setId(accountDto.getId());
         }
-        user.setLogin(accountDto.getLogin());
+        user.setUsername(accountDto.getUsername());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
 

@@ -10,11 +10,12 @@ public interface UserService {
 
     UserDto registerNewUserAccount(UserDto userDto);
 
+    boolean isUsernameExist(String login);
+
     boolean isEmailExists(String email);
 
     User convertToEntity(UserDto accountDto);
 
     UserDto convertToDto(User user);
 
-    boolean isLoginExist(String testowy);
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
-import com.graphic.designer.graphicDesigner.exceptions.user.LoginAlreadyExistException;
+import com.graphic.designer.graphicDesigner.exceptions.user.UsernameAlreadyExistException;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
 import org.junit.Before;
@@ -47,10 +47,10 @@ public class RegisterControllerTest {
     }
 
     @Test
-    public void register() throws Exception, EmailAlreadyExistException, LoginAlreadyExistException {
+    public void register() throws Exception, EmailAlreadyExistException, UsernameAlreadyExistException {
 
         UserDto userDto = new UserDto();
-        userDto.setLogin("test222");
+        userDto.setUsername("test222");
         userDto.setPassword("tes341t");
         userDto.setEmail("test@tes55t.pl");
 
@@ -76,7 +76,7 @@ public class RegisterControllerTest {
     private User generateUser() {
         User user = new User();
         user.setId(1L);
-        user.setLogin("test");
+        user.setUsername("test");
         user.setPassword("test");
         user.setEmail("test");
         return user;
@@ -88,7 +88,7 @@ public class RegisterControllerTest {
         if(accountDto.getId() != null){
             user.setId(accountDto.getId());
         }
-        user.setLogin(accountDto.getLogin());
+        user.setUsername(accountDto.getUsername());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
 

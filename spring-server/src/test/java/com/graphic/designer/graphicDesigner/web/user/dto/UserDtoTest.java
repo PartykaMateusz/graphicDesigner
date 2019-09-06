@@ -13,12 +13,12 @@ public class UserDtoTest {
     public void whenConvertPostEntityToPostDto_thenCorrect() {
         User user = new User();
         user.setId(Long.valueOf(1));
-        user.setLogin("test");
+        user.setUsername("test");
         user.setPassword("test");
 
         UserDto userDto = modelMapper.map(user, UserDto.class);
        assertEquals(user.getId(), userDto.getId());
-        assertEquals(user.getLogin(), userDto.getLogin());
+        assertEquals(user.getUsername(), userDto.getUsername());
         assertEquals(user.getPassword(), userDto.getPassword());
     }
 
@@ -26,12 +26,12 @@ public class UserDtoTest {
     public void whenConvertPostDtoToPostEntity_thenCorrect() {
         UserDto userDto = new UserDto();
         userDto.setId(Long.valueOf(1));
-        userDto.setLogin("test");
+        userDto.setUsername("test");
         userDto.setPassword("www.test.com");
 
         User user = modelMapper.map(userDto, User.class);
         assertEquals(userDto.getId(), user.getId());
-        assertEquals(userDto.getLogin(), user.getLogin());
+        assertEquals(userDto.getUsername(), user.getUsername());
         assertEquals(userDto.getPassword(), user.getPassword());
     }
 }
