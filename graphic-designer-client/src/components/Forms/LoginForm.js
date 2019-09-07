@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "./LoginForm.css";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login } from "../../actions/securityActions";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -56,4 +59,16 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+LoginForm.propTypes = {
+  login: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { login }
+)(LoginForm);
