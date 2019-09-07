@@ -17,6 +17,21 @@ class LoginForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("/");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.security.validToken) {
+      this.props.history.push("/");
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -36,7 +51,7 @@ class LoginForm extends Component {
         <form className="form-inline" onSubmit={this.onSubmit}>
           <input
             type="text"
-            id="login"
+            id="usernameLoginForm"
             placeholder="Login"
             name="username"
             value={this.state.username}
@@ -45,7 +60,7 @@ class LoginForm extends Component {
 
           <input
             type="password"
-            id="password"
+            id="passwordLoginForm"
             placeholder="Hasło"
             name="password"
             value={this.state.password}
@@ -61,11 +76,13 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   login: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  security: state.security
 });
 
 export default connect(

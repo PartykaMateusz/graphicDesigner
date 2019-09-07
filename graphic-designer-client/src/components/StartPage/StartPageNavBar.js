@@ -30,7 +30,7 @@ class StartPageNavBar extends Component {
         </button>
         <div className="collapse navbar-collapse" id="navbar1">
           <ul className="navbar-nav ml-auto">
-            <LoginForm />
+            <LoginForm history={this.props.history} />
           </ul>
         </div>
       </nav>

@@ -12,7 +12,7 @@ class StartPage extends Component {
   render() {
     return (
       <div id="startPage">
-        <StartPageNavBar />
+        <StartPageNavBar history={this.props.history} />
         <Banner />
       </div>
     );

@@ -138,14 +138,14 @@ class RegisterClientForm extends Component {
     if (this.state.accountRole === "USER") {
       return (
         <h2>
-          REJESTRACJA <span class="badge badge-secondary">KLIENTA</span>
+          REJESTRACJA <span className="badge badge-secondary">KLIENTA</span>
         </h2>
       );
     }
     if (this.state.accountRole === "DESIGNER") {
       return (
         <h2>
-          REJESTRACJA <span class="badge badge-secondary">GRAFIKA</span>
+          REJESTRACJA <span className="badge badge-secondary">GRAFIKA</span>
         </h2>
       );
     }
