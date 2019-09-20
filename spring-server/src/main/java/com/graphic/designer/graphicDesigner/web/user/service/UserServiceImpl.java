@@ -8,6 +8,8 @@ import com.graphic.designer.graphicDesigner.exceptions.user.UsernameAlreadyExist
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,12 +36,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Override
     public UserDto registerNewUserAccount(UserDto userDto)  {
 
+        log.trace("register new User Account");
+
         if (isUsernameExist(userDto.getUsername())) {
             throw new UsernameAlreadyExistException(LOGIN_IS_ALREADY_USED);
-
         }
         if(isEmailExists(userDto.getEmail())){
             throw new EmailAlreadyExistException(EMAIL_IS_ALREADY_USED);
@@ -60,6 +65,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);
+
+        log.info("user with role "+userDto.getRole()+", id: "+user.getId()+", username: "+user.getUsername() + ", email: "+user.getEmail()+ " has been saved in db");
         //TODO return dto with ID
         return userDto;
     }

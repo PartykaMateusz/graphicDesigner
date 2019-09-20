@@ -12,20 +12,6 @@
   background-size: cover; /* Resize the background image to cover the entire container */
 }
 
-#bannerRegister {
-  width: 100%;
-  height: 100vh;
-  background:
-        /* top, transparent black, faked with gradient */ linear-gradient(
-      rgba(0, 0, 0, 0.4),
-      rgba(0, 0, 0, 0.4)
-    ),
-    /* bottom, image */ url("./bannerBackground2.jpg");
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
-}
-
 #bannerButtons {
   position: relative;
   float: left;

@@ -3,6 +3,7 @@ import "./LoginForm.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/securityActions";
+import classnames from "classnames";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -46,28 +47,42 @@ class LoginForm extends Component {
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <form className="form-inline" onSubmit={this.onSubmit}>
-          <input
-            type="text"
-            id="usernameLoginForm"
-            placeholder="Login"
-            name="username"
-            value={this.state.username}
-            onChange={this.onChange}
-          />
-
-          <input
-            type="password"
-            id="passwordLoginForm"
-            placeholder="Hasło"
-            name="password"
-            value={this.state.password}
-            onChange={this.onChange}
-          />
-
-          <button type="submit">Zaloguj</button>
+          <div className="form-group">
+            <input
+              type="text"
+              id="usernameLoginForm"
+              placeholder="Login"
+              name="username"
+              value={this.state.username}
+              onChange={this.onChange}
+              className={classnames("form-control ", {
+                "is-invalid": errors.error
+              })}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              id="passwordLoginForm"
+              placeholder="Hasło"
+              name="password"
+              value={this.state.password}
+              onChange={this.onChange}
+              className={classnames("form-control ", {
+                "is-invalid": errors.error
+              })}
+            />
+            {errors.error && (
+              <div className="invalid-feedback">{errors.error_description}</div>
+            )}
+          </div>
+          <div className="form-group">
+            <button type="submit">Zaloguj</button>
+          </div>
         </form>
       </div>
     );

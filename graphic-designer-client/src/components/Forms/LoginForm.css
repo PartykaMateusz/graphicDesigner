@@ -5,6 +5,16 @@
   align-items: center;
 }
 
+.form-group {
+  max-width: 232px;
+  max-height: 48px;
+}
+
+.form-group .invalid-feedback {
+  margin: 0px;
+  padding: 0px;
+}
+
 /* Add some margins for each label */
 .form-inline label {
   margin: 5px 10px 5px 0;

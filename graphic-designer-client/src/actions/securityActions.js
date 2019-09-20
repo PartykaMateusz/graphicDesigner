@@ -20,6 +20,7 @@ export const registerUser = (user, history) => async dispatch => {
 };
 
 export const login = user => async dispatch => {
+  console.log("leci login");
   try {
     let usernameOauth = "clientReact";
     let passwordOauth = "reactPassword";
@@ -54,6 +55,10 @@ export const login = user => async dispatch => {
     dispatch({
       type: GET_ERRORS,
       payload: error.response.data
+    });
+    dispatch({
+      type: SET_CURRENT_USER,
+      payload: {}
     });
   }
 };

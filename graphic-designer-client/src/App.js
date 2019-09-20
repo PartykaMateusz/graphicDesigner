@@ -9,6 +9,19 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "jquery";
 import { Provider } from "react-redux";
 import store from "./store";
+import jwt_decode from "jwt-decode";
+import setJWTToken from "./securityUtils/setJWTToken";
+import { SET_CURRENT_USER } from "./actions/types";
+
+const jwtToken = localStorage.jwtToken;
+if (jwtToken) {
+  setJWTToken(jwtToken);
+  const decoded_jwtToken = jwt_decode(jwtToken);
+  store.dispatch({
+    type: SET_CURRENT_USER,
+    payload: decoded_jwtToken
+  });
+}
 
 function App() {
   return (
