@@ -14,7 +14,7 @@ class StartPageNavBar extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-default navbar-default ">
         <Link className="nav-link text-warning" to="/">
-          <img className="logo" src={Logo} height="40" />
+          <img className="logo" src={Logo} />
           GRAPHIC DESIGNER
         </Link>
         <button

@@ -20,13 +20,13 @@ class LoginForm extends Component {
 
   componentDidMount() {
     if (this.props.security.validToken) {
-      this.props.history.push("/");
+      this.props.history.push("/index");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.security.validToken) {
-      this.props.history.push("/");
+      this.props.history.push("/index");
     }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });

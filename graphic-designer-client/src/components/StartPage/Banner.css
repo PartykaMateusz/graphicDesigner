@@ -22,12 +22,10 @@
   transform: translateX(-50%) translateY(-50%);
 }
 
-#registerForm {
-  position: relative;
+/* #registerForm {
   float: left;
-
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-}
+} */

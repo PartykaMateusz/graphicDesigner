@@ -6,12 +6,9 @@ const initialState = {
 };
 
 const booleanActionPayload = payload => {
-  console.log("payload: " + JSON.stringify(payload));
   if (payload) {
-    console.log("ustatiam true");
     return true;
   } else {
-    console.log("ustatiam false");
     return false;
   }
 };

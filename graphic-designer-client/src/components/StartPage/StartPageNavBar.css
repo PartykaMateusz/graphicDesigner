@@ -1,4 +1,13 @@
 .navbar {
-  padding-top: 5px !important;
-  padding-bottom: 16px !important;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+
+.logo {
+  max-height: 60px;
+}
+
+.nav-link {
+  margin: 0px;
+  padding: 0px !important;
 }

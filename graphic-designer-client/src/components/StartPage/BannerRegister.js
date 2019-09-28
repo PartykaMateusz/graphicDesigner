@@ -12,12 +12,10 @@ class BannerRegistar extends Component {
   render() {
     return (
       <div id="bannerRegister">
-        <div id="registerForm">
-          <RegisterForm
-            history={this.props.history}
-            accountRole={this.state.accountRole}
-          />
-        </div>
+        <RegisterForm
+          history={this.props.history}
+          accountRole={this.state.accountRole}
+        />
       </div>
     );
   }

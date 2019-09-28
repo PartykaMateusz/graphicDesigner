@@ -1,10 +1,16 @@
 #registerForm {
   max-width: 530px;
+  min-height: 400px;
   padding: 25px 60px;
-  margin: 0px auto;
+  margin: 20px auto;
   border-radius: 0.3em;
   background-color: #f2f2f2;
   opacity: 0.97;
+}
+
+#registerForm .form-group {
+  max-width: 410px;
+  max-height: 70px;
 }
 
 *[role="form"] h2 {
@@ -16,4 +22,19 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 4px;
+}
+
+#bannerRegister {
+  padding: 60px;
+  width: 100%;
+  height: 100vh;
+  background:
+        /* top, transparent black, faked with gradient */ linear-gradient(
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)
+    ),
+    /* bottom, image */ url("../StartPage/bannerBackground2.jpg");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
 }
