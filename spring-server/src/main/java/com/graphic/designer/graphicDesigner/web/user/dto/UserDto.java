@@ -28,6 +28,14 @@ public class UserDto {
 
     private String role;
 
+    private String avatar;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String telNumber;
+
 
 
 

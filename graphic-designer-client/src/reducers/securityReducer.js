@@ -6,12 +6,19 @@ const initialState = {
 };
 
 const booleanActionPayload = payload => {
-  if (payload) {
+  if (!isEmpty(payload)) {
     return true;
   } else {
     return false;
   }
 };
+
+function isEmpty(obj) {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) return false;
+  }
+  return true;
+}
 
 export default function(state = initialState, action) {
   switch (action.type) {

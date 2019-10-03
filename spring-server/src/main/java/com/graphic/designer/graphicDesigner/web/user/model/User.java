@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -37,6 +38,13 @@ public class User {
 
     @Column
     private String telNumber;
+
+    @Column
+    private LocalDateTime registerDate;
+
+    @Column
+    private String avatar;
+
 
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Role> roles;

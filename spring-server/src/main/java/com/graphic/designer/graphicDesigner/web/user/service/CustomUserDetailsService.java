@@ -32,5 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                                         .toArray(new String[]{}))))
                 .orElseThrow(() -> new UsernameNotFoundException("No user with "
                         + "the name " + username + "was found in the database"));
+
+
     }
 }

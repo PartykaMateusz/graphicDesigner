@@ -7,5 +7,18 @@ public class SecurityConstants {
             "/api/register"
     };
 
+    public static final String[] AUTHENTICATED_ENDPOINTS = {
+            "/user/**"
+    };
+
+
+    public static final String[] USER_ENDPOINTS = {
+
+    };
+
+    public static final String[] DESIGNER_ENDPOINTS = {
+
+    };
+
 
 }

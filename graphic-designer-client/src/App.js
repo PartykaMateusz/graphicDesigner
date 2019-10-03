@@ -5,6 +5,7 @@ import StartPage from "./pages/StartPage";
 import RegisterClient from "./pages/RegisterClient";
 import RegisterDesigner from "./pages/RegisterDesigner";
 import index from "./pages/index.js";
+import profile from "./pages/profile.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "jquery";
@@ -33,6 +34,7 @@ function App() {
           <Route exact path="/register/client" component={RegisterClient} />
           <Route exact path="/register/designer" component={RegisterDesigner} />
           <Route exact path="/index" component={index} />
+          <Route exact path="/profile" component={profile} />
         </Switch>
       </Router>
     </Provider>
