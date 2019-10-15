@@ -19,17 +19,21 @@ class Navbar extends Component {
       this.setState({
         username: this.props.security.user.user_name
       });
+      //get user data
+      this.props.getUserByUsername(this.props.security.user.user_name);
     } else {
       this.props.history.push("/");
     }
-
-    //get user data
-    this.props.getUserByUsername("test");
   }
 
   componentWillUpdate(nextProps) {
     if (!nextProps.security.validToken) {
       this.props.history.push("/");
+    }
+    if (this.state.username !== nextProps.security.user.user_name) {
+      this.setState({
+        username: nextProps.security.user.user_name
+      });
     }
   }
 
@@ -44,13 +48,13 @@ class Navbar extends Component {
         id="indexNavbar"
       >
         <Link className="nav-link text-warning col-sm-3" to="/">
-          <img className="logo" src={Logo} />
+          <img className="logo" src={Logo} alt="logo" />
           GRAPHIC DESIGNER
         </Link>
 
-        <div class="dropdown col-sm-2 offset-sm-7">
+        <div className="dropdown col-sm-2 offset-sm-7">
           <button
-            class="btn btn-secondary dropdown-toggle"
+            className="btn btn-secondary dropdown-toggle"
             type="button"
             id="dropdownMenuButton"
             data-toggle="dropdown"
@@ -59,13 +63,13 @@ class Navbar extends Component {
           >
             {this.state.username}
           </button>
-          <div class="dropdown-menu">
-            <Link to="/profile" class="dropdown-item">
+          <div className="dropdown-menu">
+            <Link to="/profile" className="dropdown-item">
               Profil
             </Link>
-            <a class="dropdown-item" onClick={this.logout}>
+            <div className="dropdown-item mousePointer" onClick={this.logout}>
               Wyloguj
-            </a>
+            </div>
           </div>
         </div>
       </nav>

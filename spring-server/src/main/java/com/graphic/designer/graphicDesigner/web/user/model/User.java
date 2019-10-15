@@ -42,10 +42,9 @@ public class User {
     @Column
     private LocalDateTime registerDate;
 
-    @Column
-    private String avatar;
-
-
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Role> roles;
+
+    @OneToOne
+    private Avatar avatar_id;
 }

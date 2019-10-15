@@ -5,12 +5,12 @@
   align-items: center;
 }
 
-.form-group {
+.form-inline > .form-group {
   max-width: 232px;
   max-height: 48px;
 }
 
-.form-group .invalid-feedback {
+.form-inline > .form-group .invalid-feedback {
   margin: 0px;
   padding: 0px;
 }

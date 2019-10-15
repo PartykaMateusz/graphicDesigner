@@ -5,3 +5,7 @@
 #dropdownMenuButton {
   min-width: 150px;
 }
+
+.mousePointer:hover {
+  cursor: pointer;
+}

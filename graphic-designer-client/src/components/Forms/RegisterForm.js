@@ -60,7 +60,6 @@ class RegisterClientForm extends Component {
     return (
       <form
         className="form-horizontal"
-        role="form"
         id="registerForm"
         onSubmit={this.onSubmit}
       >

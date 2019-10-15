@@ -1,11 +1,11 @@
 import axios from "axios";
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, GET_PROFILE } from "./types";
 import jwt_decode from "jwt-decode";
 import setJWTToken from "../securityUtils/setJWTToken";
 
 export const registerUser = (user, history) => async dispatch => {
   try {
-    const res = await axios.post("/api/register", user);
+    await axios.post("/api/register", user);
     dispatch({
       type: GET_ERRORS,
       payload: {}
@@ -63,6 +63,10 @@ export const logout = () => dispatch => {
   setJWTToken(false);
   dispatch({
     type: SET_CURRENT_USER,
+    payload: {}
+  });
+  dispatch({
+    type: GET_PROFILE,
     payload: {}
   });
 };

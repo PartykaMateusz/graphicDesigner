@@ -1,12 +1,17 @@
 package com.graphic.designer.graphicDesigner.web.user.service;
 
 import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
+import com.graphic.designer.graphicDesigner.exceptions.user.AvatarNotFoundException;
+import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigException;
 import com.graphic.designer.graphicDesigner.web.role.repository.RoleRepository;
 import com.graphic.designer.graphicDesigner.web.user.controller.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
 import com.graphic.designer.graphicDesigner.exceptions.user.UsernameAlreadyExistException;
+import com.graphic.designer.graphicDesigner.web.user.model.Avatar;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
+import com.graphic.designer.graphicDesigner.web.user.repository.AvatarRepository;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -29,8 +34,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Properties;
 
 import static com.graphic.designer.graphicDesigner.constants.ErrorConstants.*;
+import static com.graphic.designer.graphicDesigner.constants.ImageConstants.MAX_AVATAR_SIZE;
 import static com.graphic.designer.graphicDesigner.constants.RoleConstants.DESIGNER;
 import static com.graphic.designer.graphicDesigner.constants.RoleConstants.USER;
 
@@ -49,6 +56,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AvatarRepository avatarRepository;
+
+
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Override
@@ -63,9 +74,12 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistException(EMAIL_IS_ALREADY_USED);
         }
 
-        User user = convertToEntity(userDto);
+        User user = convertToUserEntity(userDto);
 
-        if(userDto.getRole().equals(USER)) {
+        if(userDto.getRole() == null){
+            throw new RoleException(ROLE_NOT_EXIST);
+        }
+        else if(userDto.getRole().equals(USER)) {
             user.setRoles(Arrays.asList(roleRepository.findByName(USER).orElseThrow(()->new RoleException(ROLE_NOT_EXIST))));
         }
         else if(userDto.getRole().equals(DESIGNER)) {
@@ -105,7 +119,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User convertToEntity(UserDto accountDto) {
+    public User convertToUserEntity(UserDto accountDto) {
         User user = modelMapper.map(accountDto, User.class);
 
         if(accountDto.getId() != null){
@@ -119,20 +133,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto convertToDto(User user) {
+    public UserDto convertToUserDto(User user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;
     }
 
     @Override
     public UserDto findUserByUsername(String username) {
-        return convertToDto(userRepository.findByUsername(username)
+        return convertToUserDto(userRepository.findByUsername(username)
                 .orElseThrow((() -> new UsernameNotFoundException(USER_NOT_EXIST))));
     }
 
     @Override
     public UserDto findById(Long userId) {
-        return convertToDto(userRepository.findById(userId)
+        return convertToUserDto(userRepository.findById(userId)
                 .orElseThrow((() -> new UsernameNotFoundException(USER_NOT_EXIST))));
     }
 
@@ -147,15 +161,60 @@ public class UserServiceImpl implements UserService {
         if(profileRequest.getLastName() != null) user.setLastName(profileRequest.getLastName());
         if(profileRequest.getTelNumber() != null) user.setTelNumber(profileRequest.getTelNumber());
 
-        if(profileRequest.getAvatar() != null) {
-            String avatar = this.encodeToString(profileRequest.getAvatar());
-            user.setAvatar(avatar);
+        return convertToUserDto(userRepository.save(user));
+    }
+
+    @Override
+    public AvatarDto updateUserAvatar(Long userId, AvatarDto avatarDto) {
+
+        validateAvatarSize(avatarDto);
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_EXIST));
+        Avatar avatar = this.convertToAvatarEntity(avatarDto);
+
+        avatar.setUser_id(user);
+        user.setAvatar_id(avatar);
+
+        avatarRepository.save(avatar);
+        userRepository.save(user);
+
+        return this.convertToAvatarDto(avatar);
+    }
+
+    private void validateAvatarSize(AvatarDto avatarDto) {
+        String[] tempStringSize = avatarDto.getSize().split(" ");
+        float imageSize = Float.parseFloat(tempStringSize[0]);
+
+        if(imageSize > MAX_AVATAR_SIZE){
+            throw new AvatarTooBigException(AVATAR_TOO_BIG);
         }
-
-        return convertToDto(userRepository.save(user));
     }
 
-    private String encodeToString(byte[] imageByteArray) {
-        return Base64.encodeBase64URLSafeString(imageByteArray);
+    @Override
+    public AvatarDto getUserAvatar(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_EXIST));
+
+        if(user.getAvatar_id() != null){
+            return convertToAvatarDto(user.getAvatar_id());
+        }
+        else{
+            throw new AvatarNotFoundException(AVATAR_NOT_EXIST);
+        }
     }
+
+    public AvatarDto convertToAvatarDto(Avatar avatar) {
+        AvatarDto avatarDto = modelMapper.map(avatar, AvatarDto.class);
+        return avatarDto;
+    }
+
+    public Avatar convertToAvatarEntity(AvatarDto avatarDto) {
+
+        Avatar avatar = modelMapper.map(avatarDto, Avatar.class);
+
+        if(avatarDto.getId() != null){
+            avatar.setAvatar_id(avatarDto.getId());
+        }
+        return avatar;
+    }
+
 }

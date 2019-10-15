@@ -2,23 +2,42 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Navbar from "../components/Navbar/Navbar";
-import { getProfileByUsername } from "../actions/profileActions";
+import { getUserAvatar } from "../actions/profileActions";
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile: {}
+      profile: {},
+      avatar: {}
     };
   }
 
   componentDidMount() {
-    this.setState({
-      profile: this.props.security.user
-    });
+    if (this.props.profile.data !== this.state.profile) {
+      this.setState({
+        profile: this.props.profile.data
+      });
+    }
   }
 
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile.data !== this.state.profile) {
+      this.setState({
+        profile: nextProps.profile.data
+      });
+      if (nextProps.profile.data.id) {
+        this.props.getUserAvatar(nextProps.profile.data.id);
+      }
+    }
+    if (nextProps.profile.avatar) {
+      this.setState({
+        avatar: nextProps.profile.avatar
+      });
+    }
+  }
+
+  componentDidUpdate(nextProps) {}
 
   redirectToEditProdile() {
     this.props.history.push("/editProfile");
@@ -26,39 +45,40 @@ class Profile extends Component {
 
   render() {
     return (
-      <div class="profileContainer">
+      <div className="profileContainer">
         <Navbar history={this.props.history} />
 
-        <div class="row">
-          <div class="col-md-8 offset-md-2 row profile border rounded">
+        <div className="row">
+          <div className="col-md-8 offset-md-2 row profile border rounded">
             <div
-              class="col-md-6 offset-md-3 alert alert-secondary text-center"
+              className="col-md-6 offset-md-3 alert alert-secondary text-center"
               role="alert"
             >
-              <h3>{this.state.profile.user_name}</h3>
+              <h3>{this.state.profile.username}</h3>
             </div>
             <div
-              class="col-md-2 offset-md-1"
+              className="col-md-2 offset-md-1"
               onClick={() => this.redirectToEditProdile()}
             >
-              <button type="button" class="btn btn-warning">
+              <button type="button" className="btn btn-warning">
                 Edytuj profil
               </button>
             </div>
-            <div class="col-md-4">
+            <div className="col-md-4">
               <img
-                src="https://cdn.shoplo.com/1785/products/th1024/aaaf/137-piesek.jpg"
-                alt="..."
-                class="img-thumbnail"
+                src={this.state.avatar.base64}
+                alt="avatar"
+                className="width100"
               />
             </div>
-            <div class="col-md-8 border rouded">
+            <div className="col-md-8 border rouded">
               <ul>
                 <li>Imię : {this.state.profile.firstName}</li>
                 <li>Nazwisko: {this.state.profile.lastName}</li>
                 <li>E-mail: {this.state.profile.email}</li>
                 <li>Numer telefonu: {this.state.profile.telNumber}</li>
                 <li>Data rejestracji: {this.state.profile.registerDate}</li>
+                <li>avatar: {this.state.avatar.size}</li>
               </ul>
             </div>
           </div>
@@ -70,15 +90,18 @@ class Profile extends Component {
 
 Profile.propTypes = {
   errors: PropTypes.object.isRequired,
-  security: PropTypes.object.isRequired
+  security: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  getUserAvatar: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  security: state.security
+  security: state.security,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  {}
+  { getUserAvatar }
 )(Profile);
