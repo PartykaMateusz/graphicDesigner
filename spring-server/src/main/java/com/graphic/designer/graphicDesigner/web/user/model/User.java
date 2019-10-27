@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name= "g_user")
+@Table(name= "users")
 @Entity
 public class User {
 
@@ -46,5 +46,6 @@ public class User {
     private List<Role> roles;
 
     @OneToOne
-    private Avatar avatar_id;
+    @JoinColumn(name="avatar_id")
+    private Avatar avatar;
 }

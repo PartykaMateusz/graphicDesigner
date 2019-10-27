@@ -35,7 +35,7 @@ public class UserController {
                                         Principal principal){
 
 
-        UserDto tempUserDto = userService.findById(userId);
+        UserDto tempUserDto = userService.findUserById(userId);
         if(tempUserDto.getUsername().equals(principal.getName())){
             return new ResponseEntity<>(userService.updateUser(userId, profileRequest),HttpStatus.OK);
         }

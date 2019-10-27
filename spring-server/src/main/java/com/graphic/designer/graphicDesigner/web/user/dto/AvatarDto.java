@@ -13,6 +13,4 @@ public class AvatarDto {
     private String type;
     private String name;
     private String size;
-    private Object file;
-    //private UserDto user;
 }

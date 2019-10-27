@@ -7,14 +7,14 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table
+@Table(name ="avatar")
 public class Avatar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long avatar_id;
 
-    @Column(length = 1024)
+    @Column
     @Type(type="text")
     private String base64;
 
@@ -28,5 +28,6 @@ public class Avatar {
     private String type;
 
     @OneToOne
-    private User user_id;
+    @JoinColumn(name = "user_id")
+    private User user;
 }

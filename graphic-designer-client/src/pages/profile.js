@@ -78,7 +78,6 @@ class Profile extends Component {
                 <li>E-mail: {this.state.profile.email}</li>
                 <li>Numer telefonu: {this.state.profile.telNumber}</li>
                 <li>Data rejestracji: {this.state.profile.registerDate}</li>
-                <li>avatar: {this.state.avatar.size}</li>
               </ul>
             </div>
           </div>

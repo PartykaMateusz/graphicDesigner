@@ -10,5 +10,9 @@ public class ErrorConstants {
     public static final String USER_NOT_EXIST = "Użytkownik nie isnieje";
     public static final String AVATAR_NOT_EXIST = "Avatar nie isnieje";
 
+    public static final String ORDER_NOT_EXIST = "Zlecenie nie isnieje";
+
+    public static final String CATEGORY_NOT_EXIST = "Kategoria nie isnieje";
+
     public static final String AVATAR_TOO_BIG = "Obraz jest zbyt duży. Maksymalny rozmiar to "+MAX_AVATAR_SIZE+" kb";
 }

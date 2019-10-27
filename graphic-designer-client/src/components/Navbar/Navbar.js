@@ -47,7 +47,7 @@ class Navbar extends Component {
         className="navbar navbar-expand-lg navbar-default navbar-default"
         id="indexNavbar"
       >
-        <Link className="nav-link text-warning col-sm-3" to="/">
+        <Link className="nav-link text-light col-sm-3" to="/">
           <img className="logo" src={Logo} alt="logo" />
           GRAPHIC DESIGNER
         </Link>

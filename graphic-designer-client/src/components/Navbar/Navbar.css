@@ -1,5 +1,6 @@
 #indexNavbar {
-  background: grey !important;
+  background: orange !important;
+  color: white;
 }
 
 #dropdownMenuButton {

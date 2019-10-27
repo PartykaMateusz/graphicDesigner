@@ -7,6 +7,7 @@ import RegisterDesigner from "./pages/RegisterDesigner";
 import index from "./pages/index";
 import profile from "./pages/profile";
 import editProfile from "./pages/editProfile";
+import AddWork from "./pages/AddWork";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "jquery";
@@ -37,6 +38,7 @@ function App() {
           <Route exact path="/index" component={index} />
           <Route exact path="/profile" component={profile} />
           <Route exact path="/editProfile" component={editProfile} />
+          <Route exact path="/addWork" component={AddWork} />
         </Switch>
       </Router>
     </Provider>

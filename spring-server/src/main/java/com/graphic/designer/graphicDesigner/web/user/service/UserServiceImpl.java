@@ -3,6 +3,7 @@ package com.graphic.designer.graphicDesigner.web.user.service;
 import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarNotFoundException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigException;
+import com.graphic.designer.graphicDesigner.web.role.model.Role;
 import com.graphic.designer.graphicDesigner.web.role.repository.RoleRepository;
 import com.graphic.designer.graphicDesigner.web.user.controller.ProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
@@ -33,13 +34,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
 import static com.graphic.designer.graphicDesigner.constants.ErrorConstants.*;
 import static com.graphic.designer.graphicDesigner.constants.ImageConstants.MAX_AVATAR_SIZE;
-import static com.graphic.designer.graphicDesigner.constants.RoleConstants.DESIGNER;
-import static com.graphic.designer.graphicDesigner.constants.RoleConstants.USER;
+import static com.graphic.designer.graphicDesigner.constants.RoleConstants.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,7 +59,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AvatarRepository avatarRepository;
-
 
     Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -135,7 +135,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto convertToUserDto(User user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setRole(this.getRoleFromUserEntity(user));
         return userDto;
+    }
+
+    private String getRoleFromUserEntity(User user) {
+        List<Role> roles = user.getRoles();
+
+        if(roles != null && roles.size() ==1){
+            return roles.get(0).getName();
+        }
+
+        //TODO
+        return null;
     }
 
     @Override
@@ -145,7 +157,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findById(Long userId) {
+    public UserDto findUserById(Long userId) {
         return convertToUserDto(userRepository.findById(userId)
                 .orElseThrow((() -> new UsernameNotFoundException(USER_NOT_EXIST))));
     }
@@ -172,8 +184,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_EXIST));
         Avatar avatar = this.convertToAvatarEntity(avatarDto);
 
-        avatar.setUser_id(user);
-        user.setAvatar_id(avatar);
+        avatar.setUser(user);
+        user.setAvatar(avatar);
 
         avatarRepository.save(avatar);
         userRepository.save(user);
@@ -194,14 +206,15 @@ public class UserServiceImpl implements UserService {
     public AvatarDto getUserAvatar(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_EXIST));
 
-        if(user.getAvatar_id() != null){
-            return convertToAvatarDto(user.getAvatar_id());
+        if(user.getAvatar() != null){
+            return convertToAvatarDto(user.getAvatar());
         }
         else{
             throw new AvatarNotFoundException(AVATAR_NOT_EXIST);
         }
     }
 
+    @Override
     public AvatarDto convertToAvatarDto(Avatar avatar) {
         AvatarDto avatarDto = modelMapper.map(avatar, AvatarDto.class);
         return avatarDto;

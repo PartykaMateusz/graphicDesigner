@@ -1,12 +1,17 @@
 package com.graphic.designer.graphicDesigner.web.user.service;
 
 import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
+import com.graphic.designer.graphicDesigner.exceptions.user.AvatarNotFoundException;
+import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigException;
 import com.graphic.designer.graphicDesigner.web.role.model.Role;
 import com.graphic.designer.graphicDesigner.web.user.controller.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
 import com.graphic.designer.graphicDesigner.exceptions.user.UsernameAlreadyExistException;
+import com.graphic.designer.graphicDesigner.web.user.model.Avatar;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
+import com.graphic.designer.graphicDesigner.web.user.repository.AvatarRepository;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +27,9 @@ import javax.management.relation.RoleNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import static com.graphic.designer.graphicDesigner.constants.ImageConstants.MAX_AVATAR_SIZE;
 import static com.graphic.designer.graphicDesigner.constants.RoleConstants.DESIGNER;
 import static com.graphic.designer.graphicDesigner.constants.RoleConstants.USER;
 import static org.junit.Assert.assertEquals;
@@ -46,6 +53,9 @@ public class UserServiceImplTest {
 
     @MockBean
     private UserDto userDtoMock;
+
+    @MockBean
+    private AvatarRepository avatarRepository;
 
     @Test
     public void registerNewUserAccount() {
@@ -223,5 +233,105 @@ public class UserServiceImplTest {
         //username is not changed
         assertEquals(returnedUser.getUsername(), user.getUsername());
 
+    }
+
+    @Test
+    public void updateUserAvatar() {
+        User user = this.generateUser();
+        user.setId(1L);
+        user.setEmail("test");
+        user.setUsername("test");
+
+        Avatar avatar = this.generateAvatar();
+
+        user.setAvatar(avatar);
+        avatar.setUser(user);
+
+        when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
+        when(avatarRepository.save(avatar)).thenReturn(avatar);
+
+        AvatarDto tempAvatarDto = userService.convertToAvatarDto(avatar);
+
+
+        assertEquals(userService.updateUserAvatar(user.getId(),tempAvatarDto).getName(),avatar.getName());
+    }
+
+    @Test
+    public void updateUserAvatarWhereImageIsTooBig() {
+        User user = this.generateUser();
+        user.setId(1L);
+        user.setEmail("test");
+        user.setUsername("test");
+
+        Avatar avatar = this.generateAvatar();
+
+        float tempAvatarSize = MAX_AVATAR_SIZE + 1000;
+        avatar.setSize(tempAvatarSize+" kb");
+
+        user.setAvatar(avatar);
+        avatar.setUser(user);
+
+        when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
+
+        AvatarDto tempAvatarDto = userService.convertToAvatarDto(avatar);
+
+        assertThrows(AvatarTooBigException.class, () -> userService.updateUserAvatar(user.getId(),tempAvatarDto));
+    }
+
+    private Avatar generateAvatar() {
+
+        Avatar avatar = new Avatar();
+        avatar.setAvatar_id(1L);
+        avatar.setBase64("test");
+        avatar.setName("test");
+        avatar.setSize("256 kb");
+        avatar.setType("png");
+
+        return avatar;
+    }
+
+    @Test
+    public void getUserAvatar() {
+        User user = this.generateUser();
+        user.setId(1L);
+
+        Avatar avatar = this.generateAvatar();
+        user.setAvatar(avatar);
+
+        when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
+
+        assertEquals(userService.getUserAvatar(user.getId()).getName(),avatar.getName());
+    }
+
+    @Test
+    public void getUserAvatarWhenAvatarNotExist() {
+        User user = this.generateUser();
+        user.setId(1L);
+
+        when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
+
+        assertThrows(AvatarNotFoundException.class, () -> userService.getUserAvatar(user.getId()));
+    }
+
+    @Test
+    public void findUserById(){
+        User user = this.generateUser();
+        user.setId(1L);
+        user.setUsername("test");
+
+        when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
+
+        assertEquals(userService.findUserById(user.getId()).getUsername(),user.getUsername());
+    }
+
+    @Test
+    public void findUserByUsername(){
+        User user = this.generateUser();
+        user.setId(1L);
+        user.setUsername("test");
+
+        when(userRepository.findByUsername("test")).thenReturn(java.util.Optional.of(user));
+
+        assertEquals(userService.findUserByUsername(user.getUsername()).getUsername(),user.getUsername());
     }
 }

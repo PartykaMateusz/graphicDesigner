@@ -15,7 +15,7 @@ export const getUserByUsername = username => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: error.response.data
+      payload: {}
     });
   }
 };
