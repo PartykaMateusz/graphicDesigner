@@ -22,6 +22,8 @@ public class OrderDto {
 
     private String text;
 
+    private Float price;
+
     private boolean isActive;
 
     private List<CategoryDto> categoryList;

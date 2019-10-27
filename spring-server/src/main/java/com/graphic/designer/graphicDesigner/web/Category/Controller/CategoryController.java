@@ -18,6 +18,6 @@ public class CategoryController {
     @GetMapping("")
     public ResponseEntity<?> getAllCategories(){
 
-        return new ResponseEntity<>(categoryService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(categoryService.getAllActive(), HttpStatus.OK);
     }
 }

@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-        //log.info("Order with id "+savedOrder.getId()+", subject: "+savedOrder.getSubject()+" was created by user with id: "+user.getId());
+        log.info("Order with id "+savedOrder.getId()+", subject: "+savedOrder.getSubject()+" was created by user with id: "+user.getId());
 
         return convertToOrderDto(savedOrder);
     }

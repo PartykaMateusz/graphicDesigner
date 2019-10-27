@@ -33,7 +33,7 @@ public class Order {
     private String text;
 
     @Column
-    private Long price;
+    private Float price;
 
     @Column
     private boolean isActive;

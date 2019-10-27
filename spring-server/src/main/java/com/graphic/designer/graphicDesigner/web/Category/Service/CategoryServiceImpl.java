@@ -22,11 +22,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
     public List<CategoryDto> getAll() {
        List<Category> categories = categoryRepository.findAll();
 
        return categories.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CategoryDto> getAllActive() {
+        List<Category> categories = categoryRepository.findAllActive();
+
+//        return categories.stream().filter(Category::isActive).map(this::convertToDto).collect(Collectors.toList());
+        return categories.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override

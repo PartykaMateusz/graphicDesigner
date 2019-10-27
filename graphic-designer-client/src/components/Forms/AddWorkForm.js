@@ -34,7 +34,8 @@ class AddWorkWorm extends Component {
     this.state = {
       categories: [],
       subject: "",
-      text: ""
+      text: "",
+      price: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -95,6 +96,7 @@ class AddWorkWorm extends Component {
       user_id: this.props.profile.data.id,
       subject: this.state.subject,
       text: this.state.text,
+      price: this.state.price,
       categoryList: selectedCategories
     };
 
@@ -124,6 +126,18 @@ class AddWorkWorm extends Component {
             id="text"
             name="text"
             value={this.state.text}
+            onChange={this.onChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Cena</label>
+          <input
+            className="form-control"
+            placeholder="Podaj cenę"
+            id="price"
+            name="price"
+            value={this.state.price}
             onChange={this.onChange}
           />
         </div>

@@ -24,6 +24,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
@@ -56,17 +57,17 @@ public class OrderServiceImplTest {
         when(userRepository.findById(orderDto.getUser_id())).thenReturn(Optional.of(user));
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(order.getCategoryList().get(0)));
 
-        //Order returnedOrder = this.generateReturnedOrder(Order order);
+        order.setActive(true);
 
-        when(orderRepository.save(order)).thenReturn(order);
+        when(orderRepository.save(any())).thenReturn(order);
 
         OrderDto returnedOrderDto = orderService.addOrder(orderDto);
-        assertEquals(returnedOrderDto.getSubject(),order.getSubject());
+        assertEquals(returnedOrderDto.getSubject(),orderDto.getSubject());
+        assertEquals(returnedOrderDto.getPrice(),orderDto.getPrice());
+        assertEquals(returnedOrderDto.getUser_id(),orderDto.getUser_id());
         assertTrue(returnedOrderDto.isActive());
     }
-//
-//    private Order generateReturnedOrder(order) {
-//    }
+
 
     private List<Category> generateCategoryList() {
         List<Category> categories = new ArrayList<>();
@@ -144,7 +145,7 @@ public class OrderServiceImplTest {
         order.setId(1L);
         order.setText("test");
         order.setSubject("test");
-        order.setPrice(100L);
+        order.setPrice(100F);
         order.setDate(LocalDateTime.now());
 
         return order;
