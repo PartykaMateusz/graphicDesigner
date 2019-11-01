@@ -1,7 +1,6 @@
 package com.graphic.designer.graphicDesigner.web.order.service;
 
 import com.graphic.designer.graphicDesigner.exceptions.order.OrderException;
-import com.graphic.designer.graphicDesigner.web.Category.Model.Category;
 import com.graphic.designer.graphicDesigner.web.Category.Service.CategoryService;
 import com.graphic.designer.graphicDesigner.web.Category.dto.CategoryDto;
 import com.graphic.designer.graphicDesigner.web.order.dto.OrderDto;
@@ -9,14 +8,20 @@ import com.graphic.designer.graphicDesigner.web.order.model.Order;
 import com.graphic.designer.graphicDesigner.web.order.repository.OrderRepository;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
+import com.graphic.designer.graphicDesigner.web.user.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.graphic.designer.graphicDesigner.constants.ErrorConstants.ORDER_NOT_EXIST;
@@ -39,6 +44,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public OrderDto addOrder(OrderDto orderDto) {
 
@@ -50,6 +58,10 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(LocalDateTime.now());
         order.setUser(user);
         order.setActive(true);
+
+        if(order.getPrice()==null){
+            order.setPrice(0F);
+        }
 
         Order savedOrder = orderRepository.save(order);
 
@@ -74,6 +86,33 @@ public class OrderServiceImpl implements OrderService {
         return convertToOrderDto(order);
     }
 
+    @Override
+    public List<OrderDto> getAllActiveOrders() {
+        List<Order> orders = orderRepository.getAllActive();
+
+        return this.convertToOrderDtoList(orders);
+    }
+
+    @Override
+    public Page<OrderDto> getPaginatedActiveOrders(Integer page, Integer size) {
+
+        Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
+
+        Page<Order> orders = orderRepository.findAll(returnedPage);
+
+        return orders.map(this::convertToOrderDto);
+    }
+
+    private List<OrderDto> convertToOrderDtoList(List<Order> orders) {
+        List<OrderDto> orderDtos = new ArrayList<>();
+
+        for(Order order : orders){
+            orderDtos.add(convertToOrderDto(order));
+        }
+
+        return orderDtos;
+    }
+
 
     private Order convertToOrderEntity(OrderDto orderDto) {
         Order order = modelMapper.map(orderDto, Order.class);
@@ -92,6 +131,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto convertToOrderDto(Order order) {
         OrderDto orderDto = modelMapper.map(order, OrderDto.class);
+        if(order.getUser() != null) {
+            orderDto.setUserDto(userService.convertToUserDto(order.getUser()));
+        }
 
         return orderDto;
     }

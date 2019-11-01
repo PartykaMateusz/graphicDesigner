@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import StartPageNavBar from "../components/StartPage/StartPageNavBar";
+import StartPageNavBar from "../../components/StartPage/StartPageNavBar";
 
-import BannerRegister from "../components/StartPage/BannerRegister";
+import BannerRegister from "../../components/StartPage/BannerRegister";
 
 class StartPage extends Component {
   constructor(props) {

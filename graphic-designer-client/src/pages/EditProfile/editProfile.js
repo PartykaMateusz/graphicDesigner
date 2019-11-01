@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Navbar from "../components/Navbar/Navbar";
-import EditProfileForm from "../components/Forms/EditProfileForm";
+import Navbar from "../../components/Navbar/Navbar";
+import EditProfileForm from "../../components/Forms/EditProfileForm";
 
 class editProfile extends Component {
   constructor(props) {

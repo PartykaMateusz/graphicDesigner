@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Navbar from "../components/Navbar/Navbar";
-import AddWorkForm from "../components/Forms/AddWorkForm";
-import "./index.css";
+import Navbar from "../../components/Navbar/Navbar";
+import AddWorkForm from "../../components/Forms/AddWorkForm";
+import "../Index/index.css";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";

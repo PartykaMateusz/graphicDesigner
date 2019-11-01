@@ -11,9 +11,12 @@ import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -65,9 +69,9 @@ public class OrderServiceImplTest {
         assertEquals(returnedOrderDto.getSubject(),orderDto.getSubject());
         assertEquals(returnedOrderDto.getPrice(),orderDto.getPrice());
         assertEquals(returnedOrderDto.getUser_id(),orderDto.getUser_id());
+        assertEquals(returnedOrderDto.getPrice(),orderDto.getPrice());
         assertTrue(returnedOrderDto.isActive());
     }
-
 
     private List<Category> generateCategoryList() {
         List<Category> categories = new ArrayList<>();
@@ -83,7 +87,6 @@ public class OrderServiceImplTest {
     }
 
 
-
     @Test
     public void addOrderWhereUserIsNotExist() {
         User user = this.generateUser();
@@ -94,7 +97,40 @@ public class OrderServiceImplTest {
         assertThrows(UsernameNotFoundException.class,()->orderService.addOrder(orderService.convertToOrderDto(order)));
     }
 
+    @Test
+    public void getAllActiveOrders() {
+        List<Order> orders = this.generateOrderList();
 
+        List<Order> onlyActive =  orders.stream().filter(o -> o.isActive()).collect(Collectors.toList());
+
+        when(orderRepository.getAllActive()).thenReturn(onlyActive);
+
+        assertEquals(onlyActive.size(), orderService.getAllActiveOrders().size());
+
+    }
+
+    private List<Order> generateOrderList() {
+        List<Order> orders = new ArrayList<>();
+
+        for(Long i=0L;i<10;i++){
+            Order order = new Order();
+            order.setId(i);
+            order.setDate(LocalDateTime.now());
+            order.setSubject("test "+i);
+            order.setSubject("testText "+i);
+
+            if(i % 2 ==0){
+                order.setActive(true);
+            }
+            else{
+                order.setActive(false);
+            }
+
+            orders.add(order);
+        }
+
+        return orders;
+    }
 
     @Test
     public void getOrderById(){
@@ -129,6 +165,17 @@ public class OrderServiceImplTest {
         assertThrows(OrderException.class, () -> orderService.deleteOrder(1L));
     }
 
+    @Test
+    public void getPaginatedActiveOrders() {
+        List<Order> orders = this.generateOrderList();
+        Page<Order> pagedResponse = new PageImpl(orders);
+
+        Pageable returnedPage = PageRequest.of(1,20, Sort.by("id").descending());
+
+        when(orderRepository.findAll(returnedPage)).thenReturn(pagedResponse);
+
+        assertEquals(orderService.getPaginatedActiveOrders(1,20).getTotalElements(),pagedResponse.getTotalElements());
+    }
 
     private User generateUser() {
         User user = new User();
@@ -151,4 +198,7 @@ public class OrderServiceImplTest {
         return order;
 
     }
+
+
+
 }

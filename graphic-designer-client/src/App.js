@@ -1,13 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import StartPage from "./pages/StartPage";
-import RegisterClient from "./pages/RegisterClient";
-import RegisterDesigner from "./pages/RegisterDesigner";
-import index from "./pages/index";
-import profile from "./pages/profile";
-import editProfile from "./pages/editProfile";
-import AddWork from "./pages/AddWork";
+import StartPage from "./pages/StartPage/StartPage";
+import RegisterClient from "./pages/Register/RegisterClient";
+import RegisterDesigner from "./pages/Register/RegisterDesigner";
+import index from "./pages/Index/index";
+import profile from "./pages/Profile/profile";
+import editProfile from "./pages/EditProfile/editProfile";
+import AddWork from "./pages/AddWork/AddWork";
+import Order from "./pages/Order/Order";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "jquery";
@@ -39,6 +40,7 @@ function App() {
           <Route exact path="/profile" component={profile} />
           <Route exact path="/editProfile" component={editProfile} />
           <Route exact path="/addWork" component={AddWork} />
+          <Route exact path="/order/:id" component={Order} />
         </Switch>
       </Router>
     </Provider>

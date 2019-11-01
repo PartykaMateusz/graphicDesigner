@@ -1,0 +1,57 @@
+.order {
+  border: 1px solid orange;
+  border-radius: 5px;
+  margin-top: 15px;
+  padding: 20px;
+
+  min-height: 50px;
+}
+
+.order:hover {
+  -webkit-box-shadow: 1px 2px 4px 2px rgba(0, 0, 0, 0.9);
+  box-shadow: 1px 2px 4px 2px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+}
+
+.order .orderName {
+  font-size: 23px;
+}
+
+.order .orderUser {
+  font-size: 20px;
+  text-align: right;
+}
+
+.order .orderPrice {
+  text-align: right;
+  font-size: 20px;
+}
+
+.order .orderCategory {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  border: 1px solid #ddd;
+}
+
+.pagination a.active {
+  background-color: #4caf50;
+  color: white;
+  border: 1px solid #4caf50;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  cursor: pointer;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import StartPageNavBar from "../components/StartPage/StartPageNavBar";
-import Banner from "../components/StartPage/Banner";
+import StartPageNavBar from "../../components/StartPage/StartPageNavBar";
+import Banner from "../../components/StartPage/Banner";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 

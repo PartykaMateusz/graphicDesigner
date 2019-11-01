@@ -32,6 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -93,6 +94,15 @@ public class UserServiceImpl implements UserService {
 
         user.setRegisterDate(LocalDateTime.now());
 
+        Avatar defalutAvatar = AvatarFactory.getDefaultAvatar();
+
+        avatarRepository.save(defalutAvatar);
+        userRepository.save(user);
+        defalutAvatar.setUser(user);
+        avatarRepository.save(defalutAvatar);
+
+        user.setAvatar(defalutAvatar);
+
         userRepository.save(user);
 
         log.info("user with role "+userDto.getRole()+", id: "+user.getId()+", username: "+user.getUsername() + ", email: "+user.getEmail()+ " has been saved in db");
@@ -136,6 +146,16 @@ public class UserServiceImpl implements UserService {
     public UserDto convertToUserDto(User user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
         userDto.setRole(this.getRoleFromUserEntity(user));
+
+
+        //TODO TEST this if
+        if(user.getRegisterDate() != null) {
+            userDto.setRegisterDate(LocalDate
+                    .of(user.getRegisterDate().getYear(),
+                            user.getRegisterDate().getMonth(),
+                            user.getRegisterDate().getDayOfMonth()));
+        }
+
         return userDto;
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
     @Query(
-            value = "SELECT * FROM category c WHERE c.isActive = true",
+            value = "SELECT * FROM category c WHERE c.is_active = true",
             nativeQuery = true)
     List<Category> findAllActive();
 }

@@ -40,13 +40,20 @@ export const getUserAvatar = id => async dispatch => {
 };
 
 export const updateProfile = (userId, user, history) => async dispatch => {
-  await axios.put(`/api/user/${userId}`, user);
-  dispatch({
-    type: GET_ERRORS,
-    payload: {}
-  });
+  try {
+    await axios.put(`/api/user/${userId}`, user);
+    dispatch({
+      type: GET_ERRORS,
+      payload: {}
+    });
 
-  //history.push("/profile");
+    history.push("/profile");
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
 };
 
 export const updateAvatar = (userId, avatar) => async dispatch => {

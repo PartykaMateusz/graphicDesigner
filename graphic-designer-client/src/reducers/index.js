@@ -3,10 +3,14 @@ import errorReducer from "./errorReducer";
 import securityReducer from "./securityReducer";
 import profileReducer from "./profileReducer";
 import categoryReducer from "./categoryReducer";
+import OrdersReducer from "./OrdersReducer";
+import OrderReducer from "./OrderReducer";
 
 export default combineReducers({
   errors: errorReducer,
   security: securityReducer,
   profile: profileReducer,
-  categories: categoryReducer
+  categories: categoryReducer,
+  orders: OrdersReducer,
+  order: OrderReducer
 });

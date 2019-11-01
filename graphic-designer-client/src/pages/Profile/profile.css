@@ -1,0 +1,86 @@
+.profileContainer .emp-profile {
+  padding: 3%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  border: solid 1px blue;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+.profileContainer .profile-img {
+  text-align: center;
+}
+.profileContainer .profile-img img {
+  width: 70%;
+  height: 100%;
+  border: solid 1px rgb(190, 169, 169);
+  border-radius: 0.5rem;
+}
+
+.profileContainer .profile-img .file input {
+  position: absolute;
+  opacity: 0;
+  right: 0;
+  top: 0;
+}
+.profileContainer .profile-head h5 {
+  color: #333;
+}
+.profileContainer .profile-head h6 {
+  color: #0062cc;
+}
+.profileContainer .profile-edit-btn {
+  border: none;
+  border-radius: 1.5rem;
+  width: 70%;
+  padding: 2%;
+  font-weight: 600;
+  color: #6c757d;
+  cursor: pointer;
+}
+.profileContainer .proile-rating {
+  font-size: 12px;
+  color: #818182;
+  margin-top: 5%;
+}
+.profileContainer .proile-rating span {
+  color: #495057;
+  font-size: 15px;
+  font-weight: 600;
+}
+.profileContainer .profile-head .nav-tabs {
+  margin-bottom: 5%;
+}
+.profileContainer .profile-head .nav-tabs .nav-link {
+  font-weight: 600;
+  border: none;
+}
+.profileContainer .profile-head .nav-tabs .nav-link.active {
+  border: none;
+  border-bottom: 2px solid #0062cc;
+}
+.profileContainer .profile-work {
+  padding: 14%;
+  margin-top: -15%;
+}
+.profileContainer .profile-work p {
+  font-size: 12px;
+  color: #818182;
+  font-weight: 600;
+  margin-top: 10%;
+}
+.profileContainer .profile-work a {
+  text-decoration: none;
+  color: #495057;
+  font-weight: 600;
+  font-size: 14px;
+}
+.profileContainer .profile-work ul {
+  list-style: none;
+}
+.profileContainer .profile-tab label {
+  font-weight: 600;
+}
+.profileContainer .profile-tab p {
+  font-weight: 600;
+  color: #0062cc;
+}

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
+import Orders from "../../components/Tables/Orders";
 import "./index.css";
-import { ROLE_USER } from "../actions/types";
+import { ROLE_USER } from "../../actions/types";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -41,7 +42,6 @@ class index extends Component {
   }
 
   AddWorkButtonIfRoleIsUser() {
-    console.log("stejt role " + this.state.role);
     if (this.state.role === ROLE_USER) {
       return <AddWorkButton redirectToAddWork={this.redirectToAddWork} />;
     }
@@ -55,6 +55,10 @@ class index extends Component {
         <div className="row">
           <div className="col-md-3 offset-md-4">
             {this.AddWorkButtonIfRoleIsUser()}
+          </div>
+
+          <div className="col-md-8 offset-md-2">
+            <Orders history={this.props.history} />
           </div>
         </div>
       </div>

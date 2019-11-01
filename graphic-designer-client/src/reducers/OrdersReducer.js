@@ -1,14 +1,12 @@
-import { GET_ERRORS } from "../actions/types";
+import { GET_ORDERS } from "../actions/types";
 
-const initialState = {
-  orders: {},
-  order: {}
-};
+const initialState = {};
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_ERRORS:
+    case GET_ORDERS:
       return action.payload;
+
     default:
       return state;
   }

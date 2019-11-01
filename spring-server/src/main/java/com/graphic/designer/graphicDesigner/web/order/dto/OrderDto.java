@@ -18,6 +18,8 @@ public class OrderDto {
 
     private Long user_id;
 
+    private UserDto userDto;
+
     private String subject;
 
     private String text;
