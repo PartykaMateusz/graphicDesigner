@@ -39,4 +39,6 @@ public class UserDto {
 
     private LocalDate registerDate;
 
+    private AvatarDto avatar;
+
 }

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Navbar from "../../components/Navbar/Navbar";
 import EditProfileForm from "../../components/Forms/EditProfileForm";
+import "./editProfile.css";
 
 class editProfile extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class editProfile extends Component {
         <Navbar history={this.props.history} />
 
         <div className="row">
-          <div className="col-md-8 offset-md-2 row profile border rounded">
+          <div className="col-md-8 offset-md-2 row profile border rounded profileShadow">
             <div
               className="col-md-6 offset-md-3 alert alert-primary"
               role="alert"

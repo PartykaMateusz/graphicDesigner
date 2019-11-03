@@ -1,9 +1,49 @@
 .desc-image img {
   width: 100%;
+
+  border: 1px solid black;
 }
+
+.arrowIcon {
+  font-size: 50px;
+  padding-left: 5%;
+}
+
+#buttonJoinToWork {
+  box-shadow: 4px 4px 3px 2px #888888;
+  width: 100%;
+}
+
+.arrowIcon svg:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.username {
+  font-size: 25px;
+}
+
+.username:hover {
+  cursor: pointer;
+  color: rgb(155, 155, 0);
+}
+
+.username span {
+  margin-left: 10px;
+}
+
+.desc-title {
+  word-wrap: break-word;
+}
+
 .desc-title h2 {
   font-weight: 600;
 }
 .desc-title h4 {
   font-weight: 600;
+}
+
+.description-section .container {
+  box-shadow: 5px 5px 3px 4px #888888;
+  border: 1px solid black;
 }

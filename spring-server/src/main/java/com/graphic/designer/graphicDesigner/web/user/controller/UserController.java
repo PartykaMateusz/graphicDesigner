@@ -1,14 +1,13 @@
 package com.graphic.designer.graphicDesigner.web.user.controller;
 
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
+import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
-import com.graphic.designer.graphicDesigner.web.user.model.Avatar;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -27,6 +26,11 @@ public class UserController {
             return new ResponseEntity(userDto, HttpStatus.OK);
         }
         else return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id){
+        return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{userId}")

@@ -121,6 +121,7 @@ class AddWorkWorm extends Component {
         <div className="form-group">
           <label>Treść</label>
           <textarea
+            maxLength="255"
             className="form-control"
             rows="3"
             id="text"

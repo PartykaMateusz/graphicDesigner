@@ -5,7 +5,8 @@ import StartPage from "./pages/StartPage/StartPage";
 import RegisterClient from "./pages/Register/RegisterClient";
 import RegisterDesigner from "./pages/Register/RegisterDesigner";
 import index from "./pages/Index/index";
-import profile from "./pages/Profile/profile";
+import MyProfile from "./pages/MyProfile/MyProfile";
+import Profile from "./pages/Profile/Profile";
 import editProfile from "./pages/EditProfile/editProfile";
 import AddWork from "./pages/AddWork/AddWork";
 import Order from "./pages/Order/Order";
@@ -37,7 +38,8 @@ function App() {
           <Route exact path="/register/client" component={RegisterClient} />
           <Route exact path="/register/designer" component={RegisterDesigner} />
           <Route exact path="/index" component={index} />
-          <Route exact path="/profile" component={profile} />
+          <Route exact path="/profile" component={MyProfile} />
+          <Route exact path="/profile/:id" component={Profile} />
           <Route exact path="/editProfile" component={editProfile} />
           <Route exact path="/addWork" component={AddWork} />
           <Route exact path="/order/:id" component={Order} />

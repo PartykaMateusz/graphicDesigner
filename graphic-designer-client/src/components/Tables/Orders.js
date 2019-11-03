@@ -16,9 +16,22 @@ const Order = ({
     <div className="col-md-4 orderName">{subject}</div>
     <div className="col-md-4 orderUser">{username}</div>
     <div className="col-md-4 orderPrice">{price} zł</div>
-    <div className="col-md-10 orderCategory">Kategorie: {categories}</div>
+    <div className="col-md-10 orderCategory ">
+      <span className="font-weight-bold">Kategorie:</span>{" "}
+      <Categories list={categories} />
+    </div>
   </div>
 );
+
+const Categories = ({ list }) => {
+  if (list) {
+    return list.map(item => {
+      return item.name + ", ";
+    });
+  } else {
+    return "";
+  }
+};
 
 class Orders extends Component {
   constructor(props) {
@@ -62,8 +75,9 @@ class Orders extends Component {
           key={orders[i].id}
           id={orders[i].id}
           subject={orders[i].subject}
-          username={orders[i].userDto.username}
+          username={orders[i].user.username}
           price={orders[i].price}
+          categories={orders[i].categoryList}
           redirectToOrder={this.redirectToOrder}
         />
       );

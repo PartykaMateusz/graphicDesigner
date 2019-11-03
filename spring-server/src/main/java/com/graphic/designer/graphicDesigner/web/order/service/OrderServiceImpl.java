@@ -132,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto convertToOrderDto(Order order) {
         OrderDto orderDto = modelMapper.map(order, OrderDto.class);
         if(order.getUser() != null) {
-            orderDto.setUserDto(userService.convertToUserDto(order.getUser()));
+            orderDto.setUser(userService.convertToUserDto(order.getUser()));
         }
 
         return orderDto;

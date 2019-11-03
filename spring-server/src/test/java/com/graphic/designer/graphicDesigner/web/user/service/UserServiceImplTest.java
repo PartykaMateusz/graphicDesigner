@@ -3,8 +3,7 @@ package com.graphic.designer.graphicDesigner.web.user.service;
 import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarNotFoundException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigException;
-import com.graphic.designer.graphicDesigner.web.role.model.Role;
-import com.graphic.designer.graphicDesigner.web.user.controller.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
@@ -15,19 +14,13 @@ import com.graphic.designer.graphicDesigner.web.user.repository.AvatarRepository
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.management.relation.RelationService;
-import javax.management.relation.RoleNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.time.LocalDateTime;
 
 import static com.graphic.designer.graphicDesigner.constants.ImageConstants.MAX_AVATAR_SIZE;
 import static com.graphic.designer.graphicDesigner.constants.RoleConstants.DESIGNER;
@@ -334,4 +327,24 @@ public class UserServiceImplTest {
 
         assertEquals(userService.findUserByUsername(user.getUsername()).getUsername(),user.getUsername());
     }
+
+    @Test
+    public void convertToUserDto() {
+        User user = new User();
+        user.setRegisterDate(LocalDateTime.now());
+        user.setAvatar(this.generateAvatar());
+
+        UserDto returnedDto = userService.convertToUserDto(user);
+
+        assertEquals(returnedDto.getUsername(),user.getUsername());
+        assertEquals(returnedDto.getFirstName(),user.getFirstName());
+        assertEquals(returnedDto.getLastName(),user.getLastName());
+        assertEquals(returnedDto.getRegisterDate().getDayOfYear(),user.getRegisterDate().getDayOfYear());
+        assertEquals(returnedDto.getTelNumber(),user.getTelNumber());
+        assertEquals(returnedDto.getEmail(),user.getEmail());
+        assertEquals(returnedDto.getAvatar().getBase64(),user.getAvatar().getBase64());
+
+    }
+
+
 }

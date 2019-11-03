@@ -1,4 +1,4 @@
-package com.graphic.designer.graphicDesigner.web.user.controller;
+package com.graphic.designer.graphicDesigner.web.user.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

@@ -18,7 +18,7 @@ public class OrderDto {
 
     private Long user_id;
 
-    private UserDto userDto;
+    private UserDto user;
 
     private String subject;
 

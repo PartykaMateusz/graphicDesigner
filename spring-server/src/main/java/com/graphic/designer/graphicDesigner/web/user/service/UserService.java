@@ -1,7 +1,7 @@
 package com.graphic.designer.graphicDesigner.web.user.service;
 
 
-import com.graphic.designer.graphicDesigner.web.user.controller.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.web.user.model.Avatar;
