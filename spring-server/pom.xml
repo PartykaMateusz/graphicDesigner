@@ -15,8 +15,9 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>12</java.version>
+		<java.version>1.8</java.version>
 		<springsecurity.version>5.0.5.RELEASE</springsecurity.version>
+		<spring-cloud.version>Hoxton.RC1</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -112,25 +113,50 @@
 			<version>20030203.000550</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory-connector-j-8</artifactId>
+			<version>1.0.15</version>
+		</dependency>
 
-	</dependencies>
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>postgres-socket-factory</artifactId>
+			<version>1.0.15</version>
+		</dependency>
 
-	<build>
-		<plugins>
 
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>12</source>
-					<target>12</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-gcp-dependencies</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

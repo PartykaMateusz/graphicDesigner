@@ -45,7 +45,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Role> roles;
 
-    @OneToOne
-    @JoinColumn(name="avatar_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "avatar_id")
     private Avatar avatar;
 }

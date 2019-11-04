@@ -5,6 +5,8 @@ import com.graphic.designer.graphicDesigner.web.user.model.Avatar;
 public class AvatarFactory {
 
     public static Avatar getDefaultAvatar(){
+
+
        Avatar avatar = new Avatar();
        avatar.setName("default-2.jpg");
        avatar.setType("image/jpeg");

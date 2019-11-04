@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Profile.css";
-import "jquery";
+
 import { Loading } from "../../components/Loading/Loading";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

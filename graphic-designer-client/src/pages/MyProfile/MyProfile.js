@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import Navbar from "../../components/Navbar/Navbar";
 import { getUserAvatar } from "../../actions/profileActions";
 import "./MyProfile.css";
-import "jquery";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
 class Profile extends Component {
   constructor(props) {
@@ -45,12 +47,20 @@ class Profile extends Component {
     this.props.history.push("/editProfile");
   }
 
+  redirectBack = () => {
+    this.props.history.goBack();
+  };
+
   render() {
-    console.log("render jeszcze raz");
     return (
       <div className="profileContainer">
         <Navbar history={this.props.history} />
-
+        <div className="arrowIcon pt-5">
+          <FontAwesomeIcon
+            icon={faArrowAltCircleLeft}
+            onClick={() => this.redirectBack()}
+          />
+        </div>
         <div className="container emp-profile">
           <form method="post">
             <div className="row">

@@ -27,7 +27,6 @@ public class Avatar {
     @Column
     private String type;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "avatar")
     private User user;
 }

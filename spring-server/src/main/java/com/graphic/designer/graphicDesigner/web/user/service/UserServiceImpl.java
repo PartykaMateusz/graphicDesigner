@@ -87,12 +87,9 @@ public class UserServiceImpl implements UserService {
         Avatar defalutAvatar = AvatarFactory.getDefaultAvatar();
 
         avatarRepository.save(defalutAvatar);
-        userRepository.save(user);
-        defalutAvatar.setUser(user);
-        avatarRepository.save(defalutAvatar);
-
         user.setAvatar(defalutAvatar);
 
+        defalutAvatar.setUser(user);
         userRepository.save(user);
 
         log.info("user with role "+userDto.getRole()+", id: "+user.getId()+", username: "+user.getUsername() + ", email: "+user.getEmail()+ " has been saved in db");
