@@ -17,7 +17,9 @@ public interface OrderService {
 
     OrderDto getOrderById(Long id);
 
-    List<OrderDto> getAllActiveOrders();
-
     Page<OrderDto> getPaginatedActiveOrders(Integer page, Integer size);
+
+    Page<OrderDto> getPaginatedActiveOrdersByUser(Integer page, Integer size, Integer userId);
+
+    Long getActiveOrdersNumberByUser(Long id);
 }

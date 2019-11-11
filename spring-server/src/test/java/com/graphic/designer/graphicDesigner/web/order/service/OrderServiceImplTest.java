@@ -97,17 +97,7 @@ public class OrderServiceImplTest {
         assertThrows(UsernameNotFoundException.class,()->orderService.addOrder(orderService.convertToOrderDto(order)));
     }
 
-    @Test
-    public void getAllActiveOrders() {
-        List<Order> orders = this.generateOrderList();
 
-        List<Order> onlyActive =  orders.stream().filter(o -> o.isActive()).collect(Collectors.toList());
-
-        when(orderRepository.getAllActive()).thenReturn(onlyActive);
-
-        assertEquals(onlyActive.size(), orderService.getAllActiveOrders().size());
-
-    }
 
     private List<Order> generateOrderList() {
         List<Order> orders = new ArrayList<>();

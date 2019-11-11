@@ -48,4 +48,18 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "avatar_id", referencedColumnName = "avatar_id")
     private Avatar avatar;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", telNumber='" + telNumber + '\'' +
+                ", registerDate=" + registerDate +
+                '}';
+    }
 }

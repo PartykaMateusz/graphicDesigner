@@ -2,6 +2,7 @@ package com.graphic.designer.graphicDesigner.web.user.service;
 
 
 import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.UpdateProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.web.user.model.Avatar;
@@ -21,11 +22,11 @@ public interface UserService {
 
     UserDto convertToUserDto(User user);
 
-    UserDto findUserByUsername(String username);
+    ProfileRequest findUserByUsername(String username);
 
     UserDto findUserById(Long userId);
 
-    UserDto updateUser(Long userId, ProfileRequest profileRequest);
+    UserDto updateUser(Long userId, UpdateProfileRequest profileRequest);
 
     AvatarDto updateUserAvatar(Long userId, AvatarDto avatarDto);
 

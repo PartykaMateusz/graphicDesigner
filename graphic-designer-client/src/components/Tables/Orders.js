@@ -3,35 +3,8 @@ import "./Orders.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getOrders } from "../../actions/orderActions";
-
-const Order = ({
-  id,
-  subject,
-  username,
-  price,
-  categories,
-  redirectToOrder
-}) => (
-  <div className="order row" onClick={() => redirectToOrder(id)}>
-    <div className="col-md-4 orderName">{subject}</div>
-    <div className="col-md-4 orderUser">{username}</div>
-    <div className="col-md-4 orderPrice">{price} zł</div>
-    <div className="col-md-10 orderCategory ">
-      <span className="font-weight-bold">Kategorie:</span>{" "}
-      <Categories list={categories} />
-    </div>
-  </div>
-);
-
-const Categories = ({ list }) => {
-  if (list) {
-    return list.map(item => {
-      return item.name + ", ";
-    });
-  } else {
-    return "";
-  }
-};
+import { Loading } from "../../components/Loading/Loading";
+import Order from "../Order/Order";
 
 class Orders extends Component {
   constructor(props) {

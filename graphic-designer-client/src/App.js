@@ -10,6 +10,8 @@ import Profile from "./pages/Profile/Profile";
 import editProfile from "./pages/EditProfile/editProfile";
 import AddWork from "./pages/AddWork/AddWork";
 import Order from "./pages/Order/Order";
+import UserPanel from "./pages/UserPanel/UserPanel";
+import DesignerPanel from "./pages/DesignerPanel/DesignerPanel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "jquery";
@@ -43,6 +45,9 @@ function App() {
           <Route exact path="/editProfile" component={editProfile} />
           <Route exact path="/addWork" component={AddWork} />
           <Route exact path="/order/:id" component={Order} />
+
+          <Route exact path="/userPanel" component={UserPanel} />
+          <Route exact path="/designerPanel" component={DesignerPanel} />
         </Switch>
       </Router>
     </Provider>

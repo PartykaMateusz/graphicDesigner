@@ -15,4 +15,6 @@ public class ErrorConstants {
     public static final String CATEGORY_NOT_EXIST = "Kategoria nie isnieje";
 
     public static final String AVATAR_TOO_BIG = "Obraz jest zbyt duży. Maksymalny rozmiar to "+MAX_AVATAR_SIZE+" kb";
+
+    public static final String PROPOSAL_ALREADY_EXIST = "Użytkownik jest już zgłoszony do tego zlecenia";
 }

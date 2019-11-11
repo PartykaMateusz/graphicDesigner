@@ -86,21 +86,30 @@ public class OrderServiceImpl implements OrderService {
         return convertToOrderDto(order);
     }
 
-    @Override
-    public List<OrderDto> getAllActiveOrders() {
-        List<Order> orders = orderRepository.getAllActive();
-
-        return this.convertToOrderDtoList(orders);
-    }
 
     @Override
     public Page<OrderDto> getPaginatedActiveOrders(Integer page, Integer size) {
 
         Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
 
-        Page<Order> orders = orderRepository.findAll(returnedPage);
+        Page<Order> orders = orderRepository.findActive(returnedPage);
 
         return orders.map(this::convertToOrderDto);
+    }
+
+    @Override
+    public Page<OrderDto> getPaginatedActiveOrdersByUser(Integer page, Integer size, Integer userId) {
+
+        Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
+
+        Page<Order> orders = orderRepository.findActiveByUser(returnedPage, userId);
+
+        return orders.map(this::convertToOrderDto);
+    }
+
+    @Override
+    public Long getActiveOrdersNumberByUser(Long id) {
+        return orderRepository.findActiveNumberByUser(id);
     }
 
     private List<OrderDto> convertToOrderDtoList(List<Order> orders) {

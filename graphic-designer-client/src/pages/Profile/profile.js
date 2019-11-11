@@ -25,10 +25,16 @@ class Profile extends Component {
     this.props.getUserById(this.state.userId);
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.profileInfo !== this.state.profile) {
       this.setState({
         profile: nextProps.profileInfo
+      });
+    }
+
+    if (nextProps.profileInfo.avatar !== this.state.avatar) {
+      this.setState({
+        avatar: nextProps.profileInfo.avatar
       });
     }
   }
@@ -42,7 +48,12 @@ class Profile extends Component {
       this.state.profile === undefined ||
       this.state.profile.avatar === undefined
     ) {
-      return <Loading />;
+      return (
+        <React.Fragment>
+          <Navbar history={this.props.history} />
+          <Loading />
+        </React.Fragment>
+      );
     } else {
       return (
         <div className="profileContainer">
@@ -58,7 +69,7 @@ class Profile extends Component {
               <div className="row">
                 <div className="col-md-4">
                   <div className="profile-img">
-                    <img src={this.state.profile.avatar.base64} alt="Avatar" />
+                    <img src={this.state.avatar.base64} alt="Avatar" />
                   </div>
                 </div>
 

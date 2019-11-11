@@ -3,9 +3,13 @@ package com.graphic.designer.graphicDesigner.web.user.service;
 import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarNotFoundException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigException;
+import com.graphic.designer.graphicDesigner.web.order.service.OrderService;
+import com.graphic.designer.graphicDesigner.web.proposal.Service.ProposalService;
+import com.graphic.designer.graphicDesigner.web.proposal.repository.ProposalRepository;
 import com.graphic.designer.graphicDesigner.web.role.model.Role;
 import com.graphic.designer.graphicDesigner.web.role.repository.RoleRepository;
 import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.UpdateProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
@@ -51,7 +55,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AvatarRepository avatarRepository;
 
+    @Autowired
+    private OrderService orderService;
+
     Logger log = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private ProposalService proposalService;
 
     @Override
     public UserDto registerNewUserAccount(UserDto userDto)  {
@@ -160,9 +170,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUserByUsername(String username) {
-        return convertToUserDto(userRepository.findByUsername(username)
+    public ProfileRequest findUserByUsername(String username) {
+        ProfileRequest profileRequest =  convertToProfileRequest(userRepository.findByUsername(username)
                 .orElseThrow((() -> new UsernameNotFoundException(USER_NOT_EXIST))));
+
+        profileRequest.setActualProposalsNumber(proposalService.getActiveProposalsNumberByUser(profileRequest.getId()));
+        profileRequest.setActualOrderNumber(orderService.getActiveOrdersNumberByUser(profileRequest.getId()));
+
+        return profileRequest;
+    }
+
+    private ProfileRequest convertToProfileRequest(User user) {
+        ProfileRequest profileRequest = modelMapper.map(user, ProfileRequest.class);
+        profileRequest.setRole(this.getRoleFromUserEntity(user));
+
+        if(user.getRegisterDate() != null) {
+            profileRequest.setRegisterDate(LocalDate
+                    .of(user.getRegisterDate().getYear(),
+                            user.getRegisterDate().getMonth(),
+                            user.getRegisterDate().getDayOfMonth()));
+        }
+
+        if(user.getAvatar() != null){
+            profileRequest.setAvatar(this.convertToAvatarDto(user.getAvatar()));
+        }
+
+        return profileRequest;
     }
 
     @Override
@@ -172,7 +205,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Long userId, ProfileRequest profileRequest) {
+    public UserDto updateUser(Long userId, UpdateProfileRequest profileRequest) {
         User user = userRepository.findById(userId)
                 .orElseThrow((() -> new UsernameNotFoundException(USER_NOT_EXIST)));
 

@@ -6,11 +6,14 @@ import "./Navbar.css";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/securityActions";
 import { getUserByUsername } from "../../actions/profileActions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAddressCard } from "@fortawesome/free-solid-svg-icons";
+import { ROLE_USER, ROLE_DESIGNER } from "../../actions/types";
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { role: "", username: "" };
     this.logout = this.logout.bind(this);
   }
 
@@ -35,11 +38,33 @@ class Navbar extends Component {
         username: nextProps.security.user.user_name
       });
     }
+    if (this.state.role !== nextProps.profile.data.role) {
+      this.setState({
+        role: nextProps.profile.data.role
+      });
+    }
   }
 
   logout() {
     this.props.logout();
   }
+
+  generatePanelLink = () => {
+    if (this.state.role === ROLE_USER) {
+      return (
+        <Link to="/userPanel" className="navbar-notification float-right">
+          <FontAwesomeIcon icon={faAddressCard} />
+        </Link>
+      );
+    }
+    if (this.state.role === ROLE_DESIGNER) {
+      return (
+        <Link to="/designerPanel" className="navbar-notification float-right">
+          <FontAwesomeIcon icon={faAddressCard} />
+        </Link>
+      );
+    }
+  };
 
   render() {
     return (
@@ -52,7 +77,9 @@ class Navbar extends Component {
           GRAPHIC DESIGNER
         </Link>
 
-        <div className="dropdown col-sm-2 offset-sm-7">
+        <div className="col-sm-2 offset-sm-5">{this.generatePanelLink()}</div>
+
+        <div className="dropdown col-sm-2">
           <button
             className="btn btn-secondary dropdown-toggle"
             type="button"
@@ -64,6 +91,7 @@ class Navbar extends Component {
             {this.state.username}
           </button>
           <div className="dropdown-menu">
+            {this.generateProfileLink}
             <Link to="/profile" className="dropdown-item">
               Profil
             </Link>
@@ -81,12 +109,14 @@ Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
   getUserByUsername: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  security: PropTypes.object.isRequired
+  security: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  security: state.security
+  security: state.security,
+  profile: state.profile
 });
 
 export default connect(

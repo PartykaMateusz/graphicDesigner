@@ -6,6 +6,7 @@ import categoryReducer from "./categoryReducer";
 import OrdersReducer from "./OrdersReducer";
 import OrderReducer from "./OrderReducer";
 import ProfileInfoReducer from "./profileInfoReducer";
+import ProposalReducer from "./ProposalReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   categories: categoryReducer,
   orders: OrdersReducer,
   order: OrderReducer,
-  profileInfo: ProfileInfoReducer
+  profileInfo: ProfileInfoReducer,
+  orderProposals: ProposalReducer
 });

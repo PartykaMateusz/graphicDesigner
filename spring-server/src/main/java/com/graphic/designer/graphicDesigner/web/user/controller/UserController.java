@@ -2,6 +2,7 @@ package com.graphic.designer.graphicDesigner.web.user.controller;
 
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.UpdateProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username,
                                                Principal principal){
-        UserDto userDto = userService.findUserByUsername(username);
-        if(userDto.getUsername().equals(principal.getName())){
-            return new ResponseEntity(userDto, HttpStatus.OK);
+        ProfileRequest profileRequest = userService.findUserByUsername(username);
+        if(profileRequest.getUsername().equals(principal.getName())){
+            return new ResponseEntity(profileRequest, HttpStatus.OK);
         }
         else return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
     }
@@ -35,7 +36,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId,
-                                        @RequestBody ProfileRequest profileRequest,
+                                        @RequestBody UpdateProfileRequest profileRequest,
                                         Principal principal){
 
 

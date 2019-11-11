@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Order.css";
 import { getOrder } from "../../actions/orderActions";
+import {
+  addProposal,
+  cancelProposal,
+  getOrderProposals
+} from "../../actions/proposalService";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -11,17 +16,30 @@ import { Loading } from "../../components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
+  faUsers,
   faArrowAltCircleLeft
 } from "@fortawesome/free-solid-svg-icons";
 import { ROLE_DESIGNER } from "../../actions/types";
 
-const JoinButton = ({}) => (
+import "./Order.css";
+
+const JoinButton = ({ addProposal }) => (
   <button
     type="button"
-    id="buttonJoinToWork"
-    className="btn btn-primary btn-lg mt-4"
+    className="btn btn-primary btn-lg mt-4 buttonWork"
+    onClick={() => addProposal()}
   >
     Zgłoś się
+  </button>
+);
+
+const CancelButton = ({ cancelProposal }) => (
+  <button
+    type="button"
+    className="btn btn-warning btn-lg mt-4 buttonWork"
+    onClick={() => cancelProposal()}
+  >
+    Anuluj
   </button>
 );
 
@@ -33,12 +51,17 @@ class Order extends Component {
       order: {},
       orderCreator: {},
       creatorAvatar: {},
-      ActUserRole: null
+      ActUserRole: null,
+      proposals: {},
+      userInProposals: false
     };
+
+    this.ifUserIsInProposals = this.ifUserIsInProposals.bind(this);
   }
 
   componentDidMount() {
     this.props.getOrder(this.state.orderId);
+    this.props.getOrderProposals(this.state.orderId);
   }
 
   componentWillUpdate(nextProps) {
@@ -59,6 +82,17 @@ class Order extends Component {
         ActUserRole: nextProps.profile.data.role
       });
     }
+
+    if (nextProps.orderProposals !== this.state.proposals) {
+      this.setState(
+        {
+          proposals: nextProps.orderProposals
+        },
+        function() {
+          this.ifUserIsInProposals();
+        }
+      );
+    }
   }
 
   redirectBack = () => {
@@ -71,16 +105,64 @@ class Order extends Component {
 
   AddButtonIfRoleIsDesigner = () => {
     if (this.state.ActUserRole === ROLE_DESIGNER) {
-      return <JoinButton />;
+      if (this.state.userInProposals) {
+        return <CancelButton cancelProposal={this.cancelProposal} />;
+      } else {
+        return <JoinButton addProposal={this.addProposal} />;
+      }
     }
   };
+
+  cancelProposal = () => {
+    let designerId = this.props.profile.data.id;
+    let orderId = parseInt(this.state.orderId);
+
+    this.props.cancelProposal(designerId, orderId).then(func => {
+      this.props.getOrderProposals(this.state.orderId);
+    });
+    //this.props.getOrderProposals(this.state.orderId);
+  };
+
+  addProposal = () => {
+    const proposal = {
+      designerId: this.props.profile.data.id,
+      orderId: parseInt(this.state.orderId)
+    };
+
+    this.props.addProposal(proposal).then(func => {
+      this.props.getOrderProposals(this.state.orderId);
+    });
+    //this.props.getOrderProposals(this.state.orderId);
+  };
+
+  ifUserIsInProposals() {
+    let bool = false;
+    let proposals = { ...this.state.proposals.proposals };
+    let userId = this.props.profile.data.id;
+    if (proposals !== null) {
+      Object.keys(proposals).forEach(function(key) {
+        if (proposals[key].user.id === userId) {
+          bool = true;
+        }
+      });
+      this.setState({
+        userInProposals: bool
+      });
+    }
+  }
 
   render() {
     if (
       this.state.orderCreator === undefined ||
-      this.state.orderCreator.avatar === undefined
+      this.state.orderCreator.avatar === undefined ||
+      this.state.proposals === undefined
     ) {
-      return <Loading />;
+      return (
+        <React.Fragment>
+          <Navbar history={this.props.history} />
+          <Loading />
+        </React.Fragment>
+      );
     } else {
       return (
         <div>
@@ -124,6 +206,10 @@ class Order extends Component {
                   </div>
                 </div>
               </div>
+              <div className="col-md-2 offset-md-10 proposalNumber">
+                <FontAwesomeIcon icon={faUsers} />
+                <span>{this.state.proposals.size}</span>
+              </div>
             </div>
             <div className="row">
               <div className="col-md-6 offset-md-3">
@@ -140,16 +226,20 @@ class Order extends Component {
 Order.propTypes = {
   errors: PropTypes.object.isRequired,
   order: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  addProposal: PropTypes.func.isRequired,
+  cancelProposal: PropTypes.func.isRequired,
+  getOrderProposals: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   errors: state.errors,
   order: state.order,
-  profile: state.profile
+  profile: state.profile,
+  orderProposals: state.orderProposals
 });
 
 export default connect(
   mapStateToProps,
-  { getOrder }
+  { getOrder, addProposal, cancelProposal, getOrderProposals }
 )(Order);

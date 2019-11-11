@@ -7,6 +7,7 @@ export const GET_AVATAR_INFO = "GET_AVATAR_INFO";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_ORDERS = "GET_ORDERS";
 export const GET_ORDER = "GET_ORDER";
+export const GET_PROPOSALS = "GET_PROPOSALS";
 
 export const ROLE_USER = "USER";
 export const ROLE_DESIGNER = "DESIGNER";

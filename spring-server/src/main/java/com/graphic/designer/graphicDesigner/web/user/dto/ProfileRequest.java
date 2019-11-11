@@ -1,23 +1,34 @@
 package com.graphic.designer.graphicDesigner.web.user.dto;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Lob;
-import javax.validation.constraints.Email;
-import java.awt.image.BufferedImage;
-import java.util.LinkedHashMap;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class ProfileRequest {
 
-    private String username;
-    private String password;
+    private Long id;
 
-    @Email
-    private String email;
+    private String username;
+
+    private String role;
+
+    private LocalDate registerDate;
+
+    private AvatarDto avatar;
+
     private String firstName;
+
     private String lastName;
+
     private String telNumber;
 
+    private String email;
+
+    private Long actualProposalsNumber;
+
+    private Long actualOrderNumber;
 }

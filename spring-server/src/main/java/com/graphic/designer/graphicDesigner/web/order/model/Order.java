@@ -1,6 +1,7 @@
 package com.graphic.designer.graphicDesigner.web.order.model;
 
 import com.graphic.designer.graphicDesigner.web.Category.Model.Category;
+import com.graphic.designer.graphicDesigner.web.proposal.model.Proposal;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,5 +52,18 @@ public class Order {
         }
 
         categoryList.add(category);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", date=" + date +
+                ", subject='" + subject + '\'' +
+                ", text='" + text + '\'' +
+                ", price=" + price +
+                ", isActive=" + isActive +
+
+                '}';
     }
 }

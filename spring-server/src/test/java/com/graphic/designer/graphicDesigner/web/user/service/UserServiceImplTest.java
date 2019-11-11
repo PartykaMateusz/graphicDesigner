@@ -3,7 +3,7 @@ package com.graphic.designer.graphicDesigner.web.user.service;
 import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarNotFoundException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigException;
-import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
+import com.graphic.designer.graphicDesigner.web.user.dto.UpdateProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.AvatarDto;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.exceptions.user.EmailAlreadyExistException;
@@ -209,7 +209,7 @@ public class UserServiceImplTest {
         when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
 
-        ProfileRequest profileRequest = new ProfileRequest();
+        UpdateProfileRequest profileRequest = new UpdateProfileRequest();
         profileRequest.setUsername("test");
         profileRequest.setEmail("other");
         profileRequest.setFirstName("other");

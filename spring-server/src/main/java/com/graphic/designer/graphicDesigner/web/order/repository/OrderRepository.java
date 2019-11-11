@@ -12,12 +12,13 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Long> {
 
-    @Query(
-            value = "select * FROM orders o WHERE o.is_active = true",
-            nativeQuery = true
-    )
-    List<Order> getAllActive();
 
-    Page<Order> findAll(Pageable pageable);
+    @Query(value = "select * from orders where is_active = true", nativeQuery = true)
+    Page<Order> findActive(Pageable pageable);
 
+    @Query(value = "select * from orders where is_active = true and user_id = :userId", nativeQuery = true)
+    Page<Order> findActiveByUser(Pageable returnedPage, Integer userId);
+
+    @Query(value = "select COUNT(id) from orders where user_id = :id and is_active = true ", nativeQuery = true)
+    Long findActiveNumberByUser(Long id);
 }
