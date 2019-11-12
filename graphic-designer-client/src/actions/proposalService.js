@@ -50,9 +50,15 @@ export const getOrderProposals = id => async dispatch => {
   }
 };
 
-export const getUserProposals = userId => async dispatch => {
+export const getUserProposals = (
+  pageNumber,
+  pageSize,
+  userId
+) => async dispatch => {
   try {
-    const res = await axios.get(`/api/proposal/user/${userId}`);
+    const res = await axios.get(
+      `/api/proposal/user/${userId}?page=${pageNumber}&size=${pageSize}`
+    );
     dispatch({
       type: GET_ERRORS,
       payload: {}

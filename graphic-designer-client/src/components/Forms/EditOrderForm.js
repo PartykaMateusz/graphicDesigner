@@ -3,7 +3,7 @@ import "./LoginForm.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getAllCategories } from "../../actions/categoryActions";
-import { addOrder } from "../../actions/orderActions";
+import { updateOrder } from "../../actions/orderActions";
 
 import "./AddWorkForm.css";
 
@@ -28,11 +28,12 @@ const Categories = ({ categories, changeSelected }) =>
     );
   });
 
-class AddWorkWorm extends Component {
+class EditOrderForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: [],
+      orderId: null,
       subject: "",
       text: "",
       price: ""
@@ -65,6 +66,19 @@ class AddWorkWorm extends Component {
         categories: categoriesList
       });
     }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.order) {
+      this.setState({
+        subject: nextProps.order.subject,
+        text: nextProps.order.text,
+        price: nextProps.order.price,
+        orderId: nextProps.order.id
+      });
+    }
   }
 
   changeSelected(category) {
@@ -92,15 +106,14 @@ class AddWorkWorm extends Component {
       }
     });
 
-    const work = {
-      user_id: this.props.profile.data.id,
+    const order = {
       subject: this.state.subject,
       text: this.state.text,
       price: this.state.price,
       categoryList: selectedCategories
     };
 
-    this.props.addOrder(work, this.props.history);
+    this.props.updateOrder(this.state.orderId, order, this.props.history);
   }
 
   render() {
@@ -168,11 +181,11 @@ class AddWorkWorm extends Component {
   }
 }
 
-AddWorkWorm.propTypes = {
+EditOrderForm.propTypes = {
   errors: PropTypes.object.isRequired,
   security: PropTypes.object.isRequired,
   getAllCategories: PropTypes.func.isRequired,
-  addOrder: PropTypes.func.isRequired,
+  updateOrder: PropTypes.func.isRequired,
   categories: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 };
@@ -186,5 +199,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getAllCategories, addOrder }
-)(AddWorkWorm);
+  { getAllCategories, updateOrder }
+)(EditOrderForm);

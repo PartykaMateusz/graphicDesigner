@@ -112,6 +112,19 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findActiveNumberByUser(id);
     }
 
+    @Override
+    public OrderDto updateOrder(Long id, OrderDto orderDto) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderException(ORDER_NOT_EXIST));
+
+        order.setSubject(orderDto.getSubject());
+        order.setText(orderDto.getText());
+        order.setPrice(orderDto.getPrice());
+
+        log.info("order "+order.getId()+" updated");
+
+        return convertToOrderDto(orderRepository.save(order));
+    }
+
     private List<OrderDto> convertToOrderDtoList(List<Order> orders) {
         List<OrderDto> orderDtos = new ArrayList<>();
 

@@ -63,11 +63,6 @@ public class ProposalController {
         if(userDto.getUsername().equals(principal.getName())) {
             Page<ProposalDto> proposals = proposalService.getProposalsByUser(userId,page,size);
 
-//            Map<String, Object> map = new HashMap<>();
-//
-//            map.put("size", proposals.size());
-//            map.put("proposals", proposals);
-
             return new ResponseEntity<>(proposals, HttpStatus.OK);
         }
         else return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);

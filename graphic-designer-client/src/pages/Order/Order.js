@@ -19,7 +19,7 @@ import {
   faUsers,
   faArrowAltCircleLeft
 } from "@fortawesome/free-solid-svg-icons";
-import { ROLE_DESIGNER } from "../../actions/types";
+import { ROLE_DESIGNER, ROLE_USER } from "../../actions/types";
 
 import "./Order.css";
 
@@ -40,6 +40,16 @@ const CancelButton = ({ cancelProposal }) => (
     onClick={() => cancelProposal()}
   >
     Anuluj
+  </button>
+);
+
+const EditButton = ({ redirectToEditOrder }) => (
+  <button
+    type="button"
+    className="btn btn-info btn-lg mt-4 buttonWork"
+    onClick={() => redirectToEditOrder()}
+  >
+    Edytuj
   </button>
 );
 
@@ -103,12 +113,24 @@ class Order extends Component {
     this.props.history.push(`/profile/${userId}`);
   };
 
+  redirectToEditOrder = () => {
+    this.props.history.push(`/order/${this.state.orderId}/edit`);
+  };
+
   AddButtonIfRoleIsDesigner = () => {
     if (this.state.ActUserRole === ROLE_DESIGNER) {
       if (this.state.userInProposals) {
         return <CancelButton cancelProposal={this.cancelProposal} />;
       } else {
         return <JoinButton addProposal={this.addProposal} />;
+      }
+    }
+  };
+
+  AddEditButtonIfRoleIsUser = () => {
+    if (this.state.ActUserRole === ROLE_USER) {
+      if (this.state.orderCreator.id === this.props.profile.data.id) {
+        return <EditButton redirectToEditOrder={this.redirectToEditOrder} />;
       }
     }
   };
@@ -120,7 +142,6 @@ class Order extends Component {
     this.props.cancelProposal(designerId, orderId).then(func => {
       this.props.getOrderProposals(this.state.orderId);
     });
-    //this.props.getOrderProposals(this.state.orderId);
   };
 
   addProposal = () => {
@@ -132,7 +153,6 @@ class Order extends Component {
     this.props.addProposal(proposal).then(func => {
       this.props.getOrderProposals(this.state.orderId);
     });
-    //this.props.getOrderProposals(this.state.orderId);
   };
 
   ifUserIsInProposals() {
@@ -214,6 +234,7 @@ class Order extends Component {
             <div className="row">
               <div className="col-md-6 offset-md-3">
                 {this.AddButtonIfRoleIsDesigner()}
+                {this.AddEditButtonIfRoleIsUser()}
               </div>
             </div>
           </div>

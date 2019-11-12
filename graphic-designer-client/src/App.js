@@ -8,7 +8,7 @@ import index from "./pages/Index/index";
 import MyProfile from "./pages/MyProfile/MyProfile";
 import Profile from "./pages/Profile/Profile";
 import editProfile from "./pages/EditProfile/editProfile";
-import AddWork from "./pages/AddWork/AddWork";
+import AddWork from "./pages/OrderActions/AddWork";
 import Order from "./pages/Order/Order";
 import UserPanel from "./pages/UserPanel/UserPanel";
 import DesignerPanel from "./pages/DesignerPanel/DesignerPanel";
@@ -20,6 +20,7 @@ import store from "./store";
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
+import EditOrder from "./pages/OrderActions/EditOrder";
 
 const jwtToken = localStorage.jwtToken;
 if (jwtToken) {
@@ -45,6 +46,7 @@ function App() {
           <Route exact path="/editProfile" component={editProfile} />
           <Route exact path="/addWork" component={AddWork} />
           <Route exact path="/order/:id" component={Order} />
+          <Route exact path="/order/:id/edit" component={EditOrder} />
 
           <Route exact path="/userPanel" component={UserPanel} />
           <Route exact path="/designerPanel" component={DesignerPanel} />

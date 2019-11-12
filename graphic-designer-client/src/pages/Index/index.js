@@ -51,12 +51,10 @@ class index extends Component {
     return (
       <div className="indexContainer">
         <Navbar history={this.props.history} />
-
+        <div className="col-md-4 offset-md-4">
+          {this.AddWorkButtonIfRoleIsUser()}
+        </div>
         <div className="row">
-          <div className="col-md-3 offset-md-4">
-            {this.AddWorkButtonIfRoleIsUser()}
-          </div>
-
           <div className="col-md-8 offset-md-2">
             <Orders history={this.props.history} />
           </div>

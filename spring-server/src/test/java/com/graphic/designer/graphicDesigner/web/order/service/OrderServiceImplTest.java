@@ -162,7 +162,7 @@ public class OrderServiceImplTest {
 
         Pageable returnedPage = PageRequest.of(1,20, Sort.by("id").descending());
 
-        when(orderRepository.findAll(returnedPage)).thenReturn(pagedResponse);
+        when(orderRepository.findActive(returnedPage)).thenReturn(pagedResponse);
 
         assertEquals(orderService.getPaginatedActiveOrders(1,20).getTotalElements(),pagedResponse.getTotalElements());
     }

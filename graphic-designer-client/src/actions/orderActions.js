@@ -17,6 +17,22 @@ export const addOrder = (work, history) => async dispatch => {
   }
 };
 
+export const updateOrder = (orderId, order, history) => async dispatch => {
+  try {
+    await axios.patch(`/api/order/${orderId}`, order);
+    dispatch({
+      type: GET_ERRORS,
+      payload: {}
+    });
+    history.push(`/order/${orderId}`);
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: {}
+    });
+  }
+};
+
 export const getOrders = (page, size) => async dispatch => {
   try {
     const res = await axios.get(`/api/order/?page=${page}&size=${size}`);

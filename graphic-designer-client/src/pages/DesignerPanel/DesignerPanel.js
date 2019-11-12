@@ -13,7 +13,13 @@ import { ROLE_DESIGNER } from "../../actions/types";
 class DesignerPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = { profile: {}, proposals: {} };
+    this.state = {
+      profile: {},
+      proposals: {},
+      pageNumber: 0,
+      totalPages: 0,
+      proposalsInOnePage: 10
+    };
 
     this.redirectToOrder = this.redirectToOrder.bind(this);
   }
@@ -32,13 +38,19 @@ class DesignerPanel extends Component {
         profile: nextProps.profile.data
       });
       if (nextProps.profile.data.id) {
-        this.props.getUserProposals(nextProps.profile.data.id);
+        this.props.getUserProposals(
+          0,
+          this.state.proposalsInOnePage,
+          nextProps.profile.data.id
+        );
       }
     }
 
     if (nextProps.orderProposals.content !== this.state.proposals) {
       this.setState({
-        proposals: nextProps.orderProposals.content
+        proposals: nextProps.orderProposals.content,
+        pageNumber: nextProps.orderProposals.number,
+        totalPages: nextProps.orderProposals.totalPages
       });
     }
   }
@@ -67,6 +79,40 @@ class DesignerPanel extends Component {
     return arr;
   }
 
+  generatePagination(pageNumber, totalPages) {
+    let arr = [];
+
+    arr.push(<a onClick={() => this.changePage(0)}>&laquo;</a>);
+
+    for (let i = 0; i < totalPages; i++) {
+      if (i === pageNumber) {
+        arr.push(
+          <a key={i} className="active" onClick={() => this.changePage(i)}>
+            {i + 1}
+          </a>
+        );
+      } else {
+        arr.push(
+          <a key={i} onClick={() => this.changePage(i)}>
+            {i + 1}
+          </a>
+        );
+      }
+    }
+
+    arr.push(<a onClick={() => this.changePage(totalPages - 1)}>&raquo;</a>);
+
+    return arr;
+  }
+
+  changePage(pageNumber) {
+    this.props.getUserProposals(
+      pageNumber,
+      this.state.proposalsInOnePage,
+      this.state.profile.id
+    );
+  }
+
   render() {
     if (this.state.proposals === undefined) {
       return (
@@ -79,30 +125,38 @@ class DesignerPanel extends Component {
       return (
         <React.Fragment>
           <Navbar history={this.props.history} />
-          <div className="row">
-            <div className="col-md-10 offset-md-1">
-              <div className="panelStats">
-                <Stats
-                  role={ROLE_DESIGNER}
-                  actualProposals={this.state.profile.actualProposalsNumber}
-                  allProposals={0}
-                  actualJobs={0}
-                  allJobs={0}
-                />
+          <div className="container">
+            <div className="row">
+              <div className="col-md-10 offset-md-1">
+                <div className="panelStats">
+                  <Stats
+                    role={ROLE_DESIGNER}
+                    actualProposals={this.state.profile.actualProposalsNumber}
+                    allProposals={0}
+                    actualJobs={0}
+                    allJobs={0}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-md-4 offset-md-1">
-              <div className="myProposals">
-                <h2>Moje zgłoszenia:</h2>
-                {this.generateProposals(this.state.proposals)}
+            <div className="row">
+              <div className="col-md-4 offset-md-1">
+                <div className="myProposals">
+                  <h2>Moje zgłoszenia:</h2>
+                  <div className="pagination mt-5 ">
+                    {this.generatePagination(
+                      this.state.pageNumber,
+                      this.state.totalPages
+                    )}
+                  </div>
+                  {this.generateProposals(this.state.proposals)}
+                </div>
               </div>
-            </div>
 
-            <div className="col-md-4 offset-md-1">
-              <div className="myProposals"></div>
-            </div>
+              <div className="col-md-4 offset-md-1">
+                <div className="myProposals"></div>
+              </div>
+            </div>{" "}
           </div>
         </React.Fragment>
       );

@@ -22,4 +22,6 @@ public interface OrderService {
     Page<OrderDto> getPaginatedActiveOrdersByUser(Integer page, Integer size, Integer userId);
 
     Long getActiveOrdersNumberByUser(Long id);
+
+    OrderDto updateOrder(Long id, OrderDto orderDto);
 }
