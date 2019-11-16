@@ -68,4 +68,19 @@ public class OrderController {
 
 
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id,
+                                         Principal principal){
+
+        Long userId = userService.findUserByUsername(principal.getName()).getId();
+        Long orderOwner = orderService.getOrderById(id).getUser().getId();
+
+        if(userId.equals(orderOwner)) {
+            return new ResponseEntity<>(orderService.deleteOrder(id),HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
 }

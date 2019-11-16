@@ -12,7 +12,7 @@ export const addOrder = (work, history) => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: {}
+      payload: error.response.data
     });
   }
 };
@@ -28,7 +28,23 @@ export const updateOrder = (orderId, order, history) => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
+};
+
+export const deleteOrder = (orderId, history) => async dispatch => {
+  try {
+    await axios.delete(`/api/order/${orderId}`);
+    dispatch({
+      type: GET_ERRORS,
       payload: {}
+    });
+    history.push(`/index`);
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
     });
   }
 };
@@ -47,7 +63,7 @@ export const getOrders = (page, size) => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: {}
+      payload: error.response.data
     });
   }
 };
@@ -68,7 +84,7 @@ export const getUserOrders = (page, size, userId) => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: {}
+      payload: error.response.data
     });
   }
 };
@@ -87,7 +103,7 @@ export const getOrder = id => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: {}
+      payload: error.response.data
     });
   }
 };

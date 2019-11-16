@@ -10,6 +10,7 @@ import Profile from "./pages/Profile/Profile";
 import editProfile from "./pages/EditProfile/editProfile";
 import AddWork from "./pages/OrderActions/AddWork";
 import Order from "./pages/Order/Order";
+import OrderProposals from "./pages/OrderProposals/OrderProposals";
 import UserPanel from "./pages/UserPanel/UserPanel";
 import DesignerPanel from "./pages/DesignerPanel/DesignerPanel";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -47,6 +48,7 @@ function App() {
           <Route exact path="/addWork" component={AddWork} />
           <Route exact path="/order/:id" component={Order} />
           <Route exact path="/order/:id/edit" component={EditOrder} />
+          <Route exact path="/order/:id/proposals" component={OrderProposals} />
 
           <Route exact path="/userPanel" component={UserPanel} />
           <Route exact path="/designerPanel" component={DesignerPanel} />

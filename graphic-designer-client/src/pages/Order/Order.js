@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Order.css";
-import { getOrder } from "../../actions/orderActions";
+import { getOrder, deleteOrder } from "../../actions/orderActions";
 import {
   addProposal,
   cancelProposal,
@@ -17,7 +17,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faUsers,
-  faArrowAltCircleLeft
+  faArrowAltCircleLeft,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { ROLE_DESIGNER, ROLE_USER } from "../../actions/types";
 
@@ -50,6 +51,16 @@ const EditButton = ({ redirectToEditOrder }) => (
     onClick={() => redirectToEditOrder()}
   >
     Edytuj
+  </button>
+);
+
+const ProposalsButton = ({ redirectToOrderProposals }) => (
+  <button
+    type="button"
+    className="btn btn-success btn-lg mt-4 buttonWork"
+    onClick={() => redirectToOrderProposals()}
+  >
+    Wybierz grafika
   </button>
 );
 
@@ -117,6 +128,10 @@ class Order extends Component {
     this.props.history.push(`/order/${this.state.orderId}/edit`);
   };
 
+  redirectToOrderProposals = () => {
+    this.props.history.push(`/order/${this.state.orderId}/proposals`);
+  };
+
   AddButtonIfRoleIsDesigner = () => {
     if (this.state.ActUserRole === ROLE_DESIGNER) {
       if (this.state.userInProposals) {
@@ -132,6 +147,31 @@ class Order extends Component {
       if (this.state.orderCreator.id === this.props.profile.data.id) {
         return <EditButton redirectToEditOrder={this.redirectToEditOrder} />;
       }
+    }
+  };
+
+  AddProposalsButtonIfRoleIsUser = () => {
+    if (this.state.ActUserRole === ROLE_USER) {
+      if (this.state.orderCreator.id === this.props.profile.data.id) {
+        return (
+          <ProposalsButton
+            redirectToOrderProposals={this.redirectToOrderProposals}
+          />
+        );
+      }
+    }
+  };
+
+  addDeleteButtonIfOwner = () => {
+    if (this.state.orderCreator.id === this.props.profile.data.id) {
+      return (
+        <FontAwesomeIcon
+          icon={faTrashAlt}
+          onClick={() =>
+            this.props.deleteOrder(this.state.orderId, this.props.history)
+          }
+        />
+      );
     }
   };
 
@@ -214,7 +254,7 @@ class Order extends Component {
                     <span>{this.state.orderCreator.username}</span>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-5">
                   <div className="desc-title">
                     <h2>{this.state.order.subject}</h2>
                     <p>{this.state.order.text}</p>
@@ -225,6 +265,9 @@ class Order extends Component {
                     <p>{this.state.order.date}</p>
                   </div>
                 </div>
+                <div className="col-md-1 offset-md-2 deleteOrderIcon">
+                  {this.addDeleteButtonIfOwner()}
+                </div>
               </div>
               <div className="col-md-2 offset-md-10 proposalNumber">
                 <FontAwesomeIcon icon={faUsers} />
@@ -234,7 +277,14 @@ class Order extends Component {
             <div className="row">
               <div className="col-md-6 offset-md-3">
                 {this.AddButtonIfRoleIsDesigner()}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-3 offset-md-3">
                 {this.AddEditButtonIfRoleIsUser()}
+              </div>
+              <div className="col-md-3">
+                {this.AddProposalsButtonIfRoleIsUser()}
               </div>
             </div>
           </div>
@@ -250,7 +300,9 @@ Order.propTypes = {
   profile: PropTypes.object.isRequired,
   addProposal: PropTypes.func.isRequired,
   cancelProposal: PropTypes.func.isRequired,
-  getOrderProposals: PropTypes.func.isRequired
+  getOrderProposals: PropTypes.func.isRequired,
+  deleteOrder: PropTypes.func.isRequired,
+  getOrder: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -260,7 +312,10 @@ const mapStateToProps = state => ({
   orderProposals: state.orderProposals
 });
 
-export default connect(
-  mapStateToProps,
-  { getOrder, addProposal, cancelProposal, getOrderProposals }
-)(Order);
+export default connect(mapStateToProps, {
+  getOrder,
+  deleteOrder,
+  addProposal,
+  cancelProposal,
+  getOrderProposals
+})(Order);

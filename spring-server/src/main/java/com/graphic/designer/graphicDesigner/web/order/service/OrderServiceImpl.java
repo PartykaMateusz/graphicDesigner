@@ -75,6 +75,9 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id).orElseThrow(() -> new OrderException(ORDER_NOT_EXIST));
 
         order.setActive(false);
+
+        log.info("order by id "+order.getId()+" has been removed");
+
         return convertToOrderDto(orderRepository.save(order));
     }
 
@@ -120,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
         order.setText(orderDto.getText());
         order.setPrice(orderDto.getPrice());
 
-        log.info("order "+order.getId()+" updated");
+        log.info("order "+order.getId()+" has been updated");
 
         return convertToOrderDto(orderRepository.save(order));
     }
