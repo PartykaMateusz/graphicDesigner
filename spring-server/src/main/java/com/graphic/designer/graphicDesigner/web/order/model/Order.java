@@ -39,6 +39,9 @@ public class Order {
     @Column
     private boolean isActive;
 
+    @Column
+    private boolean isFinished;
+
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false, updatable=false)
     private User user;

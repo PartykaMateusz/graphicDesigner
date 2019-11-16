@@ -82,7 +82,7 @@ class Order extends Component {
 
   componentDidMount() {
     this.props.getOrder(this.state.orderId);
-    this.props.getOrderProposals(this.state.orderId);
+    this.props.getOrderProposals(this.state.orderId, 0, 1);
   }
 
   componentWillUpdate(nextProps) {

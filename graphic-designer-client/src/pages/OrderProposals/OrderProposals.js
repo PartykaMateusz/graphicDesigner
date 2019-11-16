@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getOrderProposals } from "../../actions/proposalService";
+import { finishOrder } from "../../actions/orderActions";
 import "./OrderProposals.css";
 import { Loading } from "../../components/Loading/Loading";
 
@@ -79,6 +80,11 @@ class OrderProposals extends Component {
   };
 
   selectDesigner = id => {
+    const order = {
+      isFinished: true
+    };
+
+    this.props.finishOrder(this.state.orderId, order, this.props.history);
     console.log("designer : " + id);
   };
 
@@ -189,6 +195,7 @@ class OrderProposals extends Component {
 OrderProposals.propTypes = {
   errors: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  finishOrder: PropTypes.func.isRequired,
   getOrderProposals: PropTypes.func.isRequired
 };
 
@@ -198,4 +205,6 @@ const mapStateToProps = state => ({
   orderProposals: state.orderProposals
 });
 
-export default connect(mapStateToProps, { getOrderProposals })(OrderProposals);
+export default connect(mapStateToProps, { getOrderProposals, finishOrder })(
+  OrderProposals
+);

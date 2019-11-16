@@ -28,5 +28,7 @@ public class OrderDto {
 
     private boolean isActive;
 
+    private Boolean isFinished;
+
     private List<CategoryDto> categoryList;
 }

@@ -58,6 +58,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(LocalDateTime.now());
         order.setUser(user);
         order.setActive(true);
+        order.setFinished(false);
 
         if(order.getPrice()==null){
             order.setPrice(0F);
@@ -119,9 +120,10 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto updateOrder(Long id, OrderDto orderDto) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new OrderException(ORDER_NOT_EXIST));
 
-        order.setSubject(orderDto.getSubject());
-        order.setText(orderDto.getText());
-        order.setPrice(orderDto.getPrice());
+        if(orderDto.getSubject() != null) order.setSubject(orderDto.getSubject());
+        if(orderDto.getText() != null) order.setText(orderDto.getText());
+        if(orderDto.getPrice() != null) order.setPrice(orderDto.getPrice());
+        if(orderDto.getIsFinished()) order.setFinished(orderDto.getIsFinished());
 
         log.info("order "+order.getId()+" has been updated");
 
