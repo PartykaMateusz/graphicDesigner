@@ -41,16 +41,13 @@ public class ProposalController {
     }
 
     @GetMapping("/order/{id}")
-    public ResponseEntity<?> getOrderProposals(@PathVariable Long id){
+    public ResponseEntity<?> getOrderProposals(@PathVariable Long id,
+                                               @RequestParam(name = "page",defaultValue = "0") Integer page,
+                                               @RequestParam(name = "size",defaultValue = "10") Integer size){
 
-        List<ProposalDto> proposals = proposalService.getProposalsByOrder(id);
+        Page<ProposalDto> proposals = proposalService.getProposalsByOrder(id,page,size);
 
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("size",proposals.size());
-        map.put("proposals",proposals);
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(proposals, HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}")

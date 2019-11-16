@@ -31,9 +31,15 @@ export const cancelProposal = (userId, orderId) => async dispatch => {
   }
 };
 
-export const getOrderProposals = id => async dispatch => {
+export const getOrderProposals = (
+  id,
+  pageNumber,
+  pageSize
+) => async dispatch => {
   try {
-    const res = await axios.get(`/api/proposal/order/${id}`);
+    const res = await axios.get(
+      `/api/proposal/order/${id}?page=${pageNumber}&size=${pageSize}`
+    );
     dispatch({
       type: GET_ERRORS,
       payload: {}

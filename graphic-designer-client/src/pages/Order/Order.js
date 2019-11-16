@@ -271,7 +271,7 @@ class Order extends Component {
               </div>
               <div className="col-md-2 offset-md-10 proposalNumber">
                 <FontAwesomeIcon icon={faUsers} />
-                <span>{this.state.proposals.size}</span>
+                <span>{this.state.proposals.totalElements}</span>
               </div>
             </div>
             <div className="row">

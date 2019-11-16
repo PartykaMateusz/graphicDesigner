@@ -89,10 +89,13 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     @Override
-    public List<ProposalDto> getProposalsByOrder(Long id) {
-        List<Proposal> proposals = proposalRepository.findActiveByOrder(id);
+    public Page<ProposalDto> getProposalsByOrder(Long id, Integer page, Integer size) {
 
-        return convertToProposalDtoList(proposals);
+        Pageable returnedPage = PageRequest.of(page,size, Sort.by("proposal_id").descending());
+
+        Page<Proposal> proposals = proposalRepository.findActiveByOrder(returnedPage, id);
+
+        return proposals.map(this::convertToProposalDto);
     }
 
     @Override
@@ -146,8 +149,8 @@ public class ProposalServiceImpl implements ProposalService {
     private Proposal convertToProposalEntity(ProposalDto proposalDto) {
         Proposal proposal = modelMapper.map(proposalDto, Proposal.class);
 
-        if(proposalDto.getId() != null){
-            proposalDto.setId(proposalDto.getId());
+        if(proposalDto.getProposal_id() != null){
+            proposalDto.setProposal_id(proposalDto.getProposal_id());
         }
 
         return proposal;

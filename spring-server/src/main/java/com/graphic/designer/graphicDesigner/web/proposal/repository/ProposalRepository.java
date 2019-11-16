@@ -13,7 +13,7 @@ import java.util.List;
 public interface ProposalRepository extends JpaRepository<Proposal, Long> {
 
     @Query(value = "select * from proposals where order_id = :id AND is_active = true", nativeQuery = true)
-    List<Proposal> findActiveByOrder(Long id);
+    Page<Proposal> findActiveByOrder(Pageable pageable, Long id);
 
     @Query(value = "select * from proposals where user_id = :userId AND is_active = true", nativeQuery = true)
     Page<Proposal> findActiveByUser(Pageable pageable, Long userId);
