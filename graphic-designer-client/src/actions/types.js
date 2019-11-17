@@ -9,6 +9,8 @@ export const GET_ORDERS = "GET_ORDERS";
 export const GET_ORDER = "GET_ORDER";
 export const GET_PROPOSALS = "GET_PROPOSALS";
 
+export const GET_JOBS = "GET_JOBS";
+
 export const ROLE_USER = "USER";
 export const ROLE_DESIGNER = "DESIGNER";
 export const ROLE_ADMIN = "ADMIN";

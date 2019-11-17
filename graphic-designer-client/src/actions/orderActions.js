@@ -40,7 +40,6 @@ export const finishOrder = (orderId, order, history) => async dispatch => {
       type: GET_ERRORS,
       payload: {}
     });
-    // history.push(`/index`);
   } catch (error) {
     dispatch({
       type: GET_ERRORS,

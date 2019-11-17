@@ -20,6 +20,10 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -81,9 +85,16 @@ public class JobServiceImpl implements JobService {
 
         JobDto jobDto = convertToDto(job);
 
-        jobDto.getFromOrder().setUser(null);
-
         return jobDto;
+    }
+
+    @Override
+    public Page<JobDto> findJobsByClient(Long id, Integer page, Integer size) {
+        Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
+
+        Page<Job> jobs = jobRepository.findNotFinished(returnedPage);
+
+        return jobs.map(this::convertToDto);
     }
 
     private JobDto convertToDto(Job job) {
@@ -96,6 +107,7 @@ public class JobServiceImpl implements JobService {
         }
         if(job.getFromOrder() != null) {
             jobDto.setFromOrder(orderService.convertToOrderDto(job.getFromOrder()));
+            jobDto.getFromOrder().setUser(null);
         }
 
         return jobDto;

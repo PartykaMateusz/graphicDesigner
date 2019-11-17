@@ -46,4 +46,12 @@ public class JobController {
     public ResponseEntity<?> getJobById(@PathVariable Long id){
         return new ResponseEntity<>(jobService.findById(id),HttpStatus.OK);
     }
+
+    @GetMapping("/client/{id}")
+    public ResponseEntity<?> getJobsByClient(@PathVariable Long id,
+                                             @RequestParam(defaultValue = "0") Integer page,
+                                             @RequestParam(defaultValue = "10") Integer size){
+
+        return new ResponseEntity<>(jobService.findJobsByClient(id,page,size),HttpStatus.OK);
+    }
 }
