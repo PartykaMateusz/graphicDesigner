@@ -180,7 +180,7 @@ class Order extends Component {
     let orderId = parseInt(this.state.orderId);
 
     this.props.cancelProposal(designerId, orderId).then(func => {
-      this.props.getOrderProposals(this.state.orderId);
+      this.props.getOrderProposals(this.state.orderId, 0, 1);
     });
   };
 
@@ -191,13 +191,13 @@ class Order extends Component {
     };
 
     this.props.addProposal(proposal).then(func => {
-      this.props.getOrderProposals(this.state.orderId);
+      this.props.getOrderProposals(this.state.orderId, 0, 1);
     });
   };
 
   ifUserIsInProposals() {
     let bool = false;
-    let proposals = { ...this.state.proposals.proposals };
+    let proposals = { ...this.state.proposals.content };
     let userId = this.props.profile.data.id;
     if (proposals !== null) {
       Object.keys(proposals).forEach(function(key) {

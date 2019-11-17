@@ -140,8 +140,8 @@ public class OrderServiceImpl implements OrderService {
         return orderDtos;
     }
 
-
-    private Order convertToOrderEntity(OrderDto orderDto) {
+    @Override
+    public Order convertToOrderEntity(OrderDto orderDto) {
         Order order = modelMapper.map(orderDto, Order.class);
 
         order.setCategoryList(null);

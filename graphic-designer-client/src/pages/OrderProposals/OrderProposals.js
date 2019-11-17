@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getOrderProposals } from "../../actions/proposalService";
 import { finishOrder } from "../../actions/orderActions";
+import { createJob } from "../../actions/jobActions";
 import "./OrderProposals.css";
 import { Loading } from "../../components/Loading/Loading";
 
@@ -79,13 +80,20 @@ class OrderProposals extends Component {
     this.props.history.push(`/profile/${id}`);
   };
 
-  selectDesigner = id => {
+  selectDesigner = designerId => {
     const order = {
       isFinished: true
     };
 
     this.props.finishOrder(this.state.orderId, order, this.props.history);
-    console.log("designer : " + id);
+
+    const job = {
+      clientId: this.props.profile.data.id,
+      designerId: designerId,
+      orderId: this.state.orderId
+    };
+
+    this.props.createJob(job, this.props.history);
   };
 
   generateProposals(proposals) {
@@ -196,7 +204,8 @@ OrderProposals.propTypes = {
   errors: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   finishOrder: PropTypes.func.isRequired,
-  getOrderProposals: PropTypes.func.isRequired
+  getOrderProposals: PropTypes.func.isRequired,
+  createJob: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -205,6 +214,8 @@ const mapStateToProps = state => ({
   orderProposals: state.orderProposals
 });
 
-export default connect(mapStateToProps, { getOrderProposals, finishOrder })(
-  OrderProposals
-);
+export default connect(mapStateToProps, {
+  getOrderProposals,
+  finishOrder,
+  createJob
+})(OrderProposals);

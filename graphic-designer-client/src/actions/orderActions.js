@@ -34,14 +34,13 @@ export const updateOrder = (orderId, order, history) => async dispatch => {
 };
 
 export const finishOrder = (orderId, order, history) => async dispatch => {
-  console.log("aa: " + JSON.stringify(order));
   try {
     await axios.patch(`/api/order/${orderId}`, order);
     dispatch({
       type: GET_ERRORS,
       payload: {}
     });
-    history.push(`/index`);
+    // history.push(`/index`);
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
