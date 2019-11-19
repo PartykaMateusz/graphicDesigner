@@ -18,4 +18,8 @@ public interface ProposalService {
     Page<ProposalDto> getProposalsByUser(Long userId, Integer page, Integer size);
 
     Long getActiveProposalsNumberByUser(Long id);
+
+    Long getAllProposalNumberByUser(Long id);
+
+    void finishOrderProposals(Long id);
 }

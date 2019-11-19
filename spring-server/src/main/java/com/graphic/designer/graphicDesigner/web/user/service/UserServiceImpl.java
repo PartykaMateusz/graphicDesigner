@@ -3,6 +3,7 @@ package com.graphic.designer.graphicDesigner.web.user.service;
 import com.graphic.designer.graphicDesigner.exceptions.role.RoleException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarNotFoundException;
 import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigException;
+import com.graphic.designer.graphicDesigner.web.job.service.JobService;
 import com.graphic.designer.graphicDesigner.web.order.service.OrderService;
 import com.graphic.designer.graphicDesigner.web.proposal.Service.ProposalService;
 import com.graphic.designer.graphicDesigner.web.proposal.repository.ProposalRepository;
@@ -62,6 +63,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ProposalService proposalService;
+
+    @Autowired
+    private JobService jobService;
 
     @Override
     public UserDto registerNewUserAccount(UserDto userDto)  {
@@ -176,6 +180,11 @@ public class UserServiceImpl implements UserService {
 
         profileRequest.setActualProposalsNumber(proposalService.getActiveProposalsNumberByUser(profileRequest.getId()));
         profileRequest.setActualOrderNumber(orderService.getActiveOrdersNumberByUser(profileRequest.getId()));
+
+        profileRequest.setAllProposalsNumber(proposalService.getAllProposalNumberByUser(profileRequest.getId()));
+        profileRequest.setAllOrderNumber(orderService.getAllOrderNumberByUser(profileRequest.getId()));
+
+        profileRequest.setActualJobsNumber(jobService.getJobsByClientOrDesignerNumber(profileRequest.getId()));
 
         return profileRequest;
     }

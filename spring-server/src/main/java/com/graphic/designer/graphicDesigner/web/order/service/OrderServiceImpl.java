@@ -6,6 +6,9 @@ import com.graphic.designer.graphicDesigner.web.Category.dto.CategoryDto;
 import com.graphic.designer.graphicDesigner.web.order.dto.OrderDto;
 import com.graphic.designer.graphicDesigner.web.order.model.Order;
 import com.graphic.designer.graphicDesigner.web.order.repository.OrderRepository;
+import com.graphic.designer.graphicDesigner.web.proposal.Service.ProposalService;
+import com.graphic.designer.graphicDesigner.web.proposal.model.Proposal;
+import com.graphic.designer.graphicDesigner.web.proposal.repository.ProposalRepository;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
@@ -46,6 +49,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProposalRepository proposalRepository;
+
+    @Autowired
+    private ProposalService proposalService;
 
     @Override
     public OrderDto addOrder(OrderDto orderDto) {
@@ -111,10 +120,7 @@ public class OrderServiceImpl implements OrderService {
         return orders.map(this::convertToOrderDto);
     }
 
-    @Override
-    public Long getActiveOrdersNumberByUser(Long id) {
-        return orderRepository.findActiveNumberByUser(id);
-    }
+
 
     @Override
     public OrderDto updateOrder(Long id, OrderDto orderDto) {
@@ -123,7 +129,11 @@ public class OrderServiceImpl implements OrderService {
         if(orderDto.getSubject() != null) order.setSubject(orderDto.getSubject());
         if(orderDto.getText() != null) order.setText(orderDto.getText());
         if(orderDto.getPrice() != null) order.setPrice(orderDto.getPrice());
-        if(orderDto.getIsFinished()) order.setFinished(orderDto.getIsFinished());
+
+        if(orderDto.getIsFinished() != null && orderDto.getIsFinished()){
+            order.setFinished(orderDto.getIsFinished());
+            proposalService.finishOrderProposals(order.getId());
+        }
 
         log.info("order "+order.getId()+" has been updated");
 
@@ -153,6 +163,16 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return order;
+    }
+
+    @Override
+    public Long getActiveOrdersNumberByUser(Long id) {
+        return orderRepository.findActiveNumberByUser(id);
+    }
+
+    @Override
+    public Long getAllOrderNumberByUser(Long id) {
+        return orderRepository.findAllNumberByUser(id);
     }
 
     @Override

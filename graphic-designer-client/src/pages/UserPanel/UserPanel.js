@@ -221,8 +221,8 @@ class UserPanel extends Component {
                   <Stats
                     role={ROLE_USER}
                     actualProposals={this.state.profile.actualOrderNumber}
-                    allProposals={0}
-                    actualJobs={0}
+                    allProposals={this.state.profile.allOrderNumber}
+                    actualJobs={this.state.profile.actualJobsNumber}
                     allJobs={0}
                   />
                 </div>

@@ -21,4 +21,7 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
     @Query(value = "select COUNT(id) from orders where user_id = :id and is_active = true AND is_finished != true", nativeQuery = true)
     Long findActiveNumberByUser(Long id);
+
+    @Query(value = "select COUNT(id) from orders where user_id = :id and is_active = true", nativeQuery = true)
+    Long findAllNumberByUser(Long id);
 }

@@ -92,9 +92,23 @@ public class JobServiceImpl implements JobService {
     public Page<JobDto> findJobsByClient(Long id, Integer page, Integer size) {
         Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
 
-        Page<Job> jobs = jobRepository.findNotFinished(returnedPage);
+        Page<Job> jobs = jobRepository.findByClientNotFinished(returnedPage,id);
 
         return jobs.map(this::convertToDto);
+    }
+
+    @Override
+    public Page<JobDto> findJobsByDesigner(Long id, Integer page, Integer size) {
+        Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
+
+        Page<Job> jobs = jobRepository.findByDesignerNotFinished(returnedPage,id);
+
+        return jobs.map(this::convertToDto);
+    }
+
+    @Override
+    public Long getJobsByClientOrDesignerNumber(Long id) {
+        return jobRepository.getJobsByUserNumber(id);
     }
 
     private JobDto convertToDto(Job job) {

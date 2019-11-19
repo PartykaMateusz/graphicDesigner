@@ -8,6 +8,9 @@ import PropTypes from "prop-types";
 
 import { getOrder } from "../../actions/orderActions";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+
 class EditOrder extends Component {
   constructor(props) {
     super(props);
@@ -25,13 +28,24 @@ class EditOrder extends Component {
       });
     }
   }
+  redirectBack = () => {
+    this.props.history.goBack();
+  };
 
   render() {
     return (
       <div className="indexContainer">
         <Navbar history={this.props.history} />
         <div className="row">
-          <div className="col-md-8 offset-md-2 profile border rounded">
+          <div className="col-md-1 offset-md-1">
+            <div className="arrowIcon">
+              <FontAwesomeIcon
+                icon={faArrowAltCircleLeft}
+                onClick={() => this.redirectBack()}
+              />
+            </div>
+          </div>
+          <div className="col-md-8 profile border rounded">
             <EditOrderForm
               history={this.props.history}
               order={this.state.order}
@@ -56,7 +70,4 @@ const mapStateToProps = state => ({
   order: state.order
 });
 
-export default connect(
-  mapStateToProps,
-  { getOrder }
-)(EditOrder);
+export default connect(mapStateToProps, { getOrder })(EditOrder);

@@ -68,6 +68,7 @@ public class ProposalServiceImpl implements ProposalService {
         proposal.setOrder(order);
         proposal.setTime(LocalDateTime.now());
         proposal.setIsActive(true);
+        proposal.setFinished(false);
 
         Proposal savedProposal = proposalRepository.save(proposal);
 
@@ -113,6 +114,24 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public Long getActiveProposalsNumberByUser(Long id) {
         return proposalRepository.findActiveNumberByUser(id);
+    }
+
+
+
+    @Override
+    public Long getAllProposalNumberByUser(Long id) {
+        return proposalRepository.findAllNumberByUser(id);
+    }
+
+    @Override
+    public void finishOrderProposals(Long id) {
+        List<Proposal> proposals = proposalRepository.findActiveByOrder(id);
+
+        for(Proposal proposal : proposals){
+            proposal.setFinished(true);
+        }
+
+        proposalRepository.saveAll(proposals);
     }
 
 

@@ -54,4 +54,12 @@ public class JobController {
 
         return new ResponseEntity<>(jobService.findJobsByClient(id,page,size),HttpStatus.OK);
     }
+
+    @GetMapping("/designer/{id}")
+    public ResponseEntity<?> getJobsByDesigner(@PathVariable Long id,
+                                             @RequestParam(defaultValue = "0") Integer page,
+                                             @RequestParam(defaultValue = "10") Integer size){
+
+        return new ResponseEntity<>(jobService.findJobsByDesigner(id,page,size),HttpStatus.OK);
+    }
 }

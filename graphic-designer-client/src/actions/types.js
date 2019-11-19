@@ -10,6 +10,7 @@ export const GET_ORDER = "GET_ORDER";
 export const GET_PROPOSALS = "GET_PROPOSALS";
 
 export const GET_JOBS = "GET_JOBS";
+export const GET_JOB = "GET_JOB";
 
 export const ROLE_USER = "USER";
 export const ROLE_DESIGNER = "DESIGNER";

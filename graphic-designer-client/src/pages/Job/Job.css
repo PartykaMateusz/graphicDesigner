@@ -1,0 +1,87 @@
+.job-user {
+  border: 1px solid orange;
+  border-radius: 3px;
+  box-shadow: 3px 3px 1px 2px #888888;
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.job-user .roleInfo {
+  font-size: 18px;
+  border-bottom: 1px solid rgb(231, 128, 128);
+}
+
+.job-user .username {
+  font-size: 40px;
+  text-align: left;
+  padding-left: 25px;
+}
+
+.job-user .showProfile {
+  text-align: left;
+}
+
+.job-user .avatar img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.job-user .userBorder {
+  border-top: 1px solid grey;
+}
+
+.job-user .userBorder:hover {
+  background: rgb(185, 184, 184);
+}
+
+.job-user .avatar {
+  width: 100px;
+  height: 100px;
+}
+
+.job-info {
+  border: 1px solid orange;
+  border-radius: 3px;
+  box-shadow: 3px 3px 1px 2px #888888;
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.job-info .jobSubject {
+  font-size: 25px;
+}
+
+.job-info .jobDate {
+  font-size: 18px;
+}
+
+.job-info .jobPrice {
+  font-size: 21px;
+}
+
+.job-info .jobDescription {
+  font-size: 20px;
+  border: 1px solid grey;
+  border-radius: 4px;
+  margin: 10px;
+  min-height: 70px;
+  word-wrap: break-word;
+  padding: 20px;
+}
+
+.job-info .jobCategories {
+  border-top: 1px solid rgb(231, 128, 128);
+  padding-top: 8px;
+}
+
+.job-info .jobCategoriesName {
+  font-size: 19px;
+  text-align: right;
+}
+
+.job-info .jobCategoriesList {
+  font-size: 16px;
+  text-align: left;
+}

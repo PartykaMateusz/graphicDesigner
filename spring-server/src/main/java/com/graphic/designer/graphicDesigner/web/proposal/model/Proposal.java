@@ -32,6 +32,9 @@ public class Proposal {
     @Column
     private Boolean isActive;
 
+    @Column
+    private boolean isFinished;
+
     @Override
     public String toString() {
         return "Proposal{" +

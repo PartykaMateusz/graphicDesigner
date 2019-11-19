@@ -26,4 +26,6 @@ public interface OrderService {
     OrderDto updateOrder(Long id, OrderDto orderDto);
 
     Order convertToOrderEntity(OrderDto orderDto);
+
+    Long getAllOrderNumberByUser(Long id);
 }

@@ -31,4 +31,10 @@ public class ProfileRequest {
     private Long actualProposalsNumber;
 
     private Long actualOrderNumber;
+
+    private Long allProposalsNumber;
+
+    private Long allOrderNumber;
+
+    private Long actualJobsNumber;
 }

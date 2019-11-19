@@ -13,4 +13,8 @@ public interface JobService {
     JobDto findById(Long id);
 
     Page<JobDto> findJobsByClient(Long id, Integer page, Integer size);
+
+    Page<JobDto> findJobsByDesigner(Long id, Integer page, Integer size);
+
+    Long getJobsByClientOrDesignerNumber(Long id);
 }

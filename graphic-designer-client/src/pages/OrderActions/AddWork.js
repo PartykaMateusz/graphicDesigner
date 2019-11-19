@@ -6,18 +6,33 @@ import "../Index/index.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+
 class AddWork extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  redirectBack = () => {
+    this.props.history.goBack();
+  };
+
   render() {
     return (
       <div className="indexContainer">
         <Navbar history={this.props.history} />
         <div className="row">
-          <div className="col-md-8 offset-md-2 profile border rounded">
+          <div className="col-md-1 offset-md-1">
+            <div className="arrowIcon">
+              <FontAwesomeIcon
+                icon={faArrowAltCircleLeft}
+                onClick={() => this.redirectBack()}
+              />
+            </div>
+          </div>
+          <div className="col-md-8 profile border rounded">
             <AddWorkForm history={this.props.history} />
           </div>
         </div>
@@ -36,7 +51,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(AddWork);
+export default connect(mapStateToProps, {})(AddWork);
