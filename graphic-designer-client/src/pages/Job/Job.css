@@ -85,3 +85,16 @@
   font-size: 16px;
   text-align: left;
 }
+
+.displayFinish {
+  text-align: center;
+}
+
+.notDisplayFinish {
+  display: none;
+}
+
+.ratingComment {
+  margin: 30px;
+  width: 60%;
+}

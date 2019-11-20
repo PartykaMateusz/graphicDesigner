@@ -2,6 +2,7 @@ package com.graphic.designer.graphicDesigner.web.job.controller;
 
 import com.graphic.designer.graphicDesigner.web.job.dto.CreateJobRequest;
 import com.graphic.designer.graphicDesigner.web.job.dto.JobDto;
+import com.graphic.designer.graphicDesigner.web.job.dto.JobUpdateRequest;
 import com.graphic.designer.graphicDesigner.web.job.service.JobService;
 import com.graphic.designer.graphicDesigner.web.order.service.OrderService;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
@@ -61,5 +62,21 @@ public class JobController {
                                              @RequestParam(defaultValue = "10") Integer size){
 
         return new ResponseEntity<>(jobService.findJobsByDesigner(id,page,size),HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateJob(@PathVariable Long id,
+                                       @RequestBody JobUpdateRequest jobRequest,
+                                       Principal principal){
+
+        Long userId = userService.findUserByUsername(principal.getName()).getId();
+        Long jobOwner = jobService.findById(id).getClient().getId();
+
+        if(userId.equals(jobOwner)) {
+            return new ResponseEntity<>(jobService.updateJob(id, jobRequest), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 }

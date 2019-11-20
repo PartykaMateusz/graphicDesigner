@@ -1,6 +1,7 @@
 package com.graphic.designer.graphicDesigner.web.job.model;
 
 import com.graphic.designer.graphicDesigner.web.order.model.Order;
+import com.graphic.designer.graphicDesigner.web.rate.model.Rate;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,5 +36,9 @@ public class Job {
     private LocalDateTime dateTime;
 
     @Column
-    private boolean isFinished;
+    private Boolean isFinished;
+
+    @OneToOne
+    @JoinColumn(name = "rate_id")
+    private Rate rate;
 }

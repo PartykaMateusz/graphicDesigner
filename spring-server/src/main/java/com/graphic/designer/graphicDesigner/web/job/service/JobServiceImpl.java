@@ -5,6 +5,7 @@ import com.graphic.designer.graphicDesigner.exceptions.order.OrderException;
 import com.graphic.designer.graphicDesigner.web.Category.dto.CategoryDto;
 import com.graphic.designer.graphicDesigner.web.job.dto.CreateJobRequest;
 import com.graphic.designer.graphicDesigner.web.job.dto.JobDto;
+import com.graphic.designer.graphicDesigner.web.job.dto.JobUpdateRequest;
 import com.graphic.designer.graphicDesigner.web.job.model.Job;
 import com.graphic.designer.graphicDesigner.web.job.repository.JobRepository;
 import com.graphic.designer.graphicDesigner.web.order.dto.OrderDto;
@@ -71,7 +72,7 @@ public class JobServiceImpl implements JobService {
         job.setDesigner(designer);
         job.setFromOrder(order);
         job.setDateTime(LocalDateTime.now());
-        job.setFinished(false);
+        job.setIsFinished(false);
 
         log.info("job with id "+job.getId()+" was created by user "+client.getId());
 
@@ -109,6 +110,21 @@ public class JobServiceImpl implements JobService {
     @Override
     public Long getJobsByClientOrDesignerNumber(Long id) {
         return jobRepository.getJobsByUserNumber(id);
+    }
+
+    @Override
+    public JobDto updateJob(Long id, JobUpdateRequest jobRequest) {
+        Job job = jobRepository.findById(id).orElseThrow(() -> new JobException(JOB_NOT_EXIST));
+
+        if(jobRequest.getIsFinished()){
+            job.setIsFinished(jobRequest.getIsFinished());
+        }
+
+        Job savedJob = jobRepository.save(job);
+
+        log.info("job with id "+savedJob.getId()+" has been updated");
+
+        return convertToDto(savedJob);
     }
 
     private JobDto convertToDto(Job job) {

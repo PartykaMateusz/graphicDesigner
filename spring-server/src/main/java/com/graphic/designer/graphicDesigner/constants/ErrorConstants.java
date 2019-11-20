@@ -10,7 +10,6 @@ public class ErrorConstants {
     public static final String USER_NOT_EXIST = "Użytkownik nie isnieje";
     public static final String AVATAR_NOT_EXIST = "Avatar nie isnieje";
 
-
     public static final String ORDER_NOT_EXIST = "Zlecenie nie isnieje";
 
     public static final String CATEGORY_NOT_EXIST = "Kategoria nie isnieje";
@@ -20,4 +19,6 @@ public class ErrorConstants {
     public static final String PROPOSAL_ALREADY_EXIST = "Użytkownik jest już zgłoszony do tego zlecenia";
 
     public static final String JOB_NOT_EXIST = "Praca o takim id nie isnieje";
+
+    public static final String RATE_ALREADY_EXIST = "Praca już oceniona";
 }

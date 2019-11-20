@@ -1,6 +1,7 @@
 package com.graphic.designer.graphicDesigner.web.user.model;
 
 
+import com.graphic.designer.graphicDesigner.web.rate.model.Rate;
 import com.graphic.designer.graphicDesigner.web.role.model.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,6 +45,9 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Role> roles;
+
+    @OneToMany(mappedBy="designer")
+    private List<Rate> rates;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "avatar_id", referencedColumnName = "avatar_id")
