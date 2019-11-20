@@ -20,4 +20,6 @@ public interface JobService {
     Long getJobsByClientOrDesignerNumber(Long id);
 
     JobDto updateJob(Long id, JobUpdateRequest jobRequest);
+
+    Long getFinishedJobsByClientOrDesignerNumber(Long id);
 }

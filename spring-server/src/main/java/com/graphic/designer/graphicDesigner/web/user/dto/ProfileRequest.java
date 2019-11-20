@@ -37,4 +37,6 @@ public class ProfileRequest {
     private Long allOrderNumber;
 
     private Long actualJobsNumber;
+
+    private Long finishedJobsNumber;
 }

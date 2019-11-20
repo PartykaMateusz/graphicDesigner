@@ -221,7 +221,7 @@ class DesignerPanel extends Component {
                     actualProposals={this.state.profile.actualProposalsNumber}
                     allProposals={this.state.profile.allProposalsNumber}
                     actualJobs={this.state.profile.actualJobsNumber}
-                    allJobs={0}
+                    allJobs={this.state.profile.finishedJobsNumber}
                   />
                 </div>
               </div>

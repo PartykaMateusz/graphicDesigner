@@ -18,4 +18,7 @@ public interface JobRepository extends JpaRepository<Job,Long> {
 
     @Query(value = "select COUNT(id) from job where (client_id = :id OR designer_id = :id) AND is_finished != true", nativeQuery = true)
     Long getJobsByUserNumber(Long id);
+
+    @Query(value = "select COUNT(id) from job where (client_id = :id OR designer_id = :id) AND is_finished = true", nativeQuery = true)
+    Long getFinishedJobsByUserNumber(Long id);
 }

@@ -153,8 +153,6 @@ class Job extends Component {
       jobId: this.state.jobId
     };
     this.props.createRate(rate, this.props.history);
-
-    console.log("rate: " + JSON.stringify(rate));
   }
 
   hideShowFinishJob = () => {

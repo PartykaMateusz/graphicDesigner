@@ -113,6 +113,11 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public Long getFinishedJobsByClientOrDesignerNumber(Long id) {
+        return jobRepository.getFinishedJobsByUserNumber(id);
+    }
+
+    @Override
     public JobDto updateJob(Long id, JobUpdateRequest jobRequest) {
         Job job = jobRepository.findById(id).orElseThrow(() -> new JobException(JOB_NOT_EXIST));
 

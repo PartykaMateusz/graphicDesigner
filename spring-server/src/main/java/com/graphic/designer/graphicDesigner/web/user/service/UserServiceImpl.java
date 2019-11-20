@@ -185,6 +185,7 @@ public class UserServiceImpl implements UserService {
         profileRequest.setAllOrderNumber(orderService.getAllOrderNumberByUser(profileRequest.getId()));
 
         profileRequest.setActualJobsNumber(jobService.getJobsByClientOrDesignerNumber(profileRequest.getId()));
+        profileRequest.setFinishedJobsNumber(jobService.getFinishedJobsByClientOrDesignerNumber(profileRequest.getId()));
 
         return profileRequest;
     }

@@ -223,7 +223,7 @@ class UserPanel extends Component {
                     actualProposals={this.state.profile.actualOrderNumber}
                     allProposals={this.state.profile.allOrderNumber}
                     actualJobs={this.state.profile.actualJobsNumber}
-                    allJobs={0}
+                    allJobs={this.state.profile.finishedJobsNumber}
                   />
                 </div>
               </div>
