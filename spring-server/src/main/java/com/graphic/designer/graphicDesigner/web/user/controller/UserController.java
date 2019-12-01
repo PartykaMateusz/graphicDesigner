@@ -40,8 +40,8 @@ public class UserController {
                                         Principal principal){
 
 
-        UserDto tempUserDto = userService.findUserById(userId);
-        if(tempUserDto.getUsername().equals(principal.getName())){
+        ProfileRequest tempProfileRequest = userService.findUserById(userId);
+        if(tempProfileRequest.getUsername().equals(principal.getName())){
             return new ResponseEntity<>(userService.updateUser(userId, profileRequest),HttpStatus.OK);
         }
         else return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);

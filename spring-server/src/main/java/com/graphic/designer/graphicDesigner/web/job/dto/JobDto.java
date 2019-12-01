@@ -25,7 +25,7 @@ public class JobDto {
 
     private Boolean isFinished;
 
-    private RateDto rate;
+    //private RateDto rate;
 
     @Override
     public String toString() {
@@ -36,7 +36,7 @@ public class JobDto {
                 ", fromOrder=" + fromOrder +
                 ", dateTime=" + dateTime +
                 ", isFinished=" + isFinished +
-                ", rateId=" + rate.getId() +
+                //", rateId=" + rate.getId() +
                 '}';
     }
 }

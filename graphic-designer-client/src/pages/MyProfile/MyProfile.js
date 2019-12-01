@@ -7,6 +7,13 @@ import "./MyProfile.css";
 import { Loading } from "../../components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import FavouriteCategories from "../../components/FavouriteCategories/FavouriteCategories";
+
+import { ROLE_USER, ROLE_DESIGNER } from "../../actions/types";
+import { UserStats, DesignerStats } from "../../components/Stats/UserStats";
+
+import StarRatings from "../../../node_modules/react-star-ratings";
+import RateList from "../../components/Tables/RateList";
 
 class Profile extends Component {
   constructor(props) {
@@ -49,6 +56,27 @@ class Profile extends Component {
     this.props.history.goBack();
   };
 
+  generateStats = () => {
+    if (this.state.profile.role === ROLE_USER) {
+      return <UserStats profile={this.state.profile} />;
+    } else if (this.state.profile.role === ROLE_DESIGNER) {
+      return <DesignerStats profile={this.state.profile} />;
+    }
+  };
+
+  generateRating = rate => {
+    if (this.state.profile.role === ROLE_DESIGNER) {
+      return (
+        <StarRatings
+          rating={rate}
+          starDimension="30px"
+          numberOfStars={10}
+          starRatedColor="orange"
+        />
+      );
+    }
+  };
+
   render() {
     if (
       this.state.profile === undefined ||
@@ -87,7 +115,7 @@ class Profile extends Component {
                       {this.state.profile.lastName}
                     </h6>
                     <p className="proile-rating">
-                      RANKINGS : <span>8/10</span>
+                      {this.generateRating(this.state.profile.averageRating)}
                     </p>
                     <ul className="nav nav-tabs" id="myTab" role="tablist">
                       <li className="nav-item">
@@ -131,25 +159,7 @@ class Profile extends Component {
 
               <div className="row">
                 <div className="col-md-4">
-                  <div className="profile-work">
-                    <p>WORK LINK</p>
-                    <a href="">Website Link</a>
-                    <br />
-                    <a href="">Bootsnipp Profile</a>
-                    <br />
-                    <a href="">Bootply Profile</a>
-                    <p>SKILLS</p>
-                    <a href="">Web Designer</a>
-                    <br />
-                    <a href="">Web Developer</a>
-                    <br />
-                    <a href="">WordPress</a>
-                    <br />
-                    <a href="">WooCommerce</a>
-                    <br />
-                    <a href="">PHP, .Net</a>
-                    <br />
-                  </div>
+                  <FavouriteCategories userId={this.state.profile.id} />
                 </div>
                 <div className="col-md-8">
                   <div className="tab-content profile-tab" id="myTabContent">
@@ -215,20 +225,17 @@ class Profile extends Component {
                         </div>
                       </div>
 
-                      <div className="row">
-                        <div className="col-md-6">
-                          <label>Liczba projektów</label>
-                        </div>
-                        <div className="col-md-6">
-                          <p>0</p>
-                        </div>
-                      </div>
+                      {this.generateStats(7)}
                     </div>
                   </div>
                 </div>
               </div>
             </form>
           </div>
+          <RateList
+            userId={this.state.profile.id}
+            history={this.props.history}
+          />
         </div>
       );
     }
@@ -248,7 +255,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  { getUserAvatar }
-)(Profile);
+export default connect(mapStateToProps, { getUserAvatar })(Profile);

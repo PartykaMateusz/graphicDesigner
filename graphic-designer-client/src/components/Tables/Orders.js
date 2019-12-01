@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Orders.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getOrders } from "../../actions/orderActions";
+import { getOrders, searchOrders } from "../../actions/orderActions";
 import { Loading } from "../../components/Loading/Loading";
 import Order from "../Order/Order";
 
@@ -20,6 +20,8 @@ class Orders extends Component {
     this.generateOrders = this.generateOrders.bind(this);
     this.changePage = this.changePage.bind(this);
     this.redirectToOrder = this.redirectToOrder.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmitSearch = this.onSubmitSearch.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +33,8 @@ class Orders extends Component {
       this.setState({
         orders: nextProps.orders.content,
         pageNumber: nextProps.orders.number,
-        totalPages: nextProps.orders.totalPages
+        totalPages: nextProps.orders.totalPages,
+        search: ""
       });
     }
   }
@@ -51,6 +54,7 @@ class Orders extends Component {
           username={orders[i].user.username}
           price={orders[i].price}
           categories={orders[i].categoryList}
+          date={orders[i].date}
           redirectToOrder={this.redirectToOrder}
         />
       );
@@ -89,14 +93,54 @@ class Orders extends Component {
     this.props.getOrders(pageNumber, this.state.ordersInOnePage);
   }
 
+  onSubmitSearch(e) {
+    e.preventDefault();
+    this.props.searchOrders(
+      this.state.pageNumber,
+      this.state.ordersInOnePage,
+      this.state.search
+    );
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
     return (
       <div className="orders">
-        <div className="pagination mt-5 ">
-          {this.generatePagination(
-            this.state.pageNumber,
-            this.state.totalPages
-          )}
+        <div className="container mt-5">
+          <div className="row">
+            <div className="col-md-8">
+              <div className="pagination  ">
+                {this.generatePagination(
+                  this.state.pageNumber,
+                  this.state.totalPages
+                )}
+              </div>
+            </div>
+            <div className="col-md-4 ">
+              <form
+                className="form-inline mr-0 text-right"
+                onSubmit={this.onSubmitSearch}
+              >
+                <div className="md-form">
+                  <input
+                    className="form-control searchOrderInput"
+                    type="text"
+                    placeholder="Szukaj"
+                    aria-label="Search"
+                    name="search"
+                    value={this.state.search}
+                    onChange={this.onChange}
+                  />
+                </div>
+                <button className="btn btn-outline-white btn-md" type="submit">
+                  Search
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
         {this.generateOrders(this.state.orders)}
       </div>
@@ -107,7 +151,8 @@ class Orders extends Component {
 Orders.propTypes = {
   errors: PropTypes.object.isRequired,
   security: PropTypes.object.isRequired,
-  getOrders: PropTypes.func.isRequired
+  getOrders: PropTypes.func.isRequired,
+  searchOrders: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -116,7 +161,4 @@ const mapStateToProps = state => ({
   orders: state.orders
 });
 
-export default connect(
-  mapStateToProps,
-  { getOrders }
-)(Orders);
+export default connect(mapStateToProps, { getOrders, searchOrders })(Orders);

@@ -5,10 +5,7 @@ import com.graphic.designer.graphicDesigner.web.rate.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,8 +17,15 @@ public class RateController {
     private RateService rateService;
 
     @PostMapping("/")
-    public ResponseEntity<?> createRate (@RequestBody  CreateRateRequest rateRequest){
+    public ResponseEntity<?> createRate (@RequestBody CreateRateRequest rateRequest){
         return new ResponseEntity<>(rateService.createRate(rateRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getRateByUserId(@PathVariable Long userId,
+                                             @RequestParam(defaultValue = "10") Integer size,
+                                             @RequestParam(defaultValue = "0") Integer page){
+        return new ResponseEntity<>(rateService.getRatingByUser(userId,size,page),HttpStatus.OK);
     }
 
 }

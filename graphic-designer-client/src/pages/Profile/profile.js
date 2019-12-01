@@ -10,6 +10,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
 import { getUserById } from "../../actions/profileActions";
+import { ROLE_USER, ROLE_DESIGNER } from "../../actions/types";
+import { UserStats, DesignerStats } from "../../components/Stats/UserStats";
+import StarRatings from "../../../node_modules/react-star-ratings";
+import RateList from "../../components/Tables/RateList";
 
 class Profile extends Component {
   constructor(props) {
@@ -39,8 +43,38 @@ class Profile extends Component {
     }
   }
 
+  componentWillUpdate(newProps) {
+    if (this.state.userId !== newProps.match.params.id) {
+      this.setState({
+        userId: newProps.match.params.id
+      });
+      this.props.getUserById(newProps.match.params.id);
+    }
+  }
+
   redirectBack = () => {
     this.props.history.goBack();
+  };
+
+  generateStats = () => {
+    if (this.state.profile.role === ROLE_USER) {
+      return <UserStats profile={this.state.profile} />;
+    } else if (this.state.profile.role === ROLE_DESIGNER) {
+      return <DesignerStats profile={this.state.profile} />;
+    }
+  };
+
+  generateRating = rating => {
+    if (this.state.profile.role === ROLE_DESIGNER) {
+      return (
+        <StarRatings
+          rating={rating}
+          starDimension="30px"
+          numberOfStars={10}
+          starRatedColor="orange "
+        />
+      );
+    }
   };
 
   render() {
@@ -81,7 +115,7 @@ class Profile extends Component {
                       {this.state.profile.lastName}
                     </h6>
                     <p className="proile-rating">
-                      RANKINGS : <span>8/10</span>
+                      {this.generateRating(this.state.profile.averageRating)}
                     </p>
                     <ul className="nav nav-tabs" id="myTab" role="tablist">
                       <li className="nav-item">
@@ -201,20 +235,18 @@ class Profile extends Component {
                         </div>
                       </div>
 
-                      <div className="row">
-                        <div className="col-md-6">
-                          <label>Liczba projektów</label>
-                        </div>
-                        <div className="col-md-6">
-                          <p>0</p>
-                        </div>
-                      </div>
+                      {this.generateStats()}
                     </div>
                   </div>
                 </div>
               </div>
             </form>
           </div>
+
+          <RateList
+            userId={this.state.profile.id}
+            history={this.props.history}
+          />
         </div>
       );
     }
@@ -233,7 +265,4 @@ const mapStateToProps = state => ({
   profileInfo: state.profileInfo
 });
 
-export default connect(
-  mapStateToProps,
-  { getUserById }
-)(Profile);
+export default connect(mapStateToProps, { getUserById })(Profile);

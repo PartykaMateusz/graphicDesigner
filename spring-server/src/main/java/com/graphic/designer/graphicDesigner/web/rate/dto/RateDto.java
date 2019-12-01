@@ -18,6 +18,5 @@ public class RateDto {
 
     private UserDto designer;
 
-    //TODO stackOverflowError
-//    private JobDto job;
+    private JobDto job;
 }

@@ -10,6 +10,7 @@ import { Stats } from "../../components/Stats/Stats";
 
 import "./DesignerPanel.css";
 import { ROLE_DESIGNER } from "../../actions/types";
+import RateList from "../../components/Tables/RateList";
 
 class DesignerPanel extends Component {
   constructor(props) {

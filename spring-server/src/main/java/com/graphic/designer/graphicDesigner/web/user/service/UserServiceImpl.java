@@ -6,7 +6,7 @@ import com.graphic.designer.graphicDesigner.exceptions.user.AvatarTooBigExceptio
 import com.graphic.designer.graphicDesigner.web.job.service.JobService;
 import com.graphic.designer.graphicDesigner.web.order.service.OrderService;
 import com.graphic.designer.graphicDesigner.web.proposal.Service.ProposalService;
-import com.graphic.designer.graphicDesigner.web.proposal.repository.ProposalRepository;
+import com.graphic.designer.graphicDesigner.web.rate.service.RateService;
 import com.graphic.designer.graphicDesigner.web.role.model.Role;
 import com.graphic.designer.graphicDesigner.web.role.repository.RoleRepository;
 import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
@@ -66,6 +66,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private JobService jobService;
+
+    @Autowired
+    private RateService rateService;
 
     @Override
     public UserDto registerNewUserAccount(UserDto userDto)  {
@@ -178,14 +181,7 @@ public class UserServiceImpl implements UserService {
         ProfileRequest profileRequest =  convertToProfileRequest(userRepository.findByUsername(username)
                 .orElseThrow((() -> new UsernameNotFoundException(USER_NOT_EXIST))));
 
-        profileRequest.setActualProposalsNumber(proposalService.getActiveProposalsNumberByUser(profileRequest.getId()));
-        profileRequest.setActualOrderNumber(orderService.getActiveOrdersNumberByUser(profileRequest.getId()));
-
-        profileRequest.setAllProposalsNumber(proposalService.getAllProposalNumberByUser(profileRequest.getId()));
-        profileRequest.setAllOrderNumber(orderService.getAllOrderNumberByUser(profileRequest.getId()));
-
-        profileRequest.setActualJobsNumber(jobService.getJobsByClientOrDesignerNumber(profileRequest.getId()));
-        profileRequest.setFinishedJobsNumber(jobService.getFinishedJobsByClientOrDesignerNumber(profileRequest.getId()));
+        this.buildProfileRequestStats(profileRequest,profileRequest.getId());
 
         return profileRequest;
     }
@@ -209,9 +205,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUserById(Long userId) {
-        return convertToUserDto(userRepository.findById(userId)
+    public ProfileRequest findUserById(Long userId) {
+        ProfileRequest profileRequest =  convertToProfileRequest(userRepository.findById(userId)
                 .orElseThrow((() -> new UsernameNotFoundException(USER_NOT_EXIST))));
+
+        this.buildProfileRequestStats(profileRequest,profileRequest.getId());
+
+        return profileRequest;
+    }
+
+    //TODO work in not reference
+    private ProfileRequest buildProfileRequestStats(ProfileRequest profileRequest, Long userId){
+        profileRequest.setActualProposalsNumber(proposalService.getActiveProposalsNumberByUser(userId));
+        profileRequest.setActualOrderNumber(orderService.getActiveOrdersNumberByUser(userId));
+
+        profileRequest.setAllProposalsNumber(proposalService.getAllProposalNumberByUser(userId));
+        profileRequest.setAllOrderNumber(orderService.getAllOrderNumberByUser(profileRequest.getId()));
+
+        profileRequest.setActualJobsNumber(jobService.getJobsByClientOrDesignerNumber(userId));
+        profileRequest.setFinishedJobsNumber(jobService.getFinishedJobsByClientOrDesignerNumber(userId));
+
+        profileRequest.setAverageRating(rateService.getAverageRatingByUser(userId));
+
+        if(profileRequest.getAverageRating() == null){
+            profileRequest.setAverageRating(0F);
+        }
+
+        return profileRequest;
     }
 
     @Override

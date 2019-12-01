@@ -24,7 +24,7 @@ public interface UserService {
 
     ProfileRequest findUserByUsername(String username);
 
-    UserDto findUserById(Long userId);
+    ProfileRequest findUserById(Long userId);
 
     UserDto updateUser(Long userId, UpdateProfileRequest profileRequest);
 

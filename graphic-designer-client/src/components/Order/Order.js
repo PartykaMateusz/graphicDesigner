@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Loading } from "../Loading/Loading";
+import Moment from "react-moment";
+import "moment/locale/pl";
 
 const Categories = ({ list }) => {
   if (list) {
@@ -20,7 +22,8 @@ export default class Order extends Component {
       subject: this.props.subject,
       username: this.props.username,
       price: this.props.price,
-      categories: this.props.categories
+      categories: this.props.categories,
+      date: this.props.date
     };
   }
 
@@ -39,6 +42,11 @@ export default class Order extends Component {
           <div className="col-md-10 orderCategory ">
             <span className="font-weight-bold">Kategorie:</span>{" "}
             <Categories list={this.state.categories} />
+          </div>
+          <div className="col-md-2 orderDate">
+            <Moment locale="pl" fromNow>
+              {this.state.date}
+            </Moment>
           </div>
         </div>
       );

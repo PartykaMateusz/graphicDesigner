@@ -14,4 +14,6 @@ public interface CategoryService {
     List<CategoryDto> getAllActive();
 
     Category findById(Long id);
+
+    List<CategoryDto> getFavouriteByUser(Long id, Long limit);
 }

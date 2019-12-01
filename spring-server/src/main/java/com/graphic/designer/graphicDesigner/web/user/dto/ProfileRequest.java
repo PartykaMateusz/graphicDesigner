@@ -39,4 +39,6 @@ public class ProfileRequest {
     private Long actualJobsNumber;
 
     private Long finishedJobsNumber;
+
+    private Float averageRating;
 }

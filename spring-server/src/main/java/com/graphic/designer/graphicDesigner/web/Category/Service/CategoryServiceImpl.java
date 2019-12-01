@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import static com.graphic.designer.graphicDesigner.constants.ErrorConstants.CATEGORY_NOT_EXIST;
@@ -34,7 +35,6 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> getAllActive() {
         List<Category> categories = categoryRepository.findAllActive();
 
-//        return categories.stream().filter(Category::isActive).map(this::convertToDto).collect(Collectors.toList());
         return categories.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
@@ -42,6 +42,13 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findById(Long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryException(CATEGORY_NOT_EXIST));
+    }
+
+    @Override
+    public List<CategoryDto> getFavouriteByUser(Long id, Long limit) {
+        List<Category> category = categoryRepository.findFavouriteByUser(id,limit);
+
+        return category.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
 

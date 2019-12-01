@@ -16,6 +16,9 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     @Query(value = "select * from orders where is_active = true AND is_finished !=  true", nativeQuery = true)
     Page<Order> findActive(Pageable pageable);
 
+    @Query(value = "select * from orders where is_active = true AND is_finished !=  true AND upper(subject) like %:search%", nativeQuery = true)
+    Page<Order> searchActive(Pageable pageable, String search);
+
     @Query(value = "select * from orders where is_active = true and user_id = :userId AND is_finished !=  true", nativeQuery = true)
     Page<Order> findActiveByUser(Pageable returnedPage, Integer userId);
 

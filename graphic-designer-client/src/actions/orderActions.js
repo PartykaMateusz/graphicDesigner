@@ -83,6 +83,27 @@ export const getOrders = (page, size) => async dispatch => {
   }
 };
 
+export const searchOrders = (page, size, search) => async dispatch => {
+  try {
+    const res = await axios.get(
+      `/api/order/?page=${page}&size=${size}&search=${search}`
+    );
+    dispatch({
+      type: GET_ERRORS,
+      payload: {}
+    });
+    dispatch({
+      type: GET_ORDERS,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
+};
+
 export const getUserOrders = (page, size, userId) => async dispatch => {
   try {
     const res = await axios.get(

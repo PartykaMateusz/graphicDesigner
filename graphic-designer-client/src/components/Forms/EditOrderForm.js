@@ -50,7 +50,7 @@ class EditOrderForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.categories) {
-      let categories = nextProps.categories;
+      let categories = nextProps.categories.categories;
       let categoriesList = [];
 
       //convert object to list, and add isSelected property
@@ -197,7 +197,6 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  { getAllCategories, updateOrder }
-)(EditOrderForm);
+export default connect(mapStateToProps, { getAllCategories, updateOrder })(
+  EditOrderForm
+);

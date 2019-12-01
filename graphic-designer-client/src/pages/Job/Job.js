@@ -11,7 +11,7 @@ import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import StarRatings from "../../../node_modules/react-star-ratings";
 
 import "./Job.css";
-import { finished } from "stream";
+import { ROLE_DESIGNER, ROLE_USER } from "../../actions/types";
 
 const UserInfoJob = ({ user, redirectToUserProfile }) => (
   <React.Fragment>
@@ -97,7 +97,8 @@ class Job extends Component {
       jobId: this.props.match.params.id,
       job: {},
       comment: "",
-      showFinishRate: false
+      showFinishRate: false,
+      ActUserRole: null
     };
 
     this.changeRating = this.changeRating.bind(this);
@@ -115,6 +116,12 @@ class Job extends Component {
         job: nextProps.job
       });
     }
+
+    if (nextProps.profile.data.role !== this.state.ActUserRole) {
+      this.setState({
+        ActUserRole: nextProps.profile.data.role
+      });
+    }
   }
 
   redirectToUserProfile = id => {
@@ -126,13 +133,15 @@ class Job extends Component {
   };
 
   generateFinishButtonIfOwner = () => {
-    return (
-      <div className="row mt-3">
-        <div className="col-md-11">
-          <FinishButton hideShowFinishJob={this.hideShowFinishJob} />
+    if (this.state.ActUserRole === ROLE_USER) {
+      return (
+        <div className="row mt-3">
+          <div className="col-md-11">
+            <FinishButton hideShowFinishJob={this.hideShowFinishJob} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   };
 
   onChange(e) {

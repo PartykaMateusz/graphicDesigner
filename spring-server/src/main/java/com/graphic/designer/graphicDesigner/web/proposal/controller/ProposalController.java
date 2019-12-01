@@ -3,6 +3,7 @@ package com.graphic.designer.graphicDesigner.web.proposal.controller;
 import com.graphic.designer.graphicDesigner.web.proposal.Service.ProposalService;
 import com.graphic.designer.graphicDesigner.web.proposal.dto.AddProposalRequest;
 import com.graphic.designer.graphicDesigner.web.proposal.dto.ProposalDto;
+import com.graphic.designer.graphicDesigner.web.user.dto.ProfileRequest;
 import com.graphic.designer.graphicDesigner.web.user.dto.UserDto;
 import com.graphic.designer.graphicDesigner.web.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class ProposalController {
     public ResponseEntity<?> addProposal(@RequestBody @Valid AddProposalRequest addProposalRequest,
                                          Principal principal){
 
-        UserDto userDto = userService.findUserById(addProposalRequest.getDesignerId());
-        if(userDto.getUsername().equals(principal.getName())){
+        ProfileRequest profileRequest = userService.findUserById(addProposalRequest.getDesignerId());
+        if(profileRequest.getUsername().equals(principal.getName())){
             return new ResponseEntity<>(proposalService
                     .addProposal(addProposalRequest.getDesignerId(),addProposalRequest.getOrderId()), HttpStatus.CREATED);
         }
@@ -56,8 +57,8 @@ public class ProposalController {
                                               @RequestParam(name = "size",defaultValue = "10") Integer size,
                                               Principal principal){
 
-        UserDto userDto = userService.findUserById(userId);
-        if(userDto.getUsername().equals(principal.getName())) {
+        ProfileRequest profileRequest = userService.findUserById(userId);
+        if(profileRequest.getUsername().equals(principal.getName())) {
             Page<ProposalDto> proposals = proposalService.getProposalsByUser(userId,page,size);
 
             return new ResponseEntity<>(proposals, HttpStatus.OK);

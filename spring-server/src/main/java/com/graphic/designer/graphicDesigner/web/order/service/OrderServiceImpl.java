@@ -101,11 +101,18 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Page<OrderDto> getPaginatedActiveOrders(Integer page, Integer size) {
+    public Page<OrderDto> getPaginatedActiveOrders(Integer page, Integer size, String search) {
 
         Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
+        Page<Order> orders;
 
-        Page<Order> orders = orderRepository.findActive(returnedPage);
+        if(search == null) {
+
+            orders = orderRepository.findActive(returnedPage);
+        }
+        else{
+            orders = orderRepository.searchActive(returnedPage,search.toUpperCase());
+        }
 
         return orders.map(this::convertToOrderDto);
     }

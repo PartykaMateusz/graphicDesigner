@@ -6,6 +6,7 @@ import com.graphic.designer.graphicDesigner.web.user.model.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class Order {
     private Long id;
 
     @Column
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private LocalDateTime date;
 
     @Column

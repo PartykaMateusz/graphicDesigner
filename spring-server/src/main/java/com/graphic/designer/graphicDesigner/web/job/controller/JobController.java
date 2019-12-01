@@ -31,16 +31,16 @@ public class JobController {
     @PostMapping("/")
     public ResponseEntity<?> createJob(@RequestBody @Valid CreateJobRequest jobRequest,
                                        Principal principal){
-
+        //TODO
         Long userId = userService.findUserByUsername(principal.getName()).getId();
-        Long orderOwner = orderService.getOrderById(jobRequest.getClientId()).getUser().getId();
+        //Long orderOwner = orderService.getOrderById(jobRequest.getClientId()).getUser().getId();
 
-        if(userId.equals(orderOwner)) {
+        //if(userId.equals(orderOwner)) {
             return new ResponseEntity<>(jobService.createJob(jobRequest), HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+//        }
+//        else{
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
     }
 
     @GetMapping("/{id}")

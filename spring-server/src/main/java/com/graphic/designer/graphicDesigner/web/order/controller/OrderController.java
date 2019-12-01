@@ -32,6 +32,7 @@ public class OrderController {
     @GetMapping("/")
     public ResponseEntity<?> getActiveOrders(@RequestParam(name = "page",defaultValue = "0") Integer page,
                                              @RequestParam(name = "size",defaultValue = "10") Integer size,
+                                             @RequestParam(required = false) String search,
                                              @RequestParam(name = "userId", required = false) Integer userId){
         Page<OrderDto> resultPage;
 
@@ -39,7 +40,7 @@ public class OrderController {
             resultPage = orderService.getPaginatedActiveOrdersByUser(page, size, userId);
         }
         else{
-           resultPage = orderService.getPaginatedActiveOrders(page, size);
+           resultPage = orderService.getPaginatedActiveOrders(page, size, search);
         }
 
 

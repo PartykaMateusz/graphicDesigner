@@ -9,6 +9,7 @@ import ProfileInfoReducer from "./profileInfoReducer";
 import ProposalReducer from "./ProposalReducer";
 import JobsReducer from "./JobsReducer";
 import JobReducer from "./JobReducer";
+import RateReducer from "./RateReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
   profileInfo: ProfileInfoReducer,
   orderProposals: ProposalReducer,
   jobs: JobsReducer,
-  job: JobReducer
+  job: JobReducer,
+  rate: RateReducer
 });

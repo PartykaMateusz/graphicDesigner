@@ -40,22 +40,22 @@ export const getUserById = id => async dispatch => {
 };
 
 export const getUserAvatar = id => async dispatch => {
-  try {
-    const res = await axios.get(`/api/user/${id}/avatar`);
-    dispatch({
-      type: GET_ERRORS,
-      payload: {}
-    });
-    dispatch({
-      type: GET_AVATAR,
-      payload: res.data
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_ERRORS,
-      payload: error.response.data
-    });
-  }
+  // try {
+  const res = await axios.get(`/api/user/${id}/avatar`);
+  dispatch({
+    type: GET_ERRORS,
+    payload: {}
+  });
+  dispatch({
+    type: GET_AVATAR,
+    payload: res.data
+  });
+  // } catch (error) {
+  //   dispatch({
+  //     type: GET_ERRORS,
+  //     payload: error.response.data
+  //   });
+  // }
 };
 
 export const updateProfile = (userId, user, history) => async dispatch => {
