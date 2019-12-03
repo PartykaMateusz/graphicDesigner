@@ -154,6 +154,7 @@ class UserPanel extends Component {
           subject={orders[i].subject}
           username={orders[i].user.username}
           price={orders[i].price}
+          date={orders[i].date}
           categories={orders[i].categoryList}
           redirectToOrder={this.redirectToOrder}
           history={this.props.history}
@@ -174,6 +175,7 @@ class UserPanel extends Component {
           subject={jobs[i].fromOrder.subject}
           username={jobs[i].designer.username}
           price={jobs[i].fromOrder.price}
+          date={jobs[i].fromOrder.date}
           categories={jobs[i].fromOrder.categoryList}
           redirectToOrder={this.redirectToJob}
           history={this.props.history}

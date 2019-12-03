@@ -83,10 +83,15 @@ export const getOrders = (page, size) => async dispatch => {
   }
 };
 
-export const searchOrders = (page, size, search) => async dispatch => {
+export const searchAndSortOrders = (
+  page,
+  size,
+  search,
+  sort
+) => async dispatch => {
   try {
     const res = await axios.get(
-      `/api/order/?page=${page}&size=${size}&search=${search}`
+      `/api/order/?page=${page}&size=${size}&search=${search}&sort=${sort}`
     );
     dispatch({
       type: GET_ERRORS,

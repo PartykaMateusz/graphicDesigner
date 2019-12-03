@@ -164,7 +164,7 @@ public class OrderServiceImplTest {
 
         when(orderRepository.findActive(returnedPage)).thenReturn(pagedResponse);
 
-        assertEquals(orderService.getPaginatedActiveOrders(1,20,"aa").getTotalElements(),pagedResponse.getTotalElements());
+        assertEquals(orderService.getPaginatedActiveOrders(1,20,"aa","id-desc").getTotalElements(),pagedResponse.getTotalElements());
     }
 
     private User generateUser() {

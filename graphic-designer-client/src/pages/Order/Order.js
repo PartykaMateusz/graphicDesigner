@@ -10,6 +10,8 @@ import {
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Moment from "react-moment";
+import "moment/locale/pl";
 
 import { Loading } from "../../components/Loading/Loading";
 
@@ -262,7 +264,11 @@ class Order extends Component {
                     <h4>Cena: </h4>
                     <p>{this.state.order.price} zł</p>
                     <h4>Dodane:</h4>
-                    <p>{this.state.order.date}</p>
+                    <p>
+                      <Moment format="DD-MM-YY hh:mm">
+                        {this.state.order.date}
+                      </Moment>
+                    </p>
                   </div>
                 </div>
                 <div className="col-md-1 offset-md-2 deleteOrderIcon">

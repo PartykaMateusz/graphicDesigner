@@ -101,13 +101,17 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Page<OrderDto> getPaginatedActiveOrders(Integer page, Integer size, String search) {
+    public Page<OrderDto> getPaginatedActiveOrders(Integer page, Integer size, String search, String sort) {
 
         Pageable returnedPage = PageRequest.of(page,size, Sort.by("id").descending());
+
+        if(sort!=null){
+            returnedPage = PageRequest.of(page,size, this.getSort(sort));
+        }
+
         Page<Order> orders;
 
         if(search == null) {
-
             orders = orderRepository.findActive(returnedPage);
         }
         else{
@@ -115,6 +119,20 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orders.map(this::convertToOrderDto);
+    }
+
+    private Sort getSort(String sort) {
+
+        switch(sort){
+            case("id") :
+                return Sort.by("id");
+            case("price-desc") :
+                return Sort.by("price").descending();
+            case("price") :
+                return Sort.by("price");
+            default:
+                return Sort.by("id").descending();
+        }
     }
 
     @Override

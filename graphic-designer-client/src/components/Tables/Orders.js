@@ -1,10 +1,18 @@
 import React, { Component } from "react";
+import Select from "react-select";
 import "./Orders.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getOrders, searchOrders } from "../../actions/orderActions";
+import { getOrders, searchAndSortOrders } from "../../actions/orderActions";
 import { Loading } from "../../components/Loading/Loading";
 import Order from "../Order/Order";
+
+const options = [
+  { value: "id-desc", label: "Data dodania - rosnąco" },
+  { value: "id", label: "Data dodania - malejąco" },
+  { value: "price", label: "Cena - rosnąco" },
+  { value: "price-desc", label: "Cena - malejąco" }
+];
 
 class Orders extends Component {
   constructor(props) {
@@ -14,7 +22,10 @@ class Orders extends Component {
       orders: {},
       pageNumber: 0,
       totalPages: 0,
-      ordersInOnePage: 10
+      ordersInOnePage: 10,
+      selectedOptionSort: options[0],
+      search: "",
+      actSearch: ""
     };
 
     this.generateOrders = this.generateOrders.bind(this);
@@ -95,29 +106,61 @@ class Orders extends Component {
 
   onSubmitSearch(e) {
     e.preventDefault();
-    this.props.searchOrders(
+    this.props.searchAndSortOrders(
       this.state.pageNumber,
       this.state.ordersInOnePage,
-      this.state.search
+      this.state.search,
+      this.state.selectedOptionSort.value
     );
+
+    this.setState({
+      actSearch: this.state.search
+    });
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  handleChangeSort = selectedOptionSort => {
+    this.setState({ selectedOptionSort }, () =>
+      this.props.searchAndSortOrders(
+        this.state.pageNumber,
+        this.state.ordersInOnePage,
+        this.state.actSearch,
+        this.state.selectedOptionSort.value
+      )
+    );
+    console.log(
+      `Option selected:`,
+      selectedOptionSort + " search by= " + this.state.actSearch
+    );
+  };
+
   render() {
+    const { selectedOptionSort } = this.state;
     return (
       <div className="orders">
         <div className="container mt-5">
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-5">
               <div className="pagination  ">
                 {this.generatePagination(
                   this.state.pageNumber,
                   this.state.totalPages
                 )}
               </div>
+            </div>
+            <div className="col-md-3">
+              <Select
+                value={selectedOptionSort}
+                onChange={this.handleChangeSort}
+                options={options}
+                isSearchable={true}
+                defaultValue={options[0]}
+                placeholder="Sortuj"
+                className="selectSort"
+              />
             </div>
             <div className="col-md-4 ">
               <form
@@ -161,4 +204,6 @@ const mapStateToProps = state => ({
   orders: state.orders
 });
 
-export default connect(mapStateToProps, { getOrders, searchOrders })(Orders);
+export default connect(mapStateToProps, { getOrders, searchAndSortOrders })(
+  Orders
+);

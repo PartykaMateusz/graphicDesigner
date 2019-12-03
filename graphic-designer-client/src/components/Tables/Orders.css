@@ -68,3 +68,8 @@
   background-color: #ddd;
   cursor: pointer;
 }
+
+.selectSort {
+  margin-top: 4px;
+  align-items: center;
+}

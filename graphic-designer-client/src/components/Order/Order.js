@@ -39,11 +39,11 @@ export default class Order extends Component {
           <div className="col-md-4 orderName">{this.state.subject}</div>
           <div className="col-md-4 orderUser">{this.state.username}</div>
           <div className="col-md-4 orderPrice">{this.state.price} zł</div>
-          <div className="col-md-10 orderCategory ">
+          <div className="col-md-8 orderCategory ">
             <span className="font-weight-bold">Kategorie:</span>{" "}
             <Categories list={this.state.categories} />
           </div>
-          <div className="col-md-2 orderDate">
+          <div className="col-md-4 orderDate">
             <Moment locale="pl" fromNow>
               {this.state.date}
             </Moment>

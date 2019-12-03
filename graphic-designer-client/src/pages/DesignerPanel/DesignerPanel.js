@@ -95,6 +95,7 @@ class DesignerPanel extends Component {
           subject={orders[i].order.subject}
           username={orders[i].order.user.username}
           price={orders[i].order.price}
+          date={orders[i].date}
           categories={orders[i].order.categoryList}
           redirectToOrder={this.redirectToOrder}
           history={this.props.history}
@@ -115,6 +116,7 @@ class DesignerPanel extends Component {
           subject={jobs[i].fromOrder.subject}
           username={jobs[i].designer.username}
           price={jobs[i].fromOrder.price}
+          date={jobs[i].fromOrder.date}
           categories={jobs[i].fromOrder.categoryList}
           redirectToOrder={this.redirectToJob}
           history={this.props.history}
