@@ -1,13 +1,13 @@
 package com.graphic.designer.graphicDesigner.web.order.service;
 
 import com.graphic.designer.graphicDesigner.exceptions.order.OrderException;
+import com.graphic.designer.graphicDesigner.web.Category.Model.Category;
 import com.graphic.designer.graphicDesigner.web.Category.Service.CategoryService;
 import com.graphic.designer.graphicDesigner.web.Category.dto.CategoryDto;
 import com.graphic.designer.graphicDesigner.web.order.dto.OrderDto;
 import com.graphic.designer.graphicDesigner.web.order.model.Order;
 import com.graphic.designer.graphicDesigner.web.order.repository.OrderRepository;
 import com.graphic.designer.graphicDesigner.web.proposal.Service.ProposalService;
-import com.graphic.designer.graphicDesigner.web.proposal.model.Proposal;
 import com.graphic.designer.graphicDesigner.web.proposal.repository.ProposalRepository;
 import com.graphic.designer.graphicDesigner.web.user.model.User;
 import com.graphic.designer.graphicDesigner.web.user.repository.UserRepository;
@@ -183,7 +183,14 @@ public class OrderServiceImpl implements OrderService {
 
         if(orderDto.getCategoryList() != null && !orderDto.getCategoryList().isEmpty()) {
             for(CategoryDto categoryDto : orderDto.getCategoryList()) {
-                order.addCategory(categoryService.findById(categoryDto.getId()));
+                if(categoryDto.isNew()){
+                    Category newCategory = categoryService.addCategory(categoryDto);
+                    order.addCategory(newCategory);
+                }
+                else{
+                    order.addCategory(categoryService.findById(categoryDto.getId()));
+                }
+
             }
         }
 

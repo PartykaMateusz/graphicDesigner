@@ -11,3 +11,20 @@
   padding: 4px 14px;
   border: 1px solid red;
 }
+
+#addCategory {
+  margin-left: 5px;
+  padding: 5px;
+  margin-top: 10px;
+  max-width: 140px;
+}
+
+.addCategoryPlus {
+  margin-top: 5px;
+  font-size: 25px;
+}
+
+.addCategoryPlus:hover {
+  color: seagreen;
+  cursor: pointer;
+}

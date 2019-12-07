@@ -13,7 +13,7 @@ class FavouriteCategories extends Component {
     super(props);
     this.state = {
       userId: this.props.userId,
-      favouriteCategories: undefined
+      favouriteCategories: {}
     };
   }
 
@@ -23,9 +23,25 @@ class FavouriteCategories extends Component {
 
   componentWillUpdate(nextProps) {
     if (
-      nextProps.categories.favouriteCategories !== undefined &&
       nextProps.categories.favouriteCategories !==
-        this.state.favouriteCategories
+      this.state.favouriteCategories
+    ) {
+      this.setState({
+        favouriteCategories: nextProps.categories.favouriteCategories
+      });
+    }
+    if (nextProps.userId !== this.state.userId) {
+      this.setState({
+        userId: nextProps.userId
+      });
+      this.props.getFavouriteCategories(nextProps.userId, 5);
+    }
+  }
+
+  componentReceiveProps(nextProps) {
+    if (
+      nextProps.categories.favouriteCategories !==
+      this.state.favouriteCategories
     ) {
       this.setState({
         favouriteCategories: nextProps.categories.favouriteCategories

@@ -5,18 +5,31 @@ import PropTypes from "prop-types";
 import { getAllCategories } from "../../actions/categoryActions";
 import { addOrder } from "../../actions/orderActions";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
 import "./AddWorkForm.css";
 
 const Categories = ({ categories, changeSelected }) =>
   categories.map(category => {
     return category.isSelected ? (
-      <div
-        key={category.id}
-        className="alert-success category m-1"
-        onClick={() => changeSelected(category)}
-      >
-        {category.name}
-      </div>
+      category.isNew ? (
+        <div
+          key={category.id}
+          className="alert-warning category m-1"
+          onClick={() => changeSelected(category)}
+        >
+          {category.name}
+        </div>
+      ) : (
+        <div
+          key={category.id}
+          className="alert-success category m-1"
+          onClick={() => changeSelected(category)}
+        >
+          {category.name}
+        </div>
+      )
     ) : (
       <div
         key={category.id}
@@ -35,7 +48,8 @@ class AddWorkWorm extends Component {
       categories: [],
       subject: "",
       text: "",
-      price: ""
+      price: "",
+      addCategory: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -57,7 +71,8 @@ class AddWorkWorm extends Component {
         categoriesList.push({
           id: categories[key]["id"],
           name: categories[key]["name"],
-          isSelected: false
+          isSelected: false,
+          isNew: false
         });
       });
 
@@ -69,7 +84,16 @@ class AddWorkWorm extends Component {
 
   changeSelected(category) {
     let categories = [...this.state.categories];
-    category.isSelected = !category.isSelected;
+
+    if (category.isNew) {
+      for (var i = categories.length - 1; i >= 0; i--) {
+        if (categories[i]["name"] === category["name"]) {
+          categories.splice(i, 1);
+        }
+      }
+    } else {
+      category.isSelected = !category.isSelected;
+    }
 
     this.setState({
       categories: categories
@@ -102,6 +126,24 @@ class AddWorkWorm extends Component {
 
     this.props.addOrder(work, this.props.history);
   }
+
+  addOwnCategory = () => {
+    //id: categories[key]["id"],
+    let tempCategories = [...this.state.categories];
+    let category = {
+      id: 0,
+      name: this.state.addCategory,
+      isSelected: true,
+      isNew: true
+    };
+
+    tempCategories.push(category);
+
+    this.setState({
+      categories: tempCategories,
+      addCategory: ""
+    });
+  };
 
   render() {
     return (
@@ -156,6 +198,24 @@ class AddWorkWorm extends Component {
               changeSelected={this.changeSelected}
             />
           </div>
+          <form>
+            <div class="form-group form-inline">
+              <input
+                type="text"
+                class="form-control"
+                id="addCategory"
+                name="addCategory"
+                placeholder="Dodaj kategorie"
+                value={this.state.addCategory}
+                onChange={this.onChange}
+              />
+              <FontAwesomeIcon
+                className="addCategoryPlus"
+                icon={faPlusCircle}
+                onClick={() => this.addOwnCategory()}
+              />
+            </div>
+          </form>
         </div>
 
         <div>

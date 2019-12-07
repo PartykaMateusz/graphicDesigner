@@ -15,7 +15,7 @@ public class ProposalDto {
 
     private Long proposal_id;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy mm:hh")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy hh:mm")
     private LocalDateTime time;
 
     private UserDto user;

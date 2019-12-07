@@ -12,4 +12,14 @@ public class CategoryDto {
     private String name;
 
     private boolean isActive;
+
+    private Boolean isNew;
+
+    public Boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
+    }
 }

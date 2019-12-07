@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
@@ -32,4 +33,6 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
             nativeQuery = true
     )
     List<Category> findFavouriteByUser(Long id, Long limit);
+
+    Optional<Category> findByName(String name);
 }

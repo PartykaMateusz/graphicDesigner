@@ -9,6 +9,8 @@ import { Loading } from "../../components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
+import FavouriteCategories from "../../components/FavouriteCategories/FavouriteCategories";
+
 import { getUserById } from "../../actions/profileActions";
 import { ROLE_USER, ROLE_DESIGNER } from "../../actions/types";
 import { UserStats, DesignerStats } from "../../components/Stats/UserStats";
@@ -151,25 +153,7 @@ class Profile extends Component {
 
               <div className="row">
                 <div className="col-md-4">
-                  <div className="profile-work">
-                    <p>WORK LINK</p>
-                    <a href="">Website Link</a>
-                    <br />
-                    <a href="">Bootsnipp Profile</a>
-                    <br />
-                    <a href="">Bootply Profile</a>
-                    <p>SKILLS</p>
-                    <a href="">Web Designer</a>
-                    <br />
-                    <a href="">Web Developer</a>
-                    <br />
-                    <a href="">WordPress</a>
-                    <br />
-                    <a href="">WooCommerce</a>
-                    <br />
-                    <a href="">PHP, .Net</a>
-                    <br />
-                  </div>
+                  <FavouriteCategories userId={this.state.profile.id} />
                 </div>
                 <div className="col-md-8">
                   <div className="tab-content profile-tab" id="myTabContent">

@@ -225,7 +225,7 @@ class Profile extends Component {
                         </div>
                       </div>
 
-                      {this.generateStats(7)}
+                      {this.generateStats()}
                     </div>
                   </div>
                 </div>

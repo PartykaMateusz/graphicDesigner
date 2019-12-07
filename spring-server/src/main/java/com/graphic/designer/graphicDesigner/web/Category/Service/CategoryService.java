@@ -16,4 +16,6 @@ public interface CategoryService {
     Category findById(Long id);
 
     List<CategoryDto> getFavouriteByUser(Long id, Long limit);
+
+    Category addCategory(CategoryDto categoryDto);
 }
