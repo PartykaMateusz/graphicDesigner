@@ -22,7 +22,7 @@
 		<appengine.app.version>1</appengine.app.version>
 		<appengine.target.version>1.9.71</appengine.target.version>
 
-		<deploy.project.Id>designer-261314</deploy.project.Id>
+<!--		<deploy.project.Id>designer-261314</deploy.project.Id>-->
 <!--		<app.deploy.version>my-version</app.deploy.version>-->
 	</properties>
 
@@ -148,7 +148,12 @@
                     <target>8</target>
                 </configuration>
             </plugin>
-			
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>2.2.0</version>
+
+			</plugin>
 
         </plugins>
     </build>
