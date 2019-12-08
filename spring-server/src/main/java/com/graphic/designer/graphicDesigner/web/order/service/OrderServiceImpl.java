@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.graphic.designer.graphicDesigner.constants.ErrorConstants.ORDER_NOT_EXIST;
@@ -117,6 +118,7 @@ public class OrderServiceImpl implements OrderService {
         else{
             orders = orderRepository.searchActive(returnedPage,search.toUpperCase());
         }
+
 
         return orders.map(this::convertToOrderDto);
     }

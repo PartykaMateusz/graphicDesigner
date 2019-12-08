@@ -22,7 +22,7 @@
 		<appengine.app.version>1</appengine.app.version>
 		<appengine.target.version>1.9.71</appengine.target.version>
 
-<!--		<deploy.project.Id>designer-261314</deploy.project.Id>-->
+		<deploy.project.Id>designer-261314</deploy.project.Id>
 <!--		<app.deploy.version>my-version</app.deploy.version>-->
 	</properties>
 
@@ -125,16 +125,79 @@
 			<version>20030203.000550</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory-connector-j-8</artifactId>
+			<version>1.0.15</version>
+		</dependency>
 
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>postgres-socket-factory</artifactId>
+			<version>1.0.15</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-commons -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-commons</artifactId>
+			<version>2.2.0.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-testing</artifactId>
+			<version>${appengine.target.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-stubs</artifactId>
+			<version>${appengine.target.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 
 	</dependencies>
 
-
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Internal repo</name>
+<!--			<url>file:///home/thara/testesb/in</url>-->
+		</repository>
+	</distributionManagement>
 
 
     <build>
         <plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -152,12 +215,10 @@
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>2.2.0</version>
+				<configuration>
+					<deploy.projectId>designer-261314</deploy.projectId>
 
-					<configuration>
-						<version>1</version>
-						<projectId>GCLOUD_CONFIG</projectId>
-					</configuration>
-
+				</configuration>
 			</plugin>
 
         </plugins>
