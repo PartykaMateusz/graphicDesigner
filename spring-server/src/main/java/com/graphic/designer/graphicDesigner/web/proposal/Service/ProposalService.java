@@ -1,7 +1,7 @@
 package com.graphic.designer.graphicDesigner.web.proposal.Service;
 
 import com.graphic.designer.graphicDesigner.web.proposal.dto.ProposalDto;
-import jnr.ffi.annotations.In;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
