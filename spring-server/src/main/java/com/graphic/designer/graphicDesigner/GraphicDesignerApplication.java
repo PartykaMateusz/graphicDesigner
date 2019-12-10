@@ -11,7 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class GraphicDesignerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GraphicDesignerApplication.class, args);
+		SpringApplication.run(GraphicDesignerApplication.class, args
+		);
 	}
 
 	@Bean

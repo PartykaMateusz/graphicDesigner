@@ -3,6 +3,7 @@ import StartPageNavBar from "../../components/StartPage/StartPageNavBar";
 import Banner from "../../components/StartPage/Banner";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Orders from "../../components/Tables/Orders";
 
 class StartPage extends Component {
   constructor(props) {
@@ -44,7 +45,4 @@ const mapStateToProps = state => ({
   security: state.security
 });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(StartPage);
+export default connect(mapStateToProps, {})(StartPage);
